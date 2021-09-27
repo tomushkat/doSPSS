@@ -48,7 +48,7 @@ pairedT <- function(DV, IDV, ID){
     ylab('DV') + xlab('IDV') +
     theme(plot.title = element_text(hjust = 0.5)) + theme_bw()
 
-  L <- list(Statistics, Model, EF, Figure)
+  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Figure = Figure)
 
   return(L)
 

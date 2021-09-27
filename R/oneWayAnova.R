@@ -56,7 +56,7 @@ oneWayAnova <- function(DV, IDV, Correction = 'BH'){
     ylab('DV') + xlab('IDV') +
     theme(plot.title = element_text(hjust = 0.5)) + theme_bw()
 
-  L <- list(Statistics, Model, EF, PH, Figure)
+  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH, Figure = Figure)
 
   return(L)
 

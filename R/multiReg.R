@@ -50,7 +50,7 @@ multiReg <- function(DV, Predictors, Correction = 'HC2'){
   scaledModel <- estimatr::lm_robust(DV ~ ., se_type = regType, data = Data)
   betaCoeff <- round(scaledModel$coefficients, 2)
 
-  L <- list(Model, betaCoeff, vifValues, regType)
+  L <- list(Model_Summary = Model, Standardized_beta_Coeff = betaCoeff, VIF_Values = vifValues, se_type = regType)
 
   return(L)
 

@@ -33,6 +33,6 @@ postHoc <- function(DV, IDV, ID = NULL, Correction = 'BH', Paired = FALSE){
                                     pool.sd = FALSE, paired = Paired)
   }
 
-  return(Model)
+  return(Model_summary = Model)
 
 }
