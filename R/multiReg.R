@@ -39,9 +39,9 @@ multiReg <- function(DV, Predictors, Correction = 'HC2'){
   Model <- estimatr::lm_robust(DV ~ ., se_type = regType, data = Data)
 
   DV <- scale(DV)
-  for (i in Predictors){
-    if(typeof(i) == 'double' | typeof(i) == 'numeric' | typeof(i) == 'integer'){
-      Predictors[i] <- scale(Predictors[i])
+  for (i in 1:ncol(Predictors)){
+    if(typeof(Predictors[, i]) == 'double' | typeof(Predictors[, i]) == 'numeric' | typeof(Predictors[, i]) == 'integer'){
+      Predictors[, i] <- scale(Predictors[, i])
     }
   }
 
