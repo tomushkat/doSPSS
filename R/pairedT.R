@@ -44,7 +44,7 @@ pairedT <- function(DV, IDV, ID){
     geom_jitter(aes(x = IDV, y = DV, fill = IDV)) +
     stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1),
                  geom = "errorbar", color = "red", width = 0.2) +
-    stat_summary(fun.y = mean, geom = "point", color = "red") +
+    stat_summary(fun = mean, geom = "point", color = "red") +
     ylab('DV') + xlab('IDV') +
     theme(plot.title = element_text(hjust = 0.5)) + theme_bw()
 

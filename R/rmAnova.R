@@ -51,11 +51,11 @@ rmAnova <- function(DV, IDV, ID, Correction = 'BH'){
     geom_jitter(aes(x = IDV, y = DV, fill = IDV)) +
     stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1),
                  geom = "errorbar", color = "red", width = 0.2) +
-    stat_summary(fun.y = mean, geom = "point", color = "red") +
+    stat_summary(fun = mean, geom = "point", color = "red") +
     ylab('DV') + xlab('IDV') +
     theme(plot.title = element_text(hjust = 0.5)) + theme_bw()
 
-  L <- list(Statistics, Model, EF, PH, Figure)
+  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH, Figure = Figure)
 
   return(L)
 

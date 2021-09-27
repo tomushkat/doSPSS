@@ -27,12 +27,11 @@ postHoc <- function(DV, IDV, ID = NULL, Correction = 'BH', Paired = FALSE){
     Data <- data.frame(DV, IDV, ID)
     Data <- Data %>%
       dplyr::arrange(ID, IDV)
-
     Model <- stats::pairwise.t.test(x = DV, g = IDV,
                                     p.adjust.method = Correction,
                                     pool.sd = FALSE, paired = Paired)
   }
 
-  return(Model_summary = Model)
+  return(Model)
 
 }

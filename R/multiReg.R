@@ -20,17 +20,21 @@ multiReg <- function(DV, Predictors, Correction = 'HC2'){
 
   Model <- stats::lm(DV ~ ., data = Data)
 
-  vifValues <- faraway::vif(Model)
-  Counter <- 0
-  for (i in vifValues){
-    if(i >= 10){
-      Counter <- Counter + 1
+  if(ncol(Data >= 3)){
+    vifValues <- faraway::vif(Model)
+    Counter <- 0
+    for (i in vifValues){
+      if(i >= 10){
+        Counter <- Counter + 1
+      }
     }
-  }
-  if(Counter > 0){
-    print("There is a multicolliniarity in the model. One of the predictors' VIF is greater than 10. Consider to exlude predictors")
-    print('The VIF values are:')
-    print(vifValues)
+    if(Counter > 0){
+      print("There is a multicolliniarity in the model. One of the predictors' VIF is greater than 10. Consider to exlude predictors")
+      print('The VIF values are:')
+      print(vifValues)
+    }
+  }else{
+    vifValues <- NULL
   }
 
   varTest <- lmtest::bptest(Model)
@@ -48,7 +52,7 @@ multiReg <- function(DV, Predictors, Correction = 'HC2'){
   Data <- data.frame(DV = DV, Predictors)
 
   scaledModel <- estimatr::lm_robust(DV ~ ., se_type = regType, data = Data)
-  betaCoeff <- round(scaledModel$coefficients, 2)
+  betaCoeff   <- round(scaledModel$coefficients, 2)
 
   L <- list(Model_Summary = Model, Standardized_beta_Coeff = betaCoeff, VIF_Values = vifValues, se_type = regType)
 
