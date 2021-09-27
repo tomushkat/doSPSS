@@ -40,7 +40,7 @@ multiReg <- function(DV, Predictors, Correction = 'HC2'){
 
   DV <- scale(DV)
   for (i in Predictors){
-    if(typeof(i) == numeric){
+    if(typeof(i) == 'double' | typeof(i) == 'numeric' | typeof(i) == 'integer'){
       Predictors[i] <- scale(Predictors[i])
     }
   }
