@@ -20,7 +20,7 @@ multiReg <- function(DV, Predictors, Correction = 'HC2'){
 
   Model <- stats::lm(DV ~ ., data = Data)
 
-  if(ncol(Data >= 3)){
+  if(ncol(Data) >= 3){
     vifValues <- faraway::vif(Model)
     Counter <- 0
     for (i in vifValues){
