@@ -45,7 +45,6 @@ oneWayAnova <- function(DV, IDV, Correction = 'BH'){
 
   }
 
-  Figure <-
     ggplot2::ggplot(Data, aes(x = IDV, y = DV, fill = IDV)) +
     geom_boxplot(color = 'purple', alpha = 2) +
     geom_violin(alpha = 0.1) +
@@ -56,7 +55,7 @@ oneWayAnova <- function(DV, IDV, Correction = 'BH'){
     ylab('DV') + xlab('IDV') +
     theme(plot.title = element_text(hjust = 0.5)) + theme_bw()
 
-  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH, Figure = Figure)
+  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH)
 
   return(L)
 
