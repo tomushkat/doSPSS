@@ -25,5 +25,6 @@ This function conduct pairwise t-test comparisons.
 Based on stats::pairwise.t.test()
 }
 \examples{
+postHoc(theData$Score, theData$Condition)
 
 }

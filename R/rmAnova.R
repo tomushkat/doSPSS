@@ -11,7 +11,8 @@
 #' @return A list with (1) Descriptive statistics, (2) The model, (3) Effect size - if the model is significant, (4) t-test pairwise comparisons with correction - if significant, (5) Figure
 #' @export
 #'
-#' @examples
+#' @examples rmAnova(theData$Score, theData$Condition, theData$ID)
+#'
 rmAnova <- function(DV, IDV, ID, Correction = 'BH'){
 
   Data <- data.frame(ID, DV, IDV)
@@ -32,7 +33,7 @@ rmAnova <- function(DV, IDV, ID, Correction = 'BH'){
   Model <- stats::aov(DV ~ IDV + Error(ID / IDV), data = Data)
   sumModel <- summary(Model)
 
-  if(sumModel$`Error: ID`[[1]][[5]][1] < 0.05){
+  if(sumModel$`Error: ID:IDV`[[1]][[5]][1] < 0.05){
 
     PH <- postHoc(Data$DV, Data$IDV, Data$ID, Paired = TRUE)
     EF <- effectsize::effectsize(Model, type = 'eta')
@@ -45,15 +46,15 @@ rmAnova <- function(DV, IDV, ID, Correction = 'BH'){
   }
 
   Figure <-
-    ggplot2::ggplot(Data, aes(x = IDV, y = DV, fill = IDV)) +
-    geom_boxplot(color = 'purple', alpha = 2) +
-    geom_violin(alpha = 0.1) +
-    geom_jitter(aes(x = IDV, y = DV, fill = IDV)) +
-    stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1),
-                 geom = "errorbar", color = "red", width = 0.2) +
-    stat_summary(fun = mean, geom = "point", color = "red") +
-    ylab('DV') + xlab('IDV') +
-    theme(plot.title = element_text(hjust = 0.5)) + theme_bw()
+    ggplot2::ggplot(Data, ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
+    ggplot2::geom_boxplot(color = 'purple', alpha = 2) +
+    ggplot2::geom_violin(alpha = 0.1) +
+    ggplot2::geom_jitter(ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
+    ggplot2::stat_summary(fun.data = ggplot2::mean_sdl, fun.args = list(mult = 1),
+                          geom = "errorbar", color = "red", width = 0.2) +
+    ggplot2::stat_summary(fun = mean, geom = "point", color = "red") +
+    ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
   L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH, Figure = Figure)
 

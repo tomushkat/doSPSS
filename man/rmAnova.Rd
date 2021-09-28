@@ -22,3 +22,7 @@ A list with (1) Descriptive statistics, (2) The model, (3) Effect size - if the 
 This function conducts repeated measures ANOVA. If the model is significant, an effect size and pairwise comparisons also be produced. The data set should be with exact n observations per ID, otherwise the figure's and descriptive statistics' results will be inaccurate
 Based on stats::aov()
 }
+\examples{
+rmAnova(theData$Score, theData$Condition, theData$ID)
+
+}

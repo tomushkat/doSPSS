@@ -21,5 +21,6 @@ This function conducts a Chi-square test with a fisher correction (if needed).
 Based on gmodels::CrossTable()
 }
 \examples{
+CT(theData$Gender, theData$Condition)
 
 }

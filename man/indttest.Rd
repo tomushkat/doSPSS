@@ -20,6 +20,7 @@ The correction for the Welch test is automatically using the Leven test
 Based on stats::t.test()
 }
 \examples{
+indttest(theData$Score, theData$Gender)
 
 
 }

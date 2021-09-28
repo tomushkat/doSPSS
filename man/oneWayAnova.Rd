@@ -20,3 +20,7 @@ A list with (1) Descriptive statistics, (2) The model, (3) Effect size - if the 
 This function conducts a tyoe 3 one way ANOVA or with hc2 correction type (if the variances are unequal). If the model is significant, an effect size and pairwise comparisons  also produced
 Based on stats::aov(), car::Anova()
 }
+\examples{
+oneWayAnova(theData$Score, theData$Condition)
+
+}

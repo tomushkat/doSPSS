@@ -11,7 +11,7 @@
 #' @return A list with the descriptive statistics, the model, effect size (if the model is significant) and a figure
 #' @export
 #'
-#' @examples
+#' @examples indttest(theData$Score, theData$Gender)
 #'
 #'
 indttest <- function(DV, IDV){
@@ -39,16 +39,16 @@ indttest <- function(DV, IDV){
   }
 
   Figure <-
-    ggplot2::ggplot(Data, aes(x = IDV, y = DV, fill = IDV)) +
-    geom_boxplot(color = 'purple', alpha = 2) +
-    geom_violin(alpha = 0.1) +
-    scale_fill_manual(values = c('lightgrey', 'lightgreen')) +
-    geom_jitter(aes(x = IDV, y = DV, fill = IDV)) +
-    stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1),
-                 geom = "errorbar", color = "red", width = 0.2) +
-    stat_summary(fun = mean, geom = "point", color = "red") +
-    ylab('DV') + xlab('IDV') +
-    theme(plot.title = element_text(hjust = 0.5)) + theme_bw()
+    ggplot2::ggplot(Data, ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
+    ggplot2::geom_boxplot(color = 'purple', alpha = 2) +
+    ggplot2::geom_violin(alpha = 0.1) +
+    ggplot2::scale_fill_manual(values = c('lightgrey', 'lightgreen')) +
+    ggplot2::geom_jitter(ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
+    ggplot2::stat_summary(fun.data = ggplot2::mean_sdl, fun.args = list(mult = 1),
+                          geom = "errorbar", color = "red", width = 0.2) +
+    ggplot2::stat_summary(fun = mean, geom = "point", color = "red") +
+    ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
   L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Figure = Figure)
 

@@ -10,7 +10,7 @@
 #' @return Prints the Model, and returns the effect size (if the model is significant) and a figure
 #' @export
 #'
-#' @examples
+#' @examples CT(theData$Gender, theData$Condition)
 #'
 CT <- function(DV, IDV, freqCorrect = 5){
 
@@ -33,14 +33,14 @@ CT <- function(DV, IDV, freqCorrect = 5){
   doFisher <- ifelse(sum(as.numeric(sumation1$S < L1 * freqCorrect)) | sum(as.numeric(sumation2$S < L2 * freqCorrect))  > 0,
                      TRUE, FALSE)
   Figure <-
-    ggplot2::ggplot(Data, aes(x = DV,  group = IDV)) +
-    geom_bar(aes(y = ..prop.., fill = factor(..x..)), stat = "count") +
-    geom_text(aes(label = scales::percent(..prop..),
-                  y = ..prop..), stat = "count", vjust = -0.5) +
-    labs(y = "Percent") +
-    facet_grid(~IDV) +
-    scale_y_continuous(labels = scales::percent) + theme_bw() +
-    xlab('')
+    ggplot2::ggplot(Data, mapping = ggplot2::aes(x = DV,  group = IDV)) +
+    ggplot2::geom_bar(ggplot2::aes(y = ..prop.., fill = factor(..x..)), stat = "count") +
+    ggplot2::geom_text(ggplot2::aes(label = scales::percent(..prop..),
+                                    y = ..prop..), stat = "count", vjust = -0.5) +
+    ggplot2::labs(y = "Percent") +
+    ggplot2::facet_grid(~IDV) +
+    ggplot2::scale_y_continuous(labels = scales::percent) + ggplot2::theme_bw() +
+    ggplot2::xlab('')
 
   EFmodel <- stats::chisq.test(DV, IDV, correct = FALSE)
 

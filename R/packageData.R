@@ -19,6 +19,6 @@ packageData <- function(){
   Data <- data.frame(ID, Age, Gender, Condition, Score)
   return(Data)
 }
-
+theData <- packageData()
 
 

@@ -39,8 +39,8 @@ logReg <- function(DV, Predictors, Classification = 0.5){
 
   L <- list(Model_Summary = summary(regLog1), OddsRatio = ORCI)
 
-  print(paste0("The model's significance by the Nagelkerke is X2(", dfdiff, ') = ', round(cdiff, 2), ', p = ', round(p, 2), ' while explaining ', NagelkerkePrint, ' of the total variance in the dependent variable. The model fit to the data by the Hosmer test is X2(8) = ',  round(Holsem$statistic, 2), 'p = ', round(Holsem$p.value, 2),
-         ', while classifying about ', Accuracy, ", of total observations. The model sensitivity and specificity are ",  Sensitivity, ' and ', Specificity, ' respectively.'))
+  print(paste0("The model's significance by the Nagelkerke is (X2(", dfdiff, ') = ', round(cdiff, 2), ', p = ', round(p, 2), '), while explaining ', NagelkerkePrint, ' of the total variance in the dependent variable. The model fit to the data by the Hosmer test is (X2(8) = ',  round(Holsem$statistic, 2), ', p = ', round(Holsem$p.value, 2),
+         '), while classifying about ', Accuracy, ", of total observations. The model sensitivity and specificity are ",  Sensitivity, ' and ', Specificity, ' respectively.'))
 
   return(L)
   }

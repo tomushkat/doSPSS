@@ -21,5 +21,6 @@ The function conducts paired sample t-test. The data set should be with exact n 
 Based on stats::t.test()
 }
 \examples{
+pairedT(theData$Score, theData$Gender, theData$ID)
 
 }
