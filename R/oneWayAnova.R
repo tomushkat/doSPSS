@@ -14,7 +14,7 @@
 #'
 #' @examples oneWayAnova(theData$Score, theData$Condition)
 #'
-oneWayAnova <- function(DV, IDV, Correction = 'BH', Parametic = TRUE){
+oneWayAnova <- function(DV, IDV, Correction = 'BH', Parametric = TRUE){
 
   Data <- data.frame(DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
@@ -30,7 +30,7 @@ oneWayAnova <- function(DV, IDV, Correction = 'BH', Parametic = TRUE){
       N      = length(DV)
     )
 
-  if(Parametic == TRUE){
+  if(Parametric == TRUE){
     Leven       <- car::leveneTest(Data$DV ~ Data$IDV)
     varLeven    <- ifelse(Leven$`Pr(>F)`[1] < .05, TRUE, FALSE)
     modelOneWay <- stats::aov(DV ~ IDV, data = Data)
@@ -45,7 +45,7 @@ oneWayAnova <- function(DV, IDV, Correction = 'BH', Parametic = TRUE){
   }else{
     Model <- stats::kruskal.test(DV ~ IDV, data = Data)
     if(Model$p.value < 0.05){
-      PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE, Parametic = FALSE)
+      PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE, Parametric = FALSE)
       EF <- NULL
     }
   }

@@ -6,14 +6,15 @@
 #' @param DV A vector with the independent variable
 #' @param IDV A vector with the dependent variable
 #' @param ID The identity of the observations
-#' @param Correction he type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
+#' @param Correction The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
+#' @param Parametric If FALSE the test is Friedman test with Wilcoxon Sum Rank tests for post hoc pairwise comparisons
 #'
 #' @return A list with (1) Descriptive statistics, (2) The model, (3) Effect size - if the model is significant, (4) t-test pairwise comparisons with correction - if significant, (5) Figure
 #' @export
 #'
 #' @examples rmAnova(theData$Score, theData$Condition, theData$ID)
 #'
-rmAnova <- function(DV, IDV, ID, Correction = 'BH'){
+rmAnova <- function(DV, IDV, ID, Correction = 'BH', Parametric = TRUE){
 
   Data <- data.frame(ID, DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
@@ -30,19 +31,29 @@ rmAnova <- function(DV, IDV, ID, Correction = 'BH'){
       N      = length(DV)
     )
 
-  Model <- stats::aov(DV ~ IDV + Error(ID / IDV), data = Data)
-  sumModel <- summary(Model)
+  if(Parametric == TRUE){
+    Model <- stats::aov(DV ~ IDV + Error(ID / IDV), data = Data)
+    sumModel <- summary(Model)
 
-  if(sumModel$`Error: ID:IDV`[[1]][[5]][1] < 0.05){
+    if(sumModel$`Error: ID:IDV`[[1]][[5]][1] < 0.05){
 
-    PH <- postHoc(Data$DV, Data$IDV, Data$ID, Paired = TRUE)
-    EF <- effectsize::effectsize(Model, type = 'eta')
+      PH <- postHoc(Data$DV, Data$IDV, Data$ID, Paired = TRUE)
+      EF <- effectsize::effectsize(Model, type = 'eta')
 
+    }else{
+
+      PH <- NULL
+      EF <- NULL
+
+    }
   }else{
-
-    PH <- NULL
-    EF <- NULL
-
+    sumModel <- stats::friedman.test(DV ~ ID | IDV, data = Data)
+    EF       <- NULL
+    if(sumModel$p.value < 0.05){
+      PH <- postHoc(Data$DV, Data$IDV, Data$ID, Paired = TRUE, Parametric = FALSE)
+    }else{
+      PH <- NULL
+    }
   }
 
   Figure <-

@@ -4,7 +4,7 @@
 \alias{oneWayAnova}
 \title{One Way Anova}
 \usage{
-oneWayAnova(DV, IDV, Correction = "BH", Parametic = TRUE)
+oneWayAnova(DV, IDV, Correction = "BH", Parametric = TRUE)
 }
 \arguments{
 \item{DV}{A vector with the independent variable}

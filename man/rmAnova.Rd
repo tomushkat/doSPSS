@@ -4,7 +4,7 @@
 \alias{rmAnova}
 \title{Repeated measures One Way Anova}
 \usage{
-rmAnova(DV, IDV, ID, Correction = "BH")
+rmAnova(DV, IDV, ID, Correction = "BH", Parametric = TRUE)
 }
 \arguments{
 \item{DV}{A vector with the independent variable}
@@ -13,7 +13,9 @@ rmAnova(DV, IDV, ID, Correction = "BH")
 
 \item{ID}{The identity of the observations}
 
-\item{Correction}{he type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test}
+\item{Correction}{The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test}
+
+\item{Parametric}{If FALSE the test is Friedman test with Wilcoxon Sum Rank tests for post hoc pairwise comparisons}
 }
 \value{
 A list with (1) Descriptive statistics, (2) The model, (3) Effect size - if the model is significant, (4) t-test pairwise comparisons with correction - if significant, (5) Figure
