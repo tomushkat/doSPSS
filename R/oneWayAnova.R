@@ -7,13 +7,14 @@
 #' @param DV A vector with the independent variable
 #' @param IDV A vector with the dependent variable
 #' @param Correction The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
+#' @param Parametric If FALSE the test is Kruskal-Wallis test with Mann-Whitney test for post hoc pairwise comparisons
 #'
 #' @return A list with (1) Descriptive statistics, (2) The model, (3) Effect size - if the model is significant, (4) t-test pairwise comparisons with correction - if significant, (5) Figure
 #' @export
 #'
 #' @examples oneWayAnova(theData$Score, theData$Condition)
 #'
-oneWayAnova <- function(DV, IDV, Correction = 'BH'){
+oneWayAnova <- function(DV, IDV, Correction = 'BH', Parametic = TRUE){
 
   Data <- data.frame(DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
@@ -29,21 +30,24 @@ oneWayAnova <- function(DV, IDV, Correction = 'BH'){
       N      = length(DV)
     )
 
-  Leven       <- car::leveneTest(Data$DV ~ Data$IDV)
-  varLeven    <- ifelse(Leven$`Pr(>F)`[1] < .05, TRUE, FALSE)
-  modelOneWay <- stats::aov(DV ~ IDV, data = Data)
-  Model       <- car::Anova(modelOneWay, type = 'III', white.adjust = varLeven)
-
-  if(Model$`Pr(>F)`[2] < 0.05){
-
-    PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE)
-    EF <- effectsize::effectsize(modelOneWay, type = 'eta')
-
+  if(Parametic == TRUE){
+    Leven       <- car::leveneTest(Data$DV ~ Data$IDV)
+    varLeven    <- ifelse(Leven$`Pr(>F)`[1] < .05, TRUE, FALSE)
+    modelOneWay <- stats::aov(DV ~ IDV, data = Data)
+    Model       <- car::Anova(modelOneWay, type = 'III', white.adjust = varLeven)
+    if(Model$`Pr(>F)`[2] < 0.05){
+      PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE)
+      EF <- effectsize::effectsize(modelOneWay, type = 'eta')
+    }else{
+      PH <- NULL
+      EF <- NULL
+    }
   }else{
-
-    PH <- NULL
-    EF <- NULL
-
+    Model <- stats::kruskal.test(DV ~ IDV, data = Data)
+    if(Model$p.value < 0.05){
+      PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE, Parametic = FALSE)
+      EF <- NULL
+    }
   }
 
   Figure <- ggplot2::ggplot(Data, mapping = ggplot2::aes(x = IDV, y = DV, fill = IDV)) +

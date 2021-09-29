@@ -4,7 +4,7 @@
 \alias{oneWayAnova}
 \title{One Way Anova}
 \usage{
-oneWayAnova(DV, IDV, Correction = "BH")
+oneWayAnova(DV, IDV, Correction = "BH", Parametic = TRUE)
 }
 \arguments{
 \item{DV}{A vector with the independent variable}
@@ -12,6 +12,8 @@ oneWayAnova(DV, IDV, Correction = "BH")
 \item{IDV}{A vector with the dependent variable}
 
 \item{Correction}{The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test}
+
+\item{Parametric}{If FALSE the test is Kruskal-Wallis test with Mann-Whitney test for post hoc pairwise comparisons}
 }
 \value{
 A list with (1) Descriptive statistics, (2) The model, (3) Effect size - if the model is significant, (4) t-test pairwise comparisons with correction - if significant, (5) Figure

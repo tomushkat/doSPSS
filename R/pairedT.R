@@ -6,13 +6,14 @@
 #' @param ID The ID of the participants
 #' @param DV A vector with the independent variable
 #' @param IDV A vector with the dependent variable
+#' @param Parametric If FALSE the test is Wilcoxon Sum Rank test
 #'
 #' @return A list with the descriptive statistics, the model, effect size (if the model is significant and a figure)
 #' @export
 #'
 #' @examples pairedT(theData$Score, theData$Gender, theData$ID)
 #'
-pairedT <- function(DV, IDV, ID){
+pairedT <- function(DV, IDV, ID, Parametric = TRUE){
 
   Data <- data.frame(DV, IDV, ID)
   Data <- Data[stats::complete.cases(Data), ]
@@ -28,13 +29,22 @@ pairedT <- function(DV, IDV, ID){
       N      = length(DV)
     )
 
-  Model <- stats::t.test(DV ~ IDV, paired = TRUE, data = Data)
 
-  if(Model$p.value < 0.05){
-    EF <- effectsize::effectsize(Model, type = 'cohens_d')
+  if(Parametric == TRUE){
+
+    Model <- stats::t.test(DV ~ IDV, paired = TRUE, data = Data)
+
+    if(Model$p.value < 0.05){
+      EF <- effectsize::effectsize(Model, type = 'cohens_d')
+    }else{
+      EF <- NULL
+    }
+
   }else{
+    Model <- stats::wilcox.test(DV ~ IDV, paired = TRUE, data = Data)
     EF <- NULL
   }
+
 
   Figure <-
     ggplot2::ggplot(Data, ggplot2::aes(x = IDV, y = DV, fill = IDV)) +

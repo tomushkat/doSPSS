@@ -4,7 +4,14 @@
 \alias{postHoc}
 \title{Post-hoc pairwise t-test comparisons}
 \usage{
-postHoc(DV, IDV, ID = NULL, Correction = "BH", Paired = FALSE)
+postHoc(
+  DV,
+  IDV,
+  ID = NULL,
+  Correction = "BH",
+  Paired = FALSE,
+  Parametirc = TRUE
+)
 }
 \arguments{
 \item{DV}{The dependent variable}
@@ -16,6 +23,8 @@ postHoc(DV, IDV, ID = NULL, Correction = "BH", Paired = FALSE)
 \item{Correction}{The type of correction (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test}
 
 \item{Paired}{Should be TRUE if the test is for paired comparisons (default is FALSE)}
+
+\item{Parametirc}{If TRUE the tests are t.tests, if FALSE the tests are Mann-Whitney/Wilcoxon Sum Rank tests}
 }
 \value{
 The model

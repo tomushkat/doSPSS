@@ -4,7 +4,7 @@
 \alias{pairedT}
 \title{Paired samples t-test}
 \usage{
-pairedT(DV, IDV, ID)
+pairedT(DV, IDV, ID, Parametric = TRUE)
 }
 \arguments{
 \item{DV}{A vector with the independent variable}
@@ -12,6 +12,8 @@ pairedT(DV, IDV, ID)
 \item{IDV}{A vector with the dependent variable}
 
 \item{ID}{The ID of the participants}
+
+\item{Parametric}{If FALSE the test is Wilcoxon Sum Rank test}
 }
 \value{
 A list with the descriptive statistics, the model, effect size (if the model is significant and a figure)

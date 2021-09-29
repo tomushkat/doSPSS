@@ -4,12 +4,14 @@
 \alias{indttest}
 \title{Independent samples t-test}
 \usage{
-indttest(DV, IDV)
+indttest(DV, IDV, Parametric = TRUE)
 }
 \arguments{
 \item{DV}{A vector with the independent variable}
 
 \item{IDV}{A vector with the dependent variable}
+
+\item{Parametric}{If FALSE the test is Mann-Whitney test}
 }
 \value{
 A list with the descriptive statistics, the model, effect size (if the model is significant) and a figure

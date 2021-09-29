@@ -7,6 +7,7 @@
 #'
 #' @param DV A vector with the independent variable
 #' @param IDV A vector with the dependent variable
+#' @param Parametric If FALSE the test is Mann-Whitney test
 #'
 #' @return A list with the descriptive statistics, the model, effect size (if the model is significant) and a figure
 #' @export
@@ -14,7 +15,7 @@
 #' @examples indttest(theData$Score, theData$Gender)
 #'
 #'
-indttest <- function(DV, IDV){
+indttest <- function(DV, IDV, Parametric = TRUE){
 
   Data <- data.frame(DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
@@ -28,15 +29,22 @@ indttest <- function(DV, IDV){
       N      = length(DV)
     )
 
-  varTest     <- stats::var.test(DV ~ IDV, data = Data)
-  trueVarTest <- ifelse(varTest$p.value > 0.05, TRUE, FALSE)
-  Model       <- stats::t.test(DV ~ IDV, var.equal = trueVarTest, data = Data)
+  if(Parametric == TRUE){
+    varTest     <- stats::var.test(DV ~ IDV, data = Data)
+    trueVarTest <- ifelse(varTest$p.value > 0.05, TRUE, FALSE)
+    Model       <- stats::t.test(DV ~ IDV, var.equal = trueVarTest, data = Data)
 
-  if(Model$p.value < 0.05){
-    EF <- effectsize::effectsize(Model, type = 'cohens_d')
+    if(Model$p.value < 0.05){
+      EF <- effectsize::effectsize(Model, type = 'cohens_d')
+    }else{
+      EF <- NULL
+    }
   }else{
+    Model <- stats::wilcox.test(DV ~ IDV, paired = FALSE, data = Data)
     EF <- NULL
   }
+
+
 
   Figure <-
     ggplot2::ggplot(Data, ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
