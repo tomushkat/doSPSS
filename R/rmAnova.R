@@ -3,8 +3,8 @@
 #' This function conducts repeated measures ANOVA. If the model is significant, an effect size and pairwise comparisons also be produced. The data set should be with exact n observations per ID, otherwise the figure's and descriptive statistics' results will be inaccurate
 #' Based on stats::aov()
 #'
-#' @param DV A vector with the independent variable
-#' @param IDV A vector with the dependent variable
+#' @param DV A vector with the dependent variable
+#' @param IDV A vector with the independent variable
 #' @param ID The identity of the observations
 #' @param Correction The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
 #' @param Parametric If FALSE the test is Friedman test with Wilcoxon Sum Rank tests for post hoc pairwise comparisons

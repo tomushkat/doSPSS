@@ -5,8 +5,8 @@
 #' Based on stats::t.test()
 #'
 #'
-#' @param DV A vector with the independent variable
-#' @param IDV A vector with the dependent variable
+#' @param DV A vector with the dependent variable
+#' @param IDV A vector with the independent variable
 #' @param Parametric If FALSE the test is Mann-Whitney test
 #'
 #' @return A list with the following components:

@@ -7,9 +7,9 @@
 rmAnova(DV, IDV, ID, Correction = "BH", Parametric = TRUE)
 }
 \arguments{
-\item{DV}{A vector with the independent variable}
+\item{DV}{A vector with the dependent variable}
 
-\item{IDV}{A vector with the dependent variable}
+\item{IDV}{A vector with the independent variable}
 
 \item{ID}{The identity of the observations}
 

@@ -4,8 +4,8 @@
 #' Based on stats::t.test()
 #'
 #' @param ID The identity of the participants
-#' @param DV A vector with the independent variable
-#' @param IDV A vector with the dependent variable
+#' @param DV A vector with the dependent variable
+#' @param IDV A vector with the independent variable
 #' @param Parametric If FALSE the test is Wilcoxon Sum Rank test
 #'
 #' @return A list with the following components:

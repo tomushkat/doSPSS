@@ -7,9 +7,9 @@
 oneWayAnova(DV, IDV, Correction = "BH", Parametric = TRUE)
 }
 \arguments{
-\item{DV}{A vector with the independent variable}
+\item{DV}{A vector with the dependent variable}
 
-\item{IDV}{A vector with the dependent variable}
+\item{IDV}{A vector with the independent variable}
 
 \item{Correction}{The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test}
 
@@ -29,7 +29,7 @@ Post_hoc: Pairwise comparisons (if the model is significant)
 Figure
 }
 \description{
-This function conducts a tyoe 3 one way ANOVA or with hc2 correction type (if the variances are unequal). If the model is significant, an effect size and pairwise comparisons  also produced
+This function conducts a type 3 one way ANOVA or with hc2 correction type (if the variances are unequal). If the model is significant, an effect size and pairwise comparisons  also produced
 Based on stats::aov(), car::Anova()
 }
 \examples{

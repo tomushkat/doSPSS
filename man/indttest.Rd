@@ -7,9 +7,9 @@
 indttest(DV, IDV, Parametric = TRUE)
 }
 \arguments{
-\item{DV}{A vector with the independent variable}
+\item{DV}{A vector with the dependent variable}
 
-\item{IDV}{A vector with the dependent variable}
+\item{IDV}{A vector with the independent variable}
 
 \item{Parametric}{If FALSE the test is Mann-Whitney test}
 }
