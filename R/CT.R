@@ -16,7 +16,6 @@
 #'
 CT <- function(DV, IDV, freqCorrect = 5){
 
-
   Data <- data.frame(DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
 
@@ -32,7 +31,7 @@ CT <- function(DV, IDV, freqCorrect = 5){
 
   L2 <- nrow(sumation2)
 
-  doFisher <- ifelse(sum(as.numeric(sumation1$S < L1 * freqCorrect)) | sum(as.numeric(sumation2$S < L2 * freqCorrect))  > 0,
+  doFisher <- ifelse(sum(as.numeric(sumation1$S < L2 * freqCorrect)) | sum(as.numeric(sumation2$S < L1 * freqCorrect))  > 0,
                      TRUE, FALSE)
   Figure <-
     ggplot2::ggplot(Data, mapping = ggplot2::aes(x = DV,  group = IDV)) +
@@ -45,7 +44,6 @@ CT <- function(DV, IDV, freqCorrect = 5){
     ggplot2::xlab('')
 
   EFmodel <- stats::chisq.test(DV, IDV, correct = FALSE)
-
 
   #  if(doFisher == TRUE){
   #   if(Model$chisq[3] < 0.05){
