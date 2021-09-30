@@ -12,11 +12,13 @@
 #' @return Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
 #' @return Model_summary: Model's summary (with or without correction for variance)
 #' @return Effect_size: eta square effect size (if the model is significant and parametric)
-#' @return Post_hoc: Pairwise comparisons (if the model is significant)
+#' @Post_hoc_IDV1 Post_hoc: Pairwise comparisons for the first independent variable (if significant)
+#' @Post_hoc_IDV2 Post_hoc: Pairwise comparisons for the second independent variable (if significant)
+#' @Post_hoc_Interaction Post_hoc: Pairwise comparisons for the interaction (if significant)
 #' @return Figure
 #' @export
 #'
-#' @examples oneWayAnova(theData$Score, theData$Condition, theData$Gender)
+#' @examples twoWay(theData$Score, theData$Condition, theData$Gender)
 twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
 
   library(doSPSS)
@@ -47,12 +49,22 @@ twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
     Model       <- car::Anova(modelTwoWay, type = 'III', white.adjust = varLeven)
 
     if(Model$`Pr(>F)`[2] < 0.05 | Model$`Pr(>F)`[3] < 0.05 | Model$`Pr(>F)`[4] < 0.05){
-      Data <- Data %>%
-        dplyr::mutate(phIDV = paste0(IDV1, IDV2))
-      PH <- postHoc(Data$DV, Data$phIDV, Paired = FALSE)
       EF <- effectsize::effectsize(modelTwoWay, type = 'eta')
+      if(Model$`Pr(>F)`[2] < 0.05){
+        PHIDV1 <- postHoc(Data$DV, Data$IDV1, Paired = FALSE)
+      }else{PHIDV1 <- NULL}
+      if(Model$`Pr(>F)`[3] < 0.05){
+        PHIDV2 <- postHoc(Data$DV, Data$IDV2, Paired = FALSE)
+      }else{PHIDV2 <- NULL}
+      if(Model$`Pr(>F)`[4] < 0.05){
+        Data <- Data %>%
+          dplyr::mutate(phIDV = paste0(IDV1, IDV2))
+        PHinteraction <- postHoc(Data$DV, Data$phIDV, Paired = FALSE)
+      }else{PHinteraction <- NULL}
     }else{
-      PH <- NULL
+      PHIDV1 <- NULL
+      PHIDV2 <- NULL
+      PHinteraction <- NULL
       EF <- NULL
     }
 
@@ -65,7 +77,7 @@ twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
     ggplot2::ylab('DV') + ggplot2::xlab('IDV1') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH, Figure = Figure)
+  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc_IDV1 = PHIDV1, Post_hoc_IDV2 = PHIDV2, Post_hoc_Interaction = PHinteraction, Figure = Figure)
 
   return(L)
 

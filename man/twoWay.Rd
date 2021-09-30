@@ -24,8 +24,6 @@ Model_summary: Model's summary (with or without correction for variance)
 
 Effect_size: eta square effect size (if the model is significant and parametric)
 
-Post_hoc: Pairwise comparisons (if the model is significant)
-
 Figure
 }
 \description{
@@ -33,5 +31,5 @@ This function conducts a type 3 two way ANOVA or with hc2 correction type (if th
 Based on stats::aov(), car::Anova()
 }
 \examples{
-oneWayAnova(theData$Score, theData$Condition, theData$Gender)
+twoWay(theData$Score, theData$Condition, theData$Gender)
 }
