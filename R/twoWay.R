@@ -51,16 +51,16 @@ twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
     if(Model$`Pr(>F)`[2] < 0.05 | Model$`Pr(>F)`[3] < 0.05 | Model$`Pr(>F)`[4] < 0.05){
       EF <- effectsize::effectsize(modelTwoWay, type = 'eta')
       if(Model$`Pr(>F)`[2] < 0.05){
-        PHIDV1 <- postHoc(Data$DV, Data$IDV1, Paired = FALSE)
-      }else{PHIDV1 <- NULL}
+        phIDV1 <- postHoc(Data$DV, Data$IDV1, Paired = FALSE)
+      }else{phIDV1 <- NULL}
       if(Model$`Pr(>F)`[3] < 0.05){
-        PHIDV2 <- postHoc(Data$DV, Data$IDV2, Paired = FALSE)
-      }else{PHIDV2 <- NULL}
+        phIDV2 <- postHoc(Data$DV, Data$IDV2, Paired = FALSE)
+      }else{phIDV2 <- NULL}
       if(Model$`Pr(>F)`[4] < 0.05){
         Data <- Data %>%
           dplyr::mutate(phIDV = paste0(IDV1, IDV2))
-        PHinteraction <- postHoc(Data$DV, Data$phIDV, Paired = FALSE)
-      }else{PHinteraction <- NULL}
+        phInteraction <- postHoc(Data$DV, Data$phIDV, Paired = FALSE)
+      }else{phInteraction <- NULL}
     }else{
       PHIDV1 <- NULL
       PHIDV2 <- NULL
@@ -69,15 +69,15 @@ twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
     }
 
   Figure <- ggplot2::ggplot(Data, mapping = ggplot2::aes(x = IDV1, y = DV, fill = IDV2)) +
-    ggplot2::geom_boxplot(color = 'purple', alpha = 2, position = position_dodge(0.8)) +
-    ggplot2::geom_violin(alpha = 0.1, position = position_dodge(0.8)) +
-    ggplot2::geom_jitter(ggplot2::aes(x = IDV1, y = DV, fill = IDV2), position = position_dodge(0.8)) +
-    ggplot2::stat_summary(fun.data = ggplot2::mean_sdl, fun.args = list(mult = 1), geom = "errorbar", color = "red", width = 0.2, position = position_dodge(0.8)) +
-    ggplot2::stat_summary(fun = mean, geom = "point", color = "red", position = position_dodge(0.8)) +
+    ggplot2::geom_boxplot(color = 'purple', alpha = 2, position = ggplot2::position_dodge(0.8)) +
+    ggplot2::geom_violin(alpha = 0.1, position = ggplot2::position_dodge(0.8)) +
+    ggplot2::geom_jitter(ggplot2::aes(x = IDV1, y = DV, fill = IDV2), position = ggplot2::position_dodge(0.8)) +
+    ggplot2::stat_summary(fun.data = ggplot2::mean_sdl, fun.args = list(mult = 1), geom = "errorbar", color = "red", width = 0.2, position = ggplot2::position_dodge(0.8)) +
+    ggplot2::stat_summary(fun = mean, geom = "point", color = "red", position = ggplot2::position_dodge(0.8)) +
     ggplot2::ylab('DV') + ggplot2::xlab('IDV1') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc_IDV1 = PHIDV1, Post_hoc_IDV2 = PHIDV2, Post_hoc_Interaction = PHinteraction, Figure = Figure)
+  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc_IDV1 = phIDV1, Post_hoc_IDV2 = phIDV2, Post_hoc_Interaction = phInteraction, Figure = Figure)
 
   return(L)
 
