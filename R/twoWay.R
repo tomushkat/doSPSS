@@ -62,9 +62,9 @@ twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
         phInteraction <- postHoc(Data$DV, Data$phIDV, Paired = FALSE)
       }else{phInteraction <- NULL}
     }else{
-      PHIDV1 <- NULL
-      PHIDV2 <- NULL
-      PHinteraction <- NULL
+      phIDV1 <- NULL
+      phIDV2 <- NULL
+      phInteraction <- NULL
       EF <- NULL
     }
 
