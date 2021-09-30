@@ -16,7 +16,13 @@ pairedT(DV, IDV, ID, Parametric = TRUE)
 \item{Parametric}{If FALSE the test is Wilcoxon Sum Rank test}
 }
 \value{
-A list with the descriptive statistics, the model, effect size (if the model is significant and a figure)
+Descriptive_statistics Descriptive statistics with the Mean, standard deviation, Median and N
+
+Model_summary Model's summary
+
+Effect_size Cohen's d
+
+Figure
 }
 \description{
 The function conducts paired sample t-test. The data set should be with exact n observations per ID, otherwise the figure's and descriptive statistics' results will be inaccurate.

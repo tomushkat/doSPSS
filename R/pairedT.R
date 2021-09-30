@@ -8,7 +8,10 @@
 #' @param IDV A vector with the dependent variable
 #' @param Parametric If FALSE the test is Wilcoxon Sum Rank test
 #'
-#' @return A list with the descriptive statistics, the model, effect size (if the model is significant and a figure)
+#' @return Descriptive_statistics Descriptive statistics with the Mean, standard deviation, Median and N
+#' @return Model_summary Model's summary
+#' @return Effect_size Cohen's d
+#' @return Figure
 #' @export
 #'
 #' @examples pairedT(theData$Score, theData$Gender, theData$ID)

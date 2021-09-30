@@ -1,12 +1,12 @@
 Package: doSPSS
-Title: What the Package Does (One Line, Title Case)
+Title: doSPSS: All in one function frequentists statistical test
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Tom",
            family = "Mushkat",
            role = c("aut", "cre"),
            email = "tmushkat@gmail.com")
-Description: What the package does (one paragraph).
+Description: The goal of the package is to simplify inferential statistics procedures.  Most of the functions contain inferential statistics tests aoutomatically with the prelaminary tests  and the relevant corrections. Morevere, the functions return the descriptive statistics, effect size, post hoc test and complex figure. The other functions support the tests funcitons, as removing outliers.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
