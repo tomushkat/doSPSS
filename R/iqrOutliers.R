@@ -1,4 +1,4 @@
-#' Interval Outliers
+#' IQR Outliers
 #'
 #' This function takes a vector, and replace observations that are smaller or bigger than the lower/upper bounds with NA.
 #'
@@ -11,8 +11,8 @@
 #' @return A vector with outliers as NA values
 #' @export
 #'
-#' @examples intervalOutliers(theData$Age)
-intervalOutliers <- function(data, lowerBound = 2.5, upperBound = 2.5, replace = FALSE){
+#' @examples iqrOutliers(theData$Age)
+iqrOutliers <- function(data, lowerBound = 2.5, upperBound = 2.5, replace = FALSE){
 
   Q      <- stats::quantile(data, probs = c(.25, .75), na.rm = TRUE)
   iqr    <- stats::IQR(data, na.rm = TRUE)
