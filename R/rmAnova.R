@@ -72,7 +72,7 @@ rmAnova <- function(DV, IDV, ID, Correction = 'BH', Parametric = TRUE){
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH, Figure = Figure)
+  L <- list(Descriptive_Statistics = Statistics, Model_summary = sumModel, Effect_zise = EF, Post_hoc = PH, Figure = Figure)
 
   return(L)
 
