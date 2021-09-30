@@ -11,16 +11,18 @@ pairedT(DV, IDV, ID, Parametric = TRUE)
 
 \item{IDV}{A vector with the dependent variable}
 
-\item{ID}{The ID of the participants}
+\item{ID}{The identity of the participants}
 
 \item{Parametric}{If FALSE the test is Wilcoxon Sum Rank test}
 }
 \value{
-Descriptive_statistics Descriptive statistics with the Mean, standard deviation, Median and N
+A list with the following components:
 
-Model_summary Model's summary
+Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
 
-Effect_size Cohen's d
+Model_summary: Model's summary
+
+Effect_size: Cohen's d effect size (if the model is significant and parametric)
 
 Figure
 }

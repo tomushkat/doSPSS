@@ -3,14 +3,15 @@
 #' The function conducts paired sample t-test. The data set should be with exact n observations per ID, otherwise the figure's and descriptive statistics' results will be inaccurate.
 #' Based on stats::t.test()
 #'
-#' @param ID The ID of the participants
+#' @param ID The identity of the participants
 #' @param DV A vector with the independent variable
 #' @param IDV A vector with the dependent variable
 #' @param Parametric If FALSE the test is Wilcoxon Sum Rank test
 #'
-#' @return Descriptive_statistics Descriptive statistics with the Mean, standard deviation, Median and N
-#' @return Model_summary Model's summary
-#' @return Effect_size Cohen's d
+#' @return A list with the following components:
+#' @return Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
+#' @return Model_summary: Model's summary
+#' @return Effect_size: Cohen's d effect size (if the model is significant and parametric)
 #' @return Figure
 #' @export
 #'
@@ -47,7 +48,6 @@ pairedT <- function(DV, IDV, ID, Parametric = TRUE){
     Model <- stats::wilcox.test(DV ~ IDV, paired = TRUE, data = Data)
     EF <- NULL
   }
-
 
   Figure <-
     ggplot2::ggplot(Data, ggplot2::aes(x = IDV, y = DV, fill = IDV)) +

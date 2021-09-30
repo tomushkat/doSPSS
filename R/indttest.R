@@ -9,7 +9,11 @@
 #' @param IDV A vector with the dependent variable
 #' @param Parametric If FALSE the test is Mann-Whitney test
 #'
-#' @return A list with the descriptive statistics, the model, effect size (if the model is significant) and a figure
+#' @return A list with the following components:
+#' @return Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
+#' @return Model_summary: Model's summary (with or without correction for variance)
+#' @return Effect_size: Cohen's d effect size (if the model is significant and parametric)
+#' @return Figure
 #' @export
 #'
 #' @examples indttest(theData$Score, theData$Gender)
@@ -43,8 +47,6 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     Model <- stats::wilcox.test(DV ~ IDV, paired = FALSE, data = Data)
     EF <- NULL
   }
-
-
 
   Figure <-
     ggplot2::ggplot(Data, ggplot2::aes(x = IDV, y = DV, fill = IDV)) +

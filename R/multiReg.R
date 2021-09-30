@@ -9,7 +9,11 @@
 #' @param Predictors The independent variables (order for string factors will be by the ABC)
 #' @param Correction The type of correction for heteroscedasticity (default is HC2, for more information see estimatr::lm_robust se_type)
 #'
-#' @return The model with unstandardized beta coefficients, standardized beta coefficients, VIF and type of correction
+#' @return A list with the following components:
+#' @return Model_Summary: The model's summary with unstandardized beta coefficients,
+#' @return Standardized_beta_Coeff: Standardized beta coefficients
+#' @return VIF_Values: VIF values
+#' @return se_type: Type of correction for heteroscedasticity if was used
 #' @export
 #'
 #' @examples

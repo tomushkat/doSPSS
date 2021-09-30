@@ -27,7 +27,7 @@ postHoc(
 \item{Parametric}{If TRUE the tests are t.tests, if FALSE the tests are Mann-Whitney/Wilcoxon Sum Rank tests}
 }
 \value{
-The model
+The model summary
 }
 \description{
 This function conduct pairwise t-test comparisons.

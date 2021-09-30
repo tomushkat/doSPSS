@@ -14,7 +14,15 @@ multiReg(DV, Predictors, Correction = "HC2")
 \item{Correction}{The type of correction for heteroscedasticity (default is HC2, for more information see estimatr::lm_robust se_type)}
 }
 \value{
-The model with unstandardized beta coefficients, standardized beta coefficients, VIF and type of correction
+A list with the following components:
+
+Model_Summary: The model's summary with unstandardized beta coefficients,
+
+Standardized_beta_Coeff: Standardized beta coefficients
+
+VIF_Values: VIF values
+
+se_type: Type of correction for heteroscedasticity if was used
 }
 \description{
 The function conduct multiple linear regression.

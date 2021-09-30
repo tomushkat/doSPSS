@@ -14,7 +14,11 @@ CT(DV, IDV, freqCorrect = 5)
 \item{freqCorrect}{Minimum observations per cell for Fisher correction - default is 5}
 }
 \value{
-Prints the Model, and returns the effect size (if the model is significant) and a figure
+Printed model with and a returned list with the following components:
+
+Effect_size: Cramér's V effect size (if the model is significant)
+
+Figure
 }
 \description{
 This function conducts a Chi-square test with a fisher correction (if needed).

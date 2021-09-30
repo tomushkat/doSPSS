@@ -14,7 +14,15 @@ indttest(DV, IDV, Parametric = TRUE)
 \item{Parametric}{If FALSE the test is Mann-Whitney test}
 }
 \value{
-A list with the descriptive statistics, the model, effect size (if the model is significant) and a figure
+A list with the following components:
+
+Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
+
+Model_summary: Model's summary (with or without correction for variance)
+
+Effect_size: Cohen's d effect size (if the model is significant and parametric)
+
+Figure
 }
 \description{
 The function uses the 'stats' package to conduct the independent sample t-test or the Welch test

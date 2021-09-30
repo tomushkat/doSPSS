@@ -16,7 +16,17 @@ oneWayAnova(DV, IDV, Correction = "BH", Parametric = TRUE)
 \item{Parametric}{If FALSE the test is Kruskal-Wallis test with Mann-Whitney test for post hoc pairwise comparisons}
 }
 \value{
-A list with (1) Descriptive statistics, (2) The model, (3) Effect size - if the model is significant, (4) t-test pairwise comparisons with correction - if significant, (5) Figure
+A list with the following components:
+
+Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
+
+Model_summary: Model's summary (with or without correction for variance)
+
+Effect_size: eta square effect size (if the model is significant and parametric)
+
+Post_hoc: Pairwise comparisons (if the model is significant)
+
+Figure
 }
 \description{
 This function conducts a tyoe 3 one way ANOVA or with hc2 correction type (if the variances are unequal). If the model is significant, an effect size and pairwise comparisons  also produced

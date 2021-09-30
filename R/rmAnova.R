@@ -9,7 +9,12 @@
 #' @param Correction The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
 #' @param Parametric If FALSE the test is Friedman test with Wilcoxon Sum Rank tests for post hoc pairwise comparisons
 #'
-#' @return A list with (1) Descriptive statistics, (2) The model, (3) Effect size - if the model is significant, (4) t-test pairwise comparisons with correction - if significant, (5) Figure
+#' @return A list with the following components:
+#' @return Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
+#' @return Model_summary: Model's summary
+#' @return Effect_size: eta square effect size (if the model is significant and parametric)
+#' @return Post_hoc: Pairwise comparisons (if the model is significant)
+#' @return Figure
 #' @export
 #'
 #' @examples rmAnova(theData$Score, theData$Condition, theData$ID)

@@ -11,13 +11,17 @@ logReg(DV, Predictors, Classification = 0.5)
 
 \item{Predictors}{The independent variables}
 
-\item{Classification}{The classification boudery for 1 values (defalut is 0.5)}
+\item{Classification}{The classification boundary for 1 values (default is 0.5)}
 }
 \value{
-The model, odds ratios and confidence intervals
+A list with the following components:
+
+Model_Summary: The model's summary
+
+OddsRatio: Odds ratios and 95\% confidence intervals
 }
 \description{
-The function conducts logistic regression together with the preliminary tests: NagelKerke and Hosmer tests.
+The function conducts logistic regression together with the preliminary tests: NagelKerke and Hosmer-Lemeshow Goodness of Fit tests.
 Based on stats::glm(), rcompanion::nagelkerke(), ResourceSelection::hoslem.test
 }
 \examples{

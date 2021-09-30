@@ -18,7 +18,17 @@ rmAnova(DV, IDV, ID, Correction = "BH", Parametric = TRUE)
 \item{Parametric}{If FALSE the test is Friedman test with Wilcoxon Sum Rank tests for post hoc pairwise comparisons}
 }
 \value{
-A list with (1) Descriptive statistics, (2) The model, (3) Effect size - if the model is significant, (4) t-test pairwise comparisons with correction - if significant, (5) Figure
+A list with the following components:
+
+Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
+
+Model_summary: Model's summary
+
+Effect_size: eta square effect size (if the model is significant and parametric)
+
+Post_hoc: Pairwise comparisons (if the model is significant)
+
+Figure
 }
 \description{
 This function conducts repeated measures ANOVA. If the model is significant, an effect size and pairwise comparisons also be produced. The data set should be with exact n observations per ID, otherwise the figure's and descriptive statistics' results will be inaccurate

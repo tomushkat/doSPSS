@@ -7,7 +7,9 @@
 #' @param IDV The independent variable
 #' @param freqCorrect Minimum observations per cell for Fisher correction - default is 5
 #'
-#' @return Prints the Model, and returns the effect size (if the model is significant) and a figure
+#' @return Printed model with and a returned list with the following components:
+#' @return Effect_size: Cramér's V effect size (if the model is significant)
+#' @return Figure
 #' @export
 #'
 #' @examples CT(theData$Gender, theData$Condition)

@@ -10,7 +10,7 @@
 #' @param ID The identity of the observations (mandatory for paired tests, the default is NULL)
 #' @param Parametric If TRUE the tests are t.tests, if FALSE the tests are Mann-Whitney/Wilcoxon Sum Rank tests
 #'
-#' @return The model
+#' @return The model summary
 #' @export
 #'
 #'
