@@ -19,6 +19,11 @@
 #' @examples oneWayAnova(theData$Score, theData$Condition, theData$Gender)
 twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
 
+  library(doSPSS)
+  DV <- theData$Score
+  IDV1 <- theData$Gender
+  IDV2 <- theData$Condition
+
   Data <- data.frame(DV, IDV1, IDV2)
   Data <- Data[stats::complete.cases(Data), ]
   Data <- Data %>%
@@ -41,7 +46,7 @@ twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
     modelTwoWay <- stats::aov(DV ~ IDV1 * IDV2, data = Data)
     Model       <- car::Anova(modelTwoWay, type = 'III', white.adjust = varLeven)
 
-    if(Model$`Pr(>F)`[2] < 0.05){
+    if(Model$`Pr(>F)`[2] < 0.05 | Model$`Pr(>F)`[3] < 0.05 | Model$`Pr(>F)`[4] < 0.05){
       Data <- Data %>%
         dplyr::mutate(phIDV = paste0(IDV1, IDV2))
       PH <- postHoc(Data$DV, Data$phIDV, Paired = FALSE)
