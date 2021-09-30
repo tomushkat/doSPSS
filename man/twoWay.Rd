@@ -24,6 +24,12 @@ Model_summary: Model's summary (with or without correction for variance)
 
 Effect_size: eta square effect size (if the model is significant and parametric)
 
+Post_hoc_IDV1: Pairwise comparisons for the first independent variable (if significant)
+
+Post_hoc_IDV2: Pairwise comparisons for the second independent variable (if significant)
+
+Post_hoc_Interaction: Pairwise comparisons for the interaction (if significant)
+
 Figure
 }
 \description{

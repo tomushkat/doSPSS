@@ -12,9 +12,9 @@
 #' @return Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
 #' @return Model_summary: Model's summary (with or without correction for variance)
 #' @return Effect_size: eta square effect size (if the model is significant and parametric)
-#' @Post_hoc_IDV1 Post_hoc: Pairwise comparisons for the first independent variable (if significant)
-#' @Post_hoc_IDV2 Post_hoc: Pairwise comparisons for the second independent variable (if significant)
-#' @Post_hoc_Interaction Post_hoc: Pairwise comparisons for the interaction (if significant)
+#' @return Post_hoc_IDV1: Pairwise comparisons for the first independent variable (if significant)
+#' @return Post_hoc_IDV2: Pairwise comparisons for the second independent variable (if significant)
+#' @return Post_hoc_Interaction: Pairwise comparisons for the interaction (if significant)
 #' @return Figure
 #' @export
 #'
