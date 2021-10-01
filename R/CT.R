@@ -59,9 +59,9 @@ CT <- function(DV, IDV, freqCorrect = 5){
     EF <- NULL
   }
 
-  gmodels::CrossTable(DV, IDV, chisq = TRUE, format = 'SPSS', fisher = doFisher)
-
   L <- list(Effect_size = EF, Figure = Figure)
+
+  gmodels::CrossTable(DV, IDV, chisq = TRUE, format = 'SPSS', fisher = doFisher)
 
   return(L)
 
