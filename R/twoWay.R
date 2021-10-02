@@ -21,11 +21,6 @@
 #' @examples twoWay(theData$Score, theData$Condition, theData$Gender)
 twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
 
-  library(doSPSS)
-  DV <- theData$Score
-  IDV1 <- theData$Gender
-  IDV2 <- theData$Condition
-
   Data <- data.frame(DV, IDV1, IDV2)
   Data <- Data[stats::complete.cases(Data), ]
   Data <- Data %>%
@@ -50,10 +45,10 @@ twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
 
     if(Model$`Pr(>F)`[2] < 0.05 | Model$`Pr(>F)`[3] < 0.05 | Model$`Pr(>F)`[4] < 0.05){
       EF <- effectsize::effectsize(modelTwoWay, type = 'eta')
-      if(Model$`Pr(>F)`[2] < 0.05){
+      if(Model$`Pr(>F)`[2] < 0.05 & length(unique(Data$IDV1)) > 2){
         phIDV1 <- postHoc(Data$DV, Data$IDV1, Paired = FALSE)
       }else{phIDV1 <- NULL}
-      if(Model$`Pr(>F)`[3] < 0.05){
+      if(Model$`Pr(>F)`[3] < 0.05 & length(unique(Data$IDV2)) > 2){
         phIDV2 <- postHoc(Data$DV, Data$IDV2, Paired = FALSE)
       }else{phIDV2 <- NULL}
       if(Model$`Pr(>F)`[4] < 0.05){
