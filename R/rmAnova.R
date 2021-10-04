@@ -7,7 +7,7 @@
 #' @param IDV A vector with the independent variable
 #' @param ID The identity of the observations
 #' @param Correction The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
-#' @param Parametric If FALSE the test is Friedman test with Wilcoxon Sum Rank tests for post hoc pairwise comparisons
+#' @param Parametric If FALSE the test is Friedman test with Wilcoxon Signed Rank tests for post hoc pairwise comparisons
 #'
 #' @return A list with the following components:
 #' @return Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N

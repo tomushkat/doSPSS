@@ -13,7 +13,7 @@ pairedT(DV, IDV, ID, Parametric = TRUE)
 
 \item{ID}{The identity of the participants}
 
-\item{Parametric}{If FALSE the test is Wilcoxon Sum Rank test}
+\item{Parametric}{If FALSE the test is Wilcoxon Signed Rank test}
 }
 \value{
 A list with the following components:

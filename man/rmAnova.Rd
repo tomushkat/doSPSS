@@ -15,7 +15,7 @@ rmAnova(DV, IDV, ID, Correction = "BH", Parametric = TRUE)
 
 \item{Correction}{The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test}
 
-\item{Parametric}{If FALSE the test is Friedman test with Wilcoxon Sum Rank tests for post hoc pairwise comparisons}
+\item{Parametric}{If FALSE the test is Friedman test with Wilcoxon Signed Rank tests for post hoc pairwise comparisons}
 }
 \value{
 A list with the following components:
