@@ -8,7 +8,7 @@
 #' @param Correction The type of correction (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
 #' @param Paired Should be TRUE if the test is for paired comparisons (default is FALSE)
 #' @param ID The identity of the observations (mandatory for paired tests, the default is NULL)
-#' @param Parametric If TRUE the tests are t.tests, if FALSE the tests are Mann-Whitney/Wilcoxon Sum Rank tests
+#' @param Parametric If TRUE the tests are t.tests, if FALSE the tests are Mann-Whitney/Wilcoxon Signed Rank tests
 #'
 #' @return The model summary
 #' @export

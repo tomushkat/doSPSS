@@ -24,7 +24,7 @@ postHoc(
 
 \item{Paired}{Should be TRUE if the test is for paired comparisons (default is FALSE)}
 
-\item{Parametric}{If TRUE the tests are t.tests, if FALSE the tests are Mann-Whitney/Wilcoxon Sum Rank tests}
+\item{Parametric}{If TRUE the tests are t.tests, if FALSE the tests are Mann-Whitney/Wilcoxon Signed Rank tests}
 }
 \value{
 The model summary
