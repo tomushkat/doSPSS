@@ -44,7 +44,7 @@ twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
     Model       <- car::Anova(modelTwoWay, type = 'III', white.adjust = varLeven)
 
     if(Model$`Pr(>F)`[2] < 0.05 | Model$`Pr(>F)`[3] < 0.05 | Model$`Pr(>F)`[4] < 0.05){
-      EF <- effectsize::effectsize(modelTwoWay, type = 'eta')
+      EF <- effectsize::effectsize(modelTwoWay, type = 'eta', ci = .9, alternative = "two.sided")
       if(Model$`Pr(>F)`[2] < 0.05 & length(unique(Data$IDV1)) > 2){
         phIDV1 <- postHoc(Data$DV, Data$IDV1, Paired = FALSE)
       }else{phIDV1 <- NULL}

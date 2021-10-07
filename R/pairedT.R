@@ -39,7 +39,7 @@ pairedT <- function(DV, IDV, ID, Parametric = TRUE){
     Model <- stats::t.test(DV ~ IDV, paired = TRUE, data = Data)
 
     if(Model$p.value < 0.05){
-      EF <- effectsize::effectsize(Model, type = 'cohens_d')
+      EF <- effectsize::effectsize(Model, type = 'cohens_d', ci = .9, alternative = "two.sided")
     }else{
       EF <- NULL
     }

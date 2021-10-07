@@ -41,7 +41,7 @@ oneWayAnova <- function(DV, IDV, Correction = 'BH', Parametric = TRUE){
     Model       <- car::Anova(modelOneWay, type = 'III', white.adjust = varLeven)
     if(Model$`Pr(>F)`[2] < 0.05){
       PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE)
-      EF <- effectsize::effectsize(modelOneWay, type = 'eta')
+      EF <- effectsize::effectsize(modelOneWay, type = 'eta', ci = .9, alternative = "two.sided")
     }else{
       PH <- NULL
       EF <- NULL
