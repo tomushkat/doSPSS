@@ -54,7 +54,11 @@ CT <- function(DV, IDV, freqCorrect = 5){
   #   EF <- NULL
 
   if(EFmodel$p.value < 0.05){
-    EF <- effectsize::effectsize(EFmodel, ci = .9, alternative = "two.sided")
+    if(L1 == 2 & L2 == 2){
+      EF <- effectsize::effectsize(EFmodel, type = 'phi', ci = .95, alternative = "two.sided")
+    }else{
+      EF <- effectsize::effectsize(EFmodel, type = 'cramers_v', ci = .95, alternative = "two.sided")
+    }
   }else{
     EF <- NULL
   }

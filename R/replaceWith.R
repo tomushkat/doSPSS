@@ -30,12 +30,12 @@ replaceWith <- function(data, type = 'Mean', Ratio = 0.8){
       Statistic <- ux[which.max(tabulate(match(stats::na.omit(data), ux)))]
     }
 
-    print(paste0('The missing values ratio was ', theRatio, '. The Values were replaced by the', ' ', type, ' = ', Statistic))
+    print(paste0('The missing values ratio was ', round(100 * theRatio, 2), '%. The Values were replaced by the ', type, ' value = ', round(Statistic, 2)))
 
     data <- ifelse(is.na(data), Statistic, data)
 
   }else{
-    print(paste0('The missing values ratio was ', theRatio, '. The Values were not replaced.'))
+    print(paste0('The missing values ratio was ', round(100 * theRatio, 2), '%. The Values were not replaced.'))
   }
 
   return(data)

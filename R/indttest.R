@@ -40,7 +40,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     Model       <- stats::t.test(DV ~ IDV, var.equal = trueVarTest, data = Data)
 
     if(Model$p.value < 0.05){
-      EF <- effectsize::effectsize(Model, type = 'cohens_d', ci = .9, alternative = "two.sided")
+      EF <- effectsize::effectsize(Model, type = 'cohens_d', ci = .95, alternative = "two.sided")
     }else{
       EF <- NULL
     }
