@@ -16,7 +16,7 @@ CT(DV, IDV, freqCorrect = 5)
 \value{
 Printed model with and a returned list with the following components:
 
-Effect_size: Cramér's V effect size (if the model is significant)
+Effect_size: Phi or Cramér's V effect size (if the model is significant)
 
 Figure
 }

@@ -8,7 +8,7 @@
 #' @param freqCorrect Minimum observations per cell for Fisher correction - default is 5
 #'
 #' @return Printed model with and a returned list with the following components:
-#' @return Effect_size: Cramér's V effect size (if the model is significant)
+#' @return Effect_size: Phi or Cramér's V effect size (if the model is significant)
 #' @return Figure
 #' @export
 #'
