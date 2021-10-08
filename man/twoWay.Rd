@@ -30,6 +30,8 @@ Post_hoc_IDV2: Pairwise comparisons for the second independent variable (if sign
 
 Post_hoc_Interaction: Pairwise comparisons for the interaction (if significant)
 
+Variance_Correction: If TRUE a correction for the variance was conducted (the test type is 'Analysis of Deviance')
+
 Figure
 }
 \description{

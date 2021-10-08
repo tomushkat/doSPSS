@@ -13,6 +13,7 @@
 #' @return Model_summary: Model's summary (with or without correction for variance)
 #' @return Effect_size: eta square effect size (if the model is significant and parametric)
 #' @return Post_hoc: Pairwise comparisons (if the model is significant)
+#' @return Variance_Correction: If TRUE a correction for the variance was conducted (the test type is 'Analysis of Deviance')
 #' @return Figure
 #' @export
 #'
@@ -57,13 +58,13 @@ oneWayAnova <- function(DV, IDV, Correction = 'BH', Parametric = TRUE){
   Figure <- ggplot2::ggplot(Data, mapping = ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
     ggplot2::geom_boxplot(color = 'purple', alpha = 2) +
     ggplot2::geom_violin(alpha = 0.1) +
-    ggplot2::geom_jitter(ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
+    # ggplot2::geom_jitter(ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
     ggplot2::stat_summary(fun.data = ggplot2::mean_sdl, fun.args = list(mult = 1), geom = "errorbar", color = "red", width = 0.2) +
     ggplot2::stat_summary(fun = mean, geom = "point", color = "red") +
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH, Figure = Figure)
+  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH, Variance_Correction = varLeven, Figure = Figure)
 
   return(L)
 

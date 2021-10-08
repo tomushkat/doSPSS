@@ -22,6 +22,8 @@ Model_summary: Model's summary (with or without correction for variance)
 
 Effect_size: Cohen's d effect size (if the model is significant and parametric)
 
+Variance_Correction: If TRUE a correction for the variance was conducted (the test type is 'Welch's t.test')
+
 Figure
 }
 \description{

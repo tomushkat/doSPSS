@@ -13,6 +13,7 @@
 #' @return Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
 #' @return Model_summary: Model's summary (with or without correction for variance)
 #' @return Effect_size: Cohen's d effect size (if the model is significant and parametric)
+#' @return Variance_Correction: If TRUE a correction for the variance was conducted (the test type is 'Welch's t.test')
 #' @return Figure
 #' @export
 #'
@@ -53,14 +54,14 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     ggplot2::geom_boxplot(color = 'purple', alpha = 2) +
     ggplot2::geom_violin(alpha = 0.1) +
     ggplot2::scale_fill_manual(values = c('lightgrey', 'lightgreen')) +
-    ggplot2::geom_jitter(ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
+    # ggplot2::geom_jitter(ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
     ggplot2::stat_summary(fun.data = ggplot2::mean_sdl, fun.args = list(mult = 1),
                           geom = "errorbar", color = "red", width = 0.2) +
     ggplot2::stat_summary(fun = mean, geom = "point", color = "red") +
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Figure = Figure)
+  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Variance_Correction = !trueVarTest, Figure = Figure)
 
   return(L)
 

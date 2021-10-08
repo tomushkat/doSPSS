@@ -54,7 +54,7 @@ pairedT <- function(DV, IDV, ID, Parametric = TRUE){
     ggplot2::geom_boxplot(color = 'purple', alpha = 2) +
     ggplot2::geom_violin(alpha = 0.1) +
     ggplot2::scale_fill_manual(values = c('lightgrey', 'lightgreen')) +
-    ggplot2::geom_jitter(ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
+    # ggplot2::geom_jitter(ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
     ggplot2::stat_summary(fun.data = ggplot2::mean_sdl, fun.args = list(mult = 1),
                  geom = "errorbar", color = "red", width = 0.2) +
     ggplot2::stat_summary(fun = mean, geom = "point", color = "red") +
