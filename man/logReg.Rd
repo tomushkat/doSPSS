@@ -7,7 +7,7 @@
 logReg(DV, Predictors, Classification = 0.5)
 }
 \arguments{
-\item{DV}{The dependent variable - a numeric 0-1 vector}
+\item{DV}{The dependent variable - a numeric 0-1 vector. IF the DV is a character type, the function will give the values o and 1 using alphabetic order.}
 
 \item{Predictors}{The independent variables}
 
@@ -18,7 +18,7 @@ A list with the following components:
 
 Model_Summary: The model's summary
 
-OddsRatio: Odds ratios and 95\% confidence intervals
+Odds_Ratio: Odds ratios and 95\% confidence intervals
 }
 \description{
 The function conducts logistic regression together with the preliminary tests: NagelKerke and Hosmer-Lemeshow Goodness of Fit tests.
