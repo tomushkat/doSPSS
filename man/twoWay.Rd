@@ -4,7 +4,7 @@
 \alias{twoWay}
 \title{Two Way Anova}
 \usage{
-twoWay(DV, IDV1, IDV2, Correction = "BH")
+twoWay(DV, IDV1, IDV2, Correct = "BH")
 }
 \arguments{
 \item{DV}{A vector with the dependent variable}
@@ -13,7 +13,7 @@ twoWay(DV, IDV1, IDV2, Correction = "BH")
 
 \item{IDV2}{A vector with the second independent variable}
 
-\item{Correction}{The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test}
+\item{Correct}{The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test}
 }
 \value{
 A list with the following components:
