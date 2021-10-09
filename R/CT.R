@@ -43,7 +43,8 @@ CT <- function(DV, IDV, freqCorrect = 5){
     ggplot2::scale_y_continuous(labels = scales::percent) + ggplot2::theme_bw() +
     ggplot2::xlab('')
 
-  EFmodel <- stats::chisq.test(DV, IDV, correct = FALSE)
+  EFmodel <- stats::chisq.test(x = DV, y = IDV,
+                               correct = FALSE)
 
   #  if(doFisher == TRUE){
   #   if(Model$chisq[3] < 0.05){
@@ -54,13 +55,19 @@ CT <- function(DV, IDV, freqCorrect = 5){
   #   EF <- NULL
 
   if(EFmodel$p.value < 0.05){
+
     if(L1 == 2 & L2 == 2){
-      EF <- effectsize::effectsize(EFmodel, type = 'phi', ci = .95, alternative = "two.sided")
-    }else{
-      EF <- effectsize::effectsize(EFmodel, type = 'cramers_v', ci = .95, alternative = "two.sided")
-    }
+
+      EF <- effectsize::effectsize(model = EFmodel,
+                                   type = 'phi', ci = .95, alternative = "two.sided")
+
+    }else{EF <- effectsize::effectsize(model = EFmodel,
+                                   type = 'cramers_v', ci = .95, alternative = "two.sided")}
+
   }else{
+
     EF <- NULL
+
   }
 
   L <- list(Effect_size = EF, Figure = Figure)

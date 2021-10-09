@@ -36,17 +36,23 @@ pairedT <- function(DV, IDV, ID, Parametric = TRUE){
 
   if(Parametric == TRUE){
 
-    Model <- stats::t.test(DV ~ IDV, paired = TRUE, data = Data)
+    Model <- Model       <- stats::t.test(formula = DV ~ IDV, data = Data,
+                                          alternative = "two.sided", mu = 0, paired = TRUE, conf.level = 0.95)
 
     if(Model$p.value < 0.05){
-      EF <- effectsize::effectsize(Model, type = 'cohens_d', ci = .95, alternative = "two.sided")
-    }else{
-      EF <- NULL
-    }
+
+      EF <- effectsize::effectsize(model = Model,
+                                   type = 'cohens_d', ci = .95, alternative = "two.sided")
+
+    }else{EF <- NULL}
 
   }else{
-    Model <- stats::wilcox.test(DV ~ IDV, paired = TRUE, data = Data)
+
+    Model <- stats::wilcox.test(formula = DV ~ IDV, data = Data,
+                                paired = TRUE, alternative = "two.sided", exact = NULL, mu = 0, correct = FALSE,
+                                conf.int = FALSE, conf.level = 0.95)
     EF <- NULL
+
   }
 
   Figure <-

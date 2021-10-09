@@ -22,18 +22,22 @@ postHoc <- function(DV, IDV, ID = NULL, Correction = 'BH', Paired = FALSE, Param
   if(Parametric == TRUE){
 
     if(Paired == FALSE){
+
       Leven <- car::leveneTest(DV ~ IDV)
       varLeven <- ifelse(Leven$`Pr(>F)`[1] < .05, TRUE, FALSE)
       Model <- stats::pairwise.t.test(x = DV, g = IDV,
                                       p.adjust.method = Correction,
                                       pool.sd = varLeven, paired = Paired)
+
     }else{
+
       Data <- data.frame(DV, IDV, ID)
       Data <- Data %>%
         dplyr::arrange(ID, IDV)
       Model <- stats::pairwise.t.test(x = DV, g = IDV,
                                       p.adjust.method = Correction,
                                       pool.sd = FALSE, paired = Paired)
+
     }
 
   }else{
@@ -42,13 +46,16 @@ postHoc <- function(DV, IDV, ID = NULL, Correction = 'BH', Paired = FALSE, Param
       Model <- stats::pairwise.wilcox.test(x = DV, g = IDV,
                                       p.adjust.method = Correction,
                                       paired = Paired)
+
     }else{
+
       Data <- data.frame(DV, IDV, ID)
       Data <- Data %>%
         dplyr::arrange(ID, IDV)
       Model <- stats::pairwise.wilcox.test(x = DV, g = IDV,
                                       p.adjust.method = Correction,
                                       paired = Paired)
+
     }
   }
 

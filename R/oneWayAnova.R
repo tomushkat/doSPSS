@@ -5,8 +5,9 @@
 #'
 #' @param DV A vector with the dependent variable
 #' @param IDV A vector with the independent variable
-#' @param Correction The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
 #' @param Parametric If FALSE the test is Kruskal-Wallis test with Mann-Whitney test for post hoc pairwise comparisons
+#' @param Correct The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
+#'
 #'
 #' @return A list with the following components:
 #' @return Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
@@ -19,7 +20,7 @@
 #'
 #' @examples oneWayAnova(theData$Score, theData$Condition)
 #'
-oneWayAnova <- function(DV, IDV, Correction = 'BH', Parametric = TRUE){
+oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
   Data <- data.frame(DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
@@ -36,22 +37,30 @@ oneWayAnova <- function(DV, IDV, Correction = 'BH', Parametric = TRUE){
     )
 
   if(Parametric == TRUE){
+
     Leven       <- car::leveneTest(Data$DV ~ Data$IDV)
     varLeven    <- ifelse(Leven$`Pr(>F)`[1] < .05, TRUE, FALSE)
-    modelOneWay <- stats::aov(DV ~ IDV, data = Data)
-    Model       <- car::Anova(modelOneWay, type = 'III', white.adjust = varLeven)
+    modelOneWay <- stats::aov(formula = DV ~ IDV, data = Data)
+    Model       <- car::Anova(mod = modelOneWay, type = 'III', white.adjust = varLeven)
+
     if(Model$`Pr(>F)`[2] < 0.05){
-      PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE)
-      EF <- effectsize::effectsize(modelOneWay, type = 'eta', ci = .95, alternative = "two.sided")
-    }else{
-      PH <- NULL
-      EF <- NULL
-    }
+
+      PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)
+      EF <- effectsize::effectsize(model = modelOneWay,
+                                   type = 'eta', ci = .95, alternative = "two.sided")
+
+    }else{PH <- NULL
+          EF <- NULL}
+
   }else{
-    Model <- stats::kruskal.test(DV ~ IDV, data = Data)
+
+    Model <- stats::kruskal.test(formula = DV ~ IDV, data = Data)
+
     if(Model$p.value < 0.05){
-      PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE, Parametric = FALSE)
+
+      PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE, Parametric = FALSE, Correction = Correct)
       EF <- NULL
+
     }
   }
 

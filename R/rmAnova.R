@@ -6,8 +6,9 @@
 #' @param DV A vector with the dependent variable
 #' @param IDV A vector with the independent variable
 #' @param ID The identity of the observations
-#' @param Correction The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
 #' @param Parametric If FALSE the test is Friedman test with Wilcoxon Signed Rank tests for post hoc pairwise comparisons
+#' @param Correct The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
+#'
 #'
 #' @return A list with the following components:
 #' @return Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
@@ -19,7 +20,7 @@
 #'
 #' @examples rmAnova(theData$Score, theData$Condition, theData$ID)
 #'
-rmAnova <- function(DV, IDV, ID, Correction = 'BH', Parametric = TRUE){
+rmAnova <- function(DV, IDV, ID, Parametric = TRUE, Correct = 'BH'){
 
   Data <- data.frame(ID, DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
@@ -37,28 +38,28 @@ rmAnova <- function(DV, IDV, ID, Correction = 'BH', Parametric = TRUE){
     )
 
   if(Parametric == TRUE){
-    Model <- stats::aov(DV ~ IDV + Error(ID / IDV), data = Data)
+
+    Model <- stats::aov(formula = DV ~ IDV + Error(ID / IDV), data = Data)
     sumModel <- summary(Model)
 
     if(sumModel$`Error: ID:IDV`[[1]][[5]][1] < 0.05){
 
-      PH <- postHoc(Data$DV, Data$IDV, Data$ID, Paired = TRUE)
-      EF <- effectsize::effectsize(Model, type = 'eta', ci = .95, alternative = "two.sided")
+      PH <- postHoc(Data$DV, Data$IDV, Data$ID, Paired = TRUE, Parametric = TRUE, Correction = Correct)
+      EF <- effectsize::effectsize(model = Model,
+                                   type = 'eta', ci = .95, alternative = "two.sided")
 
-    }else{
+    }else{PH <- NULL
+          EF <- NULL}
 
-      PH <- NULL
-      EF <- NULL
-
-    }
   }else{
-    sumModel <- stats::friedman.test(DV ~ ID | IDV, data = Data)
+
+    sumModel <- stats::friedman.test(formula = DV ~ ID | IDV, data = Data)
     EF       <- NULL
+
     if(sumModel$p.value < 0.05){
-      PH <- postHoc(Data$DV, Data$IDV, Data$ID, Paired = TRUE, Parametric = FALSE)
-    }else{
-      PH <- NULL
-    }
+      PH <- postHoc(Data$DV, Data$IDV, Data$ID, Paired = TRUE, Parametric = FALSE, Correction = Correct)
+
+    }else{PH <- NULL}
   }
 
   Figure <-

@@ -35,18 +35,25 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     )
 
   if(Parametric == TRUE){
-    varTest     <- stats::var.test(DV ~ IDV, data = Data)
+    varTest     <- stats::var.test(formula = DV ~ IDV, data = Data)
     trueVarTest <- ifelse(varTest$p.value > 0.05, TRUE, FALSE)
-    Model       <- stats::t.test(DV ~ IDV, var.equal = trueVarTest, data = Data)
+    Model       <- stats::t.test(formula = DV ~ IDV, data = Data,
+                                 var.equal = trueVarTest, alternative = "two.sided", mu = 0, paired = FALSE, conf.level = 0.95)
 
     if(Model$p.value < 0.05){
-      EF <- effectsize::effectsize(Model, type = 'cohens_d', ci = .95, alternative = "two.sided")
-    }else{
-      EF <- NULL
-    }
+
+      EF <- effectsize::effectsize(model = Model,
+                                   type = 'cohens_d', ci = .95, alternative = "two.sided")
+
+    }else{EF <- NULL}
+
   }else{
-    Model <- stats::wilcox.test(DV ~ IDV, paired = FALSE, data = Data)
+
+    Model <- stats::wilcox.test(formula = DV ~ IDV, data = Data,
+                                paired = FALSE, alternative = "two.sided", exact = NULL, mu = 0, correct = FALSE,
+                                conf.int = FALSE, conf.level = 0.95)
     EF <- NULL
+
   }
 
   Figure <-

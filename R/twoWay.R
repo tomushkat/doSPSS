@@ -6,7 +6,7 @@
 #' @param DV A vector with the dependent variable
 #' @param IDV1 A vector with the first independent variable
 #' @param IDV2 A vector with the second independent variable
-#' @param Correction The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
+#' @param Correct The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
 #'
 #' @return A list with the following components:
 #' @return Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
@@ -20,7 +20,7 @@
 #' @export
 #'
 #' @examples twoWay(theData$Score, theData$Condition, theData$Gender)
-twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
+twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
   Data <- data.frame(DV, IDV1, IDV2)
   Data <- Data[stats::complete.cases(Data), ]
@@ -40,28 +40,42 @@ twoWay <- function(DV, IDV1, IDV2, Correction = 'BH'){
     Leven1       <- car::leveneTest(Data$DV ~ Data$IDV1)
     Leven2       <- car::leveneTest(Data$DV ~ Data$IDV2)
     Leven3       <- car::leveneTest(Data$DV ~ Data$IDV1 * Data$IDV2)
-    varLeven    <- ifelse(Leven1$`Pr(>F)`[1] < .05 | Leven2$`Pr(>F)`[1] < .05 | Leven3$`Pr(>F)`[1] < .05, TRUE, FALSE)
-    modelTwoWay <- stats::aov(DV ~ IDV1 * IDV2, data = Data)
-    Model       <- car::Anova(modelTwoWay, type = 'III', white.adjust = varLeven)
+    varLeven     <- ifelse(Leven1$`Pr(>F)`[1] < .05 | Leven2$`Pr(>F)`[1] < .05 | Leven3$`Pr(>F)`[1] < .05, TRUE, FALSE)
+    modelTwoWay  <- stats::aov(formula = DV ~ IDV1 * IDV2, data = Data)
+    Model        <- car::Anova(mod = modelTwoWay, type = 'III', white.adjust = varLeven)
 
     if(Model$`Pr(>F)`[2] < 0.05 | Model$`Pr(>F)`[3] < 0.05 | Model$`Pr(>F)`[4] < 0.05){
-      EF <- effectsize::effectsize(modelTwoWay, type = 'eta', ci = .95, alternative = "two.sided")
+
+      EF <- effectsize::effectsize(model = modelTwoWay,
+                                   type = 'eta', ci = .95, alternative = "two.sided")
+
       if(Model$`Pr(>F)`[2] < 0.05 & length(unique(Data$IDV1)) > 2){
-        phIDV1 <- postHoc(Data$DV, Data$IDV1, Paired = FALSE)
+
+        phIDV1 <- postHoc(Data$DV, Data$IDV1, Paired = FALSE, Correction = Correct)
+
       }else{phIDV1 <- NULL}
+
       if(Model$`Pr(>F)`[3] < 0.05 & length(unique(Data$IDV2)) > 2){
-        phIDV2 <- postHoc(Data$DV, Data$IDV2, Paired = FALSE)
+
+        phIDV2 <- postHoc(Data$DV, Data$IDV2, Paired = FALSE, Correction = Correct)
+
       }else{phIDV2 <- NULL}
+
       if(Model$`Pr(>F)`[4] < 0.05){
+
         Data <- Data %>%
           dplyr::mutate(phIDV = paste0(IDV1, IDV2))
-        phInteraction <- postHoc(Data$DV, Data$phIDV, Paired = FALSE)
+        phInteraction <- postHoc(Data$DV, Data$phIDV, Paired = FALSE, Correction = Correct)
+
       }else{phInteraction <- NULL}
+
     }else{
-      phIDV1 <- NULL
-      phIDV2 <- NULL
+
+      phIDV1        <- NULL
+      phIDV2        <- NULL
       phInteraction <- NULL
-      EF <- NULL
+      EF            <- NULL
+
     }
 
   Figure <- ggplot2::ggplot(Data, mapping = ggplot2::aes(x = IDV1, y = DV, fill = IDV2)) +
