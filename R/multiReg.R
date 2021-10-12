@@ -69,7 +69,7 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
   if(Continue == 0){
 
-    print("There is a multicolliniarity in the model. One of the predictors' VIF is greater than 10. Consider to exlude predictors")
+    print("Warning: There is a multicolliniarity in the model. One of the predictors' VIF is greater than 10. Consider to exlude predictors")
     print('The VIF values are:')
     print(vifValues)
 
