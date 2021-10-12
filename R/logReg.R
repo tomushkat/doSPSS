@@ -28,11 +28,11 @@ logReg <- function(DV, Predictors, Classification = 0.5){
 
   cdiff           <- round(regLog1$null.deviance - regLog1$deviance, 2)
   dfdiff          <- regLog1$df.null - regLog1$df.residual
-  p               <- round(stats::pchisq(cdiff, dfdiff, lower.tail = FALSE), 100)
-  Nagelkerke      <- rcompanion::nagelkerke(regLog1, null = NULL, restrictNobs = FALSE)
+  p               <- round(stats::pchisq(q = cdiff, df = dfdiff, lower.tail = FALSE), 100)
+  Nagelkerke      <- rcompanion::nagelkerke(fit = regLog1, null = NULL, restrictNobs = FALSE)
   NagelkerkePrint <- paste0(100 * round(Nagelkerke$Pseudo.R.squared.for.model.vs.null[3], 4), "%")
 
-  Hoslem          <- ResourceSelection::hoslem.test(regLog1$y, fitted(regLog1), g = 10)
+  Hoslem          <- ResourceSelection::hoslem.test(x = regLog1$y, y = fitted(regLog1), g = 10)
   binaryCorrect   <- ifelse(regLog1$fitted.values > Classification, 1, 0)
   Prediction      <- table(DV, binaryCorrect)
   Accuracy        <- paste0(round((Prediction[1, 1] + Prediction[2, 2]) / sum(Prediction) * 100, 2), "%")

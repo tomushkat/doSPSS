@@ -10,7 +10,11 @@
 #' @param varExp The final increased variance value for best model (default = 0.05 which is 5%)
 #' @param Seed A Seed for randomization (default is 123)
 #'
-#' @return The function returns the kmeans return values as a list type (Clusters, Means, Ns, expVar)
+#' @return The function returns a list with the following values values
+#' @return Clusters: Each observation group
+#' @return Means: The groups' means
+#' @return Ns: The groups' Ns
+#' @return expVar: The explained variance
 #' @export
 #'
 #' @examples kMeans(theData$Age)
@@ -41,7 +45,7 @@ kMeans <- function(data, nStart = 2, nLimit = 15, varExp = 0.05, Seed = 123){
   }
 
   Answer <- list(Clusters = Model1$cluster, Means = round(Model1$centers, 2),
-                 N = Model1$size, expVar = round(Model1$betweenss / Model1$totss, 2))
+                 Ns = Model1$size, expVar = round(Model1$betweenss / Model1$totss, 2))
 
   return(Answer)
 }

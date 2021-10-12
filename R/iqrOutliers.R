@@ -21,7 +21,7 @@ iqrOutliers <- function(data, lowerBound = 2.5, upperBound = 2.5, replace = FALS
   Final  <- ifelse(data > High | data < Low, NA, data)
 
   if(replace == TRUE){
-    Final <- replaceWith(Final, type = 'Median')
+    Final <- replaceWith(data = Final, type = 'Median', Ratio = 0.8)
   }
 
   return(Final)

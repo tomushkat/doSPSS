@@ -58,7 +58,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
     if(Model$p.value < 0.05){
 
-      PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE, Parametric = FALSE, Correction = Correct)
+      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = FALSE, Correction = Correct)
       EF <- NULL
 
     }

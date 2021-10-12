@@ -44,7 +44,7 @@ rmAnova <- function(DV, IDV, ID, Parametric = TRUE, Correct = 'BH'){
 
     if(sumModel$`Error: ID:IDV`[[1]][[5]][1] < 0.05){
 
-      PH <- postHoc(Data$DV, Data$IDV, Data$ID, Paired = TRUE, Parametric = TRUE, Correction = Correct)
+      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, ID = Data$ID, Paired = TRUE, Parametric = TRUE, Correction = Correct)
       EF <- effectsize::effectsize(model = Model,
                                    type = 'eta', ci = .95, alternative = "two.sided")
 
@@ -57,7 +57,7 @@ rmAnova <- function(DV, IDV, ID, Parametric = TRUE, Correct = 'BH'){
     EF       <- NULL
 
     if(sumModel$p.value < 0.05){
-      PH <- postHoc(Data$DV, Data$IDV, Data$ID, Paired = TRUE, Parametric = FALSE, Correction = Correct)
+      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, ID = Data$ID, Paired = TRUE, Parametric = FALSE, Correction = Correct)
 
     }else{PH <- NULL}
   }

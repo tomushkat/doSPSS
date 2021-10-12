@@ -21,7 +21,7 @@ sdOutliers <- function(data, lowerBound = 3, upperBound = 3, replace = FALSE){
   Final  <- ifelse(data > High | data < Low, NA, data)
 
   if(replace == TRUE){
-    Final <- replaceWith(Final)
+    Final <- replaceWith(data = Final, type = 'Mean', Ratio = 0.8)
   }
 
   return(Final)

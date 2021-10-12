@@ -18,7 +18,15 @@ kMeans(data, nStart = 2, nLimit = 15, varExp = 0.05, Seed = 123)
 \item{Seed}{A Seed for randomization (default is 123)}
 }
 \value{
-The function returns the kmeans return values as a list type (Clusters, Means, Ns, expVar)
+The function returns a list with the following values values
+
+Clusters: Each observation group
+
+Means: The groups' means
+
+Ns: The groups' Ns
+
+expVar: The explained variance
 }
 \description{
 The function computes the optimal k-means.

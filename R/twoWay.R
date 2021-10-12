@@ -51,13 +51,13 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
       if(Model$`Pr(>F)`[2] < 0.05 & length(unique(Data$IDV1)) > 2){
 
-        phIDV1 <- postHoc(Data$DV, Data$IDV1, Paired = FALSE, Correction = Correct)
+        phIDV1 <- postHoc(DV = Data$DV, IDV = Data$IDV1, Paired = FALSE, Correction = Correct)
 
       }else{phIDV1 <- NULL}
 
       if(Model$`Pr(>F)`[3] < 0.05 & length(unique(Data$IDV2)) > 2){
 
-        phIDV2 <- postHoc(Data$DV, Data$IDV2, Paired = FALSE, Correction = Correct)
+        phIDV2 <- postHoc(DV = Data$DV, IDV = Data$IDV2, Paired = FALSE, Correction = Correct)
 
       }else{phIDV2 <- NULL}
 
@@ -65,7 +65,7 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
         Data <- Data %>%
           dplyr::mutate(phIDV = paste0(IDV1, IDV2))
-        phInteraction <- postHoc(Data$DV, Data$phIDV, Paired = FALSE, Correction = Correct)
+        phInteraction <- postHoc(DV = Data$DV, IDV = Data$phIDV, Paired = FALSE, Correction = Correct)
 
       }else{phInteraction <- NULL}
 
