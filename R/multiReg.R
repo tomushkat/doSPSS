@@ -7,7 +7,7 @@
 #'
 #' @param DV The dependent variables
 #' @param Predictors The independent variables (order for string factors will be by the ABC)
-#' @param Correction The type of correction for heteroscedasticity (default is HC2, for more information see estimatr::lm_robust se_type)
+#' @param Correct The type of correction for heteroscedasticity (default is HC2, for more information see estimatr::lm_robust se_type)
 #'
 #' @return A list with the following components:
 #' @return Model_Summary: The model's summary with unstandardized beta coefficients,
@@ -18,7 +18,7 @@
 #'
 #' @examples
 #'
-multiReg <- function(DV, Predictors, Correction = 'HC2'){
+multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
   Data <- data.frame(DV = DV, Predictors)
 
@@ -27,40 +27,34 @@ multiReg <- function(DV, Predictors, Correction = 'HC2'){
   if(ncol(Data) >= 3){
 
     vifValues <- faraway::vif(object = Model)
-    Counter <- 0
+    Counter   <- 1
+    nValues   <- length(ncol(Data) - 1)
+    Continue  <- 1
 
-    for (i in vifValues){
+    while(Continue == 1 & Counter <= nValues){
 
-      if(i >= 10){
+      if(vifValues[Counter] >= 10){
 
-        Counter <- Counter + 1
+        Continue <- 0
 
-      }
-    }
-
-    if(Counter > 0){
-
-      print("There is a multicolliniarity in the model. One of the predictors' VIF is greater than 10. Consider to exlude predictors")
-      print('The VIF values are:')
-      print(vifValues)
+      }else{Counter <- Counter + 1}
 
     }
 
-  }else{
-
-    vifValues <- NULL
-
-  }
+  }else{vifValues <- NULL}
 
   varTest <- lmtest::bptest(formula = Model)
-  regType <- ifelse(varTest$p.value < 0.05, Correction, 'classical')
+  regType <- ifelse(varTest$p.value < 0.05, Correct, 'classical')
 
-  Model <- estimatr::lm_robust(DV ~ ., se_type = regType, data = Data)
+  Model <- estimatr::lm_robust(formula = DV ~ ., se_type = regType, data = Data)
 
   DV <- scale(DV)
   for (columnIndex in 1:ncol(Predictors)){
+
     if(typeof(Predictors[, columnIndex]) == 'double' | typeof(Predictors[, columnIndex]) == 'numeric' | typeof(Predictors[, columnIndex]) == 'integer'){
+
       Predictors[, columnIndex] <- scale(Predictors[, columnIndex])
+
     }
   }
 
@@ -72,5 +66,13 @@ multiReg <- function(DV, Predictors, Correction = 'HC2'){
   L <- list(Model_Summary = Model, Standardized_beta_Coeff = betaCoeff, VIF_Values = vifValues, se_type = regType)
 
   return(L)
+
+  if(Continue == 0){
+
+    print("There is a multicolliniarity in the model. One of the predictors' VIF is greater than 10. Consider to exlude predictors")
+    print('The VIF values are:')
+    print(vifValues)
+
+  }
 
 }

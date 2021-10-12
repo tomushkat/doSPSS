@@ -4,14 +4,14 @@
 \alias{multiReg}
 \title{Multiple or single linear regression}
 \usage{
-multiReg(DV, Predictors, Correction = "HC2")
+multiReg(DV, Predictors, Correct = "HC2")
 }
 \arguments{
 \item{DV}{The dependent variables}
 
 \item{Predictors}{The independent variables (order for string factors will be by the ABC)}
 
-\item{Correction}{The type of correction for heteroscedasticity (default is HC2, for more information see estimatr::lm_robust se_type)}
+\item{Correct}{The type of correction for heteroscedasticity (default is HC2, for more information see estimatr::lm_robust se_type)}
 }
 \value{
 A list with the following components:
