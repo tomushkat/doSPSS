@@ -72,9 +72,11 @@ CT <- function(DV, IDV, freqCorrect = 5){
 
   L <- list(Effect_size = EF, Figure = Figure)
 
+  return(L)
+
   gmodels::CrossTable(DV, IDV, chisq = TRUE, format = 'SPSS', fisher = doFisher)
 
-  return(L)
+
 
 }
 
