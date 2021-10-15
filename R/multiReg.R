@@ -28,7 +28,7 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
     vifValues <- faraway::vif(object = Model)
     Counter   <- 1
-    nValues   <- length(ncol(Data) - 1)
+    nValues   <- ncol(Data) - 1
     Continue  <- 1
 
     while(Continue == 1 & Counter <= nValues){
