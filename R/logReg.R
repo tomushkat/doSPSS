@@ -41,8 +41,10 @@ logReg <- function(DV, Predictors, Classification = 0.5){
 
   L <- list(Model_Summary = summary(regLog1), Odds_Ratio = ORCI)
 
+  return(L)
+
   print(paste0("The model's significance by the Nagelkerke is (X2(", dfdiff, ') = ', round(cdiff, 2), ', p = ', round(p, 2), '), while explaining ', NagelkerkePrint, ' of the total variance in the dependent variable. The model fit to the data by the Hosmer-Lemeshow Goodness of Fit test is (X2(8) = ',  round(Hoslem$statistic, 2), ', p = ', round(Hoslem$p.value, 2),
          '), while classifying about ', Accuracy, ", of total observations. The model sensitivity and specificity are ",  Sensitivity, ' and ', Specificity, ' respectively.'))
 
-  return(L)
+
   }

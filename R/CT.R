@@ -76,7 +76,5 @@ CT <- function(DV, IDV, freqCorrect = 5){
 
   gmodels::CrossTable(DV, IDV, chisq = TRUE, format = 'SPSS', fisher = doFisher)
 
-
-
 }
 

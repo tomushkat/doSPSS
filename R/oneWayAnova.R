@@ -45,7 +45,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
     if(Model$`Pr(>F)`[2] < 0.05){
 
-      PH <- postHoc(Data$DV, Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)
+      PH <- postHoc(DV = Data$DV, ID = Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)
       EF <- effectsize::effectsize(model = modelOneWay,
                                    type = 'eta', ci = .95, alternative = "two.sided")
 
