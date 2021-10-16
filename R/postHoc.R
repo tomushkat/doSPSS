@@ -14,7 +14,7 @@
 #' @export
 #'
 #'
-#' @examples postHoc(theData$Score, theData$Condition)
+#' @examples postHoc(DV = theData$Score, IDV = theData$Condition)
 #'
 postHoc <- function(DV, IDV, ID = NULL, Correction = 'BH', Paired = FALSE, Parametric = TRUE){
 

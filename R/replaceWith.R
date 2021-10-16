@@ -10,7 +10,7 @@
 #' @return New vector with no missing values
 #' @export
 #'
-#' @examples replaceWith(theData$Age)
+#' @examples replaceWith(data = theData$Age)
 #'
 replaceWith <- function(data, type = 'Mean', Ratio = 0.8){
 
@@ -20,19 +20,22 @@ replaceWith <- function(data, type = 'Mean', Ratio = 0.8){
   if(theRatio < Ratio){
 
     if(type == 'Mean'){
+
       Statistic <- mean(data, na.rm = T)
 
     }else if(type == 'Median'){
+
       Statistic <- stats::median(data, na.rm = T)
 
     }else if(type == 'Mode'){
+
       ux <- unique(stats::na.omit(data))
       Statistic <- ux[which.max(tabulate(match(stats::na.omit(data), ux)))]
-    }
 
-    print(paste0('The missing values ratio was ', round(100 * theRatio, 2), '%. The Values were replaced by the ', type, ' value = ', round(Statistic, 2)))
+    }else{print('Error: There is probably a typo in the type value')}
 
     data <- ifelse(is.na(data), Statistic, data)
+    print(paste0('The missing values ratio was ', round(100 * theRatio, 2), '%. The Values were replaced by the ', type, ' value = ', round(Statistic, 2)))
 
   }else{
     print(paste0('The missing values ratio was ', round(100 * theRatio, 2), '%. The Values were not replaced.'))
@@ -40,3 +43,5 @@ replaceWith <- function(data, type = 'Mean', Ratio = 0.8){
 
   return(data)
 }
+
+

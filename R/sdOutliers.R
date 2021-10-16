@@ -10,7 +10,7 @@
 #' @return A vector with outliers as NA values
 #' @export
 #'
-#' @examples sdOutliers(theData$Score)
+#' @examples sdOutliers(data = theData$Score)
 #'
 sdOutliers <- function(data, lowerBound = 3, upperBound = 3, replace = FALSE){
 

@@ -5,7 +5,7 @@
 #'
 #' @param DV A vector with the dependent variable
 #' @param IDV A vector with the independent variable
-#' @param ID The identity of the observations
+#' @param Within The identity of the cases / The identity of the within factor
 #' @param Parametric If FALSE the test is Friedman test with Wilcoxon Signed Rank tests for post hoc pairwise comparisons
 #' @param Correct The type of correction for post hoc (default is Benjamini, Y., and Hochberg, Y. (1995)) for more details go to the function pairwise.t.test
 #'
@@ -18,15 +18,15 @@
 #' @return Figure
 #' @export
 #'
-#' @examples rmAnova(theData$Score, theData$Condition, theData$ID)
+#' @examples rmAnova(DV = theData$Score, IDV = theData$Condition, Within = theData$ID)
 #'
-rmAnova <- function(DV, IDV, ID, Parametric = TRUE, Correct = 'BH'){
+rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
 
-  Data <- data.frame(ID, DV, IDV)
+  Data <- data.frame(Within, DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
-  Data <- Data %>%
-    dplyr::mutate(ID = as.factor(ID)) %>%
-    dplyr::arrange(ID, IDV)
+  Data <- Data %>%                            # Arranging the data by ID and IDV
+    dplyr::mutate(Within = as.factor(Within)) %>%
+    dplyr::arrange(Within, IDV)
 
   Statistics <- Data %>%
     dplyr::group_by(IDV) %>%
@@ -37,27 +37,27 @@ rmAnova <- function(DV, IDV, ID, Parametric = TRUE, Correct = 'BH'){
       N      = length(DV)
     )
 
-  if(Parametric == TRUE){
+  if(Parametric == TRUE){  # if the model is  parametric
 
-    Model <- stats::aov(formula = DV ~ IDV + Error(ID / IDV), data = Data)
+    Model <- stats::aov(formula = DV ~ IDV + Error(Within / IDV), data = Data) # Preforming the ANOVA with stats package
     sumModel <- summary(Model)
 
-    if(sumModel$`Error: ID:IDV`[[1]][[5]][1] < 0.05){
+    if(sumModel$`Error: Within:IDV`[[1]][[5]][1] < 0.05){   # If the model is significant
 
-      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, ID = Data$ID, Paired = TRUE, Parametric = TRUE, Correction = Correct)
+      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Within = Data$Within, Paired = TRUE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::effectsize(model = Model,
-                                   type = 'eta', ci = .95, alternative = "two.sided")
+                                   type = 'eta', ci = .95, alternative = "two.sided")  # Perform effect size
 
     }else{PH <- NULL
           EF <- NULL}
 
   }else{
 
-    sumModel <- stats::friedman.test(formula = DV ~ ID | IDV, data = Data)
+    sumModel <- stats::friedman.test(formula = DV ~ Within | IDV, data = Data)  # if not parametric, perform friedman
     EF       <- NULL
 
-    if(sumModel$p.value < 0.05){
-      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, ID = Data$ID, Paired = TRUE, Parametric = FALSE, Correction = Correct)
+    if(sumModel$p.value < 0.05){ # If the model is significant
+      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Within = Data$Within, Paired = TRUE, Parametric = FALSE, Correction = Correct) # Perform post hoc
 
     }else{PH <- NULL}
   }
