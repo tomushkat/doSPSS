@@ -3,7 +3,7 @@
 #' The function conducts paired sample t-test. The data set should be with exact n observations per ID, otherwise the figure's and descriptive statistics' results will be inaccurate.
 #' Based on stats::t.test()
 #'
-#' @param ID The identity of the participants
+#' @param Within The identity of the cases / The identity of the within factor
 #' @param DV A vector with the dependent variable
 #' @param IDV A vector with the independent variable
 #' @param Parametric If FALSE the test is Wilcoxon Signed Rank test
@@ -15,14 +15,14 @@
 #' @return Figure
 #' @export
 #'
-#' @examples pairedT(theData$Score, theData$Gender, theData$ID)
+#' @examples pairedT(DV = theData$Score, IDV = theData$Gender, Within = theData$ID)
 #'
-pairedT <- function(DV, IDV, ID, Parametric = TRUE){
+pairedT <- function(DV, IDV, Within, Parametric = TRUE){
 
-  Data <- data.frame(DV, IDV, ID)
+  Data <- data.frame(DV, IDV, Within)
   Data <- Data[stats::complete.cases(Data), ]
   Data <- Data %>%
-    dplyr::arrange(ID, IDV)
+    dplyr::arrange(Within, IDV)   # Arranging the data by the ID and the IDV
 
   Statistics <- Data %>%
     dplyr::group_by(IDV) %>%
@@ -34,21 +34,21 @@ pairedT <- function(DV, IDV, ID, Parametric = TRUE){
     )
 
 
-  if(Parametric == TRUE){
+  if(Parametric == TRUE){   # If the model is parametric
 
     Model <- Model       <- stats::t.test(formula = DV ~ IDV, data = Data,
-                                          alternative = "two.sided", mu = 0, paired = TRUE, conf.level = 0.95)
+                                          alternative = "two.sided", mu = 0, paired = TRUE, conf.level = 0.95)  # Performing a paired t-test
 
-    if(Model$p.value < 0.05){
+    if(Model$p.value < 0.05){   # If the model is significant
 
       EF <- effectsize::effectsize(model = Model,
-                                   type = 'cohens_d', ci = .95, alternative = "two.sided")
+                                   type = 'cohens_d', ci = .95, alternative = "two.sided")  # Performing effect size
 
     }else{EF <- NULL}
 
-  }else{
+  }else{  # If the model is A-parametric
 
-    Model <- stats::wilcox.test(formula = DV ~ IDV, data = Data,
+    Model <- stats::wilcox.test(formula = DV ~ IDV, data = Data,                        # Performing Wilcoxon
                                 paired = TRUE, alternative = "two.sided", exact = NULL, mu = 0, correct = FALSE,
                                 conf.int = FALSE, conf.level = 0.95)
     EF <- NULL

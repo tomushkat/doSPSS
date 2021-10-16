@@ -19,7 +19,7 @@
 #' @return Figure
 #' @export
 #'
-#' @examples twoWay(theData$Score, theData$Condition, theData$Gender)
+#' @examples twoWay(DV = theData$Score, IDV1 = theData$Condition, IDV2 = theData$Gender)
 twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
   Data <- data.frame(DV, IDV1, IDV2)
@@ -37,39 +37,39 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
       N      = length(DV)
     )
 
-    Leven1       <- car::leveneTest(Data$DV ~ Data$IDV1)
-    Leven2       <- car::leveneTest(Data$DV ~ Data$IDV2)
-    Leven3       <- car::leveneTest(Data$DV ~ Data$IDV1 * Data$IDV2)
-    varLeven     <- ifelse(Leven1$`Pr(>F)`[1] < .05 | Leven2$`Pr(>F)`[1] < .05 | Leven3$`Pr(>F)`[1] < .05, TRUE, FALSE)
-    modelTwoWay  <- stats::aov(formula = DV ~ IDV1 * IDV2, data = Data)
-    Model        <- car::Anova(mod = modelTwoWay, type = 'III', white.adjust = varLeven)
+    Leven1       <- car::leveneTest(Data$DV ~ Data$IDV1)   # Variance test for IDV 1
+    Leven2       <- car::leveneTest(Data$DV ~ Data$IDV2)   # Variance test for IDV 2
+    Leven3       <- car::leveneTest(Data$DV ~ Data$IDV1 * Data$IDV2) # Variance test for IDV 1 and 2 interaction
+    varLeven     <- ifelse(Leven1$`Pr(>F)`[1] < .05 | Leven2$`Pr(>F)`[1] < .05 | Leven3$`Pr(>F)`[1] < .05, TRUE, FALSE)  # if at list onw of the variances are not equals than TRUE for performing correction
+    modelTwoWay  <- stats::aov(formula = DV ~ IDV1 * IDV2, data = Data)    # Performing the two way ANOVA with stats package
+    Model        <- car::Anova(mod = modelTwoWay, type = 'III', white.adjust = varLeven)  # Performing the model with correction (optional) and as type 3 ANOVA using the car package
 
-    if(Model$`Pr(>F)`[2] < 0.05 | Model$`Pr(>F)`[3] < 0.05 | Model$`Pr(>F)`[4] < 0.05){
+    if(Model$`Pr(>F)`[2] < 0.05 | Model$`Pr(>F)`[3] < 0.05 | Model$`Pr(>F)`[4] < 0.05){  # If at list one of the effect is significant
 
-      EF <- effectsize::effectsize(model = modelTwoWay,
+      EF <- effectsize::effectsize(model = modelTwoWay,                                    # Perform as effect size
                                    type = 'eta', ci = .95, alternative = "two.sided")
 
-      if(Model$`Pr(>F)`[2] < 0.05 & length(unique(Data$IDV1)) > 2){
+      if(Model$`Pr(>F)`[2] < 0.05 & length(unique(Data$IDV1)) > 2){   # Test weather there are more than two levels for IDV 1 and it is significant
 
-        phIDV1 <- postHoc(DV = Data$DV, IDV = Data$IDV1, Paired = FALSE, Correction = Correct)
+        phIDV1 <- postHoc(DV = Data$DV, IDV = Data$IDV1, Paired = FALSE, Correction = Correct)   # Performing a post hoc for IDV 1
 
       }else{phIDV1 <- NULL}
 
-      if(Model$`Pr(>F)`[3] < 0.05 & length(unique(Data$IDV2)) > 2){
+      if(Model$`Pr(>F)`[3] < 0.05 & length(unique(Data$IDV2)) > 2){   # Test weather there are more than two levels for IDV 2 and it is significant
 
-        phIDV2 <- postHoc(DV = Data$DV, IDV = Data$IDV2, Paired = FALSE, Correction = Correct)
+        phIDV2 <- postHoc(DV = Data$DV, IDV = Data$IDV2, Paired = FALSE, Correction = Correct)  # Performing a post hoc for IDV 2
 
       }else{phIDV2 <- NULL}
 
-      if(Model$`Pr(>F)`[4] < 0.05){
+      if(Model$`Pr(>F)`[4] < 0.05){   # Test weather the interaction is significant
 
         Data <- Data %>%
-          dplyr::mutate(phIDV = paste0(IDV1, IDV2))
-        phInteraction <- postHoc(DV = Data$DV, IDV = Data$phIDV, Paired = FALSE, Correction = Correct)
+          dplyr::mutate(phIDV = paste0(IDV1, IDV2))   # Creating a new IDV variable for the interaction
+        phInteraction <- postHoc(DV = Data$DV, IDV = Data$phIDV, Paired = FALSE, Correction = Correct)  # Performing a post hoc for the interaction
 
       }else{phInteraction <- NULL}
 
-    }else{
+    }else{   # If there is no effect than every thins is NULL
 
       phIDV1        <- NULL
       phIDV2        <- NULL

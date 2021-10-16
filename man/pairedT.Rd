@@ -4,14 +4,14 @@
 \alias{pairedT}
 \title{Paired samples t-test}
 \usage{
-pairedT(DV, IDV, ID, Parametric = TRUE)
+pairedT(DV, IDV, Within, Parametric = TRUE)
 }
 \arguments{
 \item{DV}{A vector with the dependent variable}
 
 \item{IDV}{A vector with the independent variable}
 
-\item{ID}{The identity of the participants}
+\item{Within}{The identity of the cases / The identity of the within factor}
 
 \item{Parametric}{If FALSE the test is Wilcoxon Signed Rank test}
 }
@@ -31,6 +31,6 @@ The function conducts paired sample t-test. The data set should be with exact n 
 Based on stats::t.test()
 }
 \examples{
-pairedT(theData$Score, theData$Gender, theData$ID)
+pairedT(DV = theData$Score, IDV = theData$Gender, Within = theData$ID)
 
 }

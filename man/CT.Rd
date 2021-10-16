@@ -4,14 +4,14 @@
 \alias{CT}
 \title{Cross table / Chi-square test}
 \usage{
-CT(DV, IDV, freqCorrect = 5)
+CT(rowFactor, colFactor, freqCorrect = 5)
 }
 \arguments{
-\item{DV}{The dependent variable}
-
-\item{IDV}{The independent variable}
+\item{colFactor}{The variable to be locaated in the columns}
 
 \item{freqCorrect}{Minimum observations per cell for Fisher correction - default is 5}
+
+\item{firstFactor}{The variable to be locaated in the rows}
 }
 \value{
 Printed model with and a returned list with the following components:
@@ -25,6 +25,6 @@ This function conducts a Chi-square test with a fisher correction (if needed).
 Based on gmodels::CrossTable()
 }
 \examples{
-CT(theData$Gender, theData$Condition)
+CT(rowFactor = theData$Gender, colFactor = theData$Condition)
 
 }

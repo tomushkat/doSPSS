@@ -20,6 +20,6 @@ A numeric vector
 This function convert to a numeric vector an ordinal vector with which composed from a string.
 }
 \examples{
-convertSacle(theData$Condition, c('A', 'B', 'C'))
+convertSacle(data = theData$Condition, Levels = c('A', 'B', 'C'))
 
 }

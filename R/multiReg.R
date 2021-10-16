@@ -22,9 +22,9 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
   Data <- data.frame(DV = DV, Predictors)
 
-  Model <- stats::lm(formula = DV ~ ., data = Data)
+  Model <- stats::lm(formula = DV ~ ., data = Data)  # Predicting a linear model without correction
 
-  if(ncol(Data) >= 3){
+  if(ncol(Data) >= 3){                         # If there are more than 1 predictor that calculating the VIF values. If one of the values is greater than 10 a warning will be printed.
 
     vifValues <- faraway::vif(object = Model)
     Counter   <- 1
@@ -43,11 +43,13 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
   }else{vifValues <- NULL}
 
-  varTest <- lmtest::bptest(formula = Model)
-  regType <- ifelse(varTest$p.value < 0.05, Correct, 'classical')
+  varTest <- lmtest::bptest(formula = Model)    # Testing for heteroscedasticity
+  regType <- ifelse(varTest$p.value < 0.05, Correct, 'classical')  # If there is a heteroscedasticity than the type of correction will be assigned
 
-  Model <- estimatr::lm_robust(formula = DV ~ ., se_type = regType, data = Data)
+  Model <- estimatr::lm_robust(formula = DV ~ ., se_type = regType, data = Data)   # Performing the model againg with correction (if neaded)
 
+
+  # Scaking the DV and every continuous variable
   DV <- scale(DV)
   for (columnIndex in 1:ncol(Predictors)){
 
@@ -60,19 +62,19 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
   Data <- data.frame(DV = DV, Predictors)
 
-  scaledModel <- estimatr::lm_robust(formula = DV ~ ., se_type = regType, data = Data)
-  betaCoeff   <- round(scaledModel$coefficients, 2)
+  scaledModel <- estimatr::lm_robust(formula = DV ~ ., se_type = regType, data = Data)  # Performing the model witht the scaled values
+  betaCoeff   <- round(scaledModel$coefficients, 2)  # Extracting the standardized beta coefficients
 
   L <- list(Model_Summary = Model, Standardized_beta_Coeff = betaCoeff, VIF_Values = vifValues, se_type = regType)
 
-  return(L)
-
-  if(Continue == 0){
+  if(Continue == 0){    # If at list one of the VIF values is greater than 10 than printing the warning together with the VIF values
 
     print("Warning: There is a multicolliniarity in the model. One of the predictors' VIF is greater than 10. Consider to exlude predictors")
     print('The VIF values are:')
     print(vifValues)
 
   }
+
+  return(L)
 
 }

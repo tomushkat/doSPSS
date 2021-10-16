@@ -9,7 +9,7 @@
 #' @return A numeric vector
 #' @export
 #'
-#' @examples convertSacle(theData$Condition, c('A', 'B', 'C'))
+#' @examples convertSacle(data = theData$Condition, Levels = c('A', 'B', 'C'))
 #'
 convertSacle <- function(data, Levels, Reverse = FALSE){
 

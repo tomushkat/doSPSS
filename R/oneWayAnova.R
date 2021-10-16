@@ -18,7 +18,7 @@
 #' @return Figure
 #' @export
 #'
-#' @examples oneWayAnova(theData$Score, theData$Condition)
+#' @examples oneWayAnova(DV = theData$Score, IDV = theData$Condition)
 #'
 oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
@@ -36,29 +36,29 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
       N      = length(DV)
     )
 
-  if(Parametric == TRUE){
+  if(Parametric == TRUE){                     # if the model is  parametric
 
-    Leven       <- car::leveneTest(Data$DV ~ Data$IDV)
-    varLeven    <- ifelse(Leven$`Pr(>F)`[1] < .05, TRUE, FALSE)
-    modelOneWay <- stats::aov(formula = DV ~ IDV, data = Data)
-    Model       <- car::Anova(mod = modelOneWay, type = 'III', white.adjust = varLeven)
+    Leven       <- car::leveneTest(Data$DV ~ Data$IDV)           # Variance test
+    varLeven    <- ifelse(Leven$`Pr(>F)`[1] < .05, TRUE, FALSE)  # If the variances are not equale than TRUE
+    modelOneWay <- stats::aov(formula = DV ~ IDV, data = Data)   # Preforming the ANOVA with stats package, without correction
+    Model       <- car::Anova(mod = modelOneWay, type = 'III', white.adjust = varLeven)  # Preforming the model with car package with correction (optional) and as type 3
 
-    if(Model$`Pr(>F)`[2] < 0.05){
+    if(Model$`Pr(>F)`[2] < 0.05){    # If the model is significant
 
-      PH <- postHoc(DV = Data$DV, ID = Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)
+      PH <- postHoc(DV = Data$DV, ID = Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::effectsize(model = modelOneWay,
-                                   type = 'eta', ci = .95, alternative = "two.sided")
+                                   type = 'eta', ci = .95, alternative = "two.sided")   # Perform effect size
 
     }else{PH <- NULL
           EF <- NULL}
 
   }else{
 
-    Model <- stats::kruskal.test(formula = DV ~ IDV, data = Data)
+    Model <- stats::kruskal.test(formula = DV ~ IDV, data = Data)    # if not parametric, perform kruskal wallis
 
-    if(Model$p.value < 0.05){
+    if(Model$p.value < 0.05){  # If the model is significant
 
-      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = FALSE, Correction = Correct)
+      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = FALSE, Correction = Correct)  # Perform post hoc
       EF <- NULL
 
     }

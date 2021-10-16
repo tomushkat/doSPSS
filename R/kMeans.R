@@ -17,8 +17,8 @@
 #' @return expVar: The explained variance
 #' @export
 #'
-#' @examples kMeans(theData$Age)
-#' @examples kMeans(cbind(theData$Age, theData$Score))
+#' @examples kMeans(data = theData$Age)
+#' @examples kMeans(data = cbind(theData$Age, theData$Score))
 #'
 kMeans <- function(data, nStart = 2, nLimit = 15, varExp = 0.05, Seed = 123){
 

@@ -33,7 +33,7 @@ The function computes the optimal k-means.
 Based on stats::kmeans()
 }
 \examples{
-kMeans(theData$Age)
-kMeans(cbind(theData$Age, theData$Score))
+kMeans(data = theData$Age)
+kMeans(data = cbind(theData$Age, theData$Score))
 
 }

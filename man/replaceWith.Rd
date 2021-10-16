@@ -20,6 +20,6 @@ New vector with no missing values
 This function takes a vector and if the missing values ratio are greater than a given value (0.8 default), its replaced with either the Mean (default), Median or mode
 }
 \examples{
-replaceWith(theData$Age)
+replaceWith(data = theData$Age)
 
 }

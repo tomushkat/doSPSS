@@ -4,14 +4,14 @@
 \alias{rmAnova}
 \title{Repeated measures One Way Anova}
 \usage{
-rmAnova(DV, IDV, ID, Parametric = TRUE, Correct = "BH")
+rmAnova(DV, IDV, Within, Parametric = TRUE, Correct = "BH")
 }
 \arguments{
 \item{DV}{A vector with the dependent variable}
 
 \item{IDV}{A vector with the independent variable}
 
-\item{ID}{The identity of the observations}
+\item{Within}{The identity of the cases / The identity of the within factor}
 
 \item{Parametric}{If FALSE the test is Friedman test with Wilcoxon Signed Rank tests for post hoc pairwise comparisons}
 
@@ -35,6 +35,6 @@ This function conducts repeated measures ANOVA. If the model is significant, an 
 Based on stats::aov()
 }
 \examples{
-rmAnova(theData$Score, theData$Condition, theData$ID)
+rmAnova(DV = theData$Score, IDV = theData$Condition, Within = theData$ID)
 
 }
