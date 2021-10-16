@@ -22,11 +22,12 @@
 #'
 kMeans <- function(data, nStart = 2, nLimit = 15, varExp = 0.05, Seed = 123){
 
-  End    <- 'No'
+
   set.seed(Seed)
   Model1 <- stats::kmeans(x = data, centers = nStart)
   nStart <- nStart + 1
   Round  <- 1
+  End    <- 'No'
 
   while(End == 'No' | Round <= nLimit){
 
