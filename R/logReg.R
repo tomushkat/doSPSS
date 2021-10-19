@@ -12,7 +12,7 @@
 #' @return Odds_Ratio: Odds ratios and 95% confidence intervals
 #' @export
 #'
-#' @examples
+#' @examples multiReg(DV = Data$Score, Predictors = Data[, c('newAge', 'Gender', 'gameTime')])
 #'
 logReg <- function(DV, Predictors, Classification = 0.5){
 
