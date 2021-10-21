@@ -14,7 +14,7 @@
 #' @export
 #'
 #'
-#' @examples postHoc(DV = theData$Score, IDV = theData$Condition)
+#' @examples postHoc(DV = simulateData$gameTime, IDV = simulateData$measureTime)
 #'
 postHoc <- function(DV, IDV, ID = NULL, Correction = 'BH', Paired = FALSE, Parametric = TRUE){
 

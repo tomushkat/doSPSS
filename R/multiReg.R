@@ -16,7 +16,7 @@
 #' @return se_type: Type of correction for heteroscedasticity if was used
 #' @export
 #'
-#' @examples
+#' @examples multiReg(DV = simulateData$Score, Predictors = simulateData[, c('Age', 'Condition', 'gameTime')])
 #'
 multiReg <- function(DV, Predictors, Correct = 'HC2'){
 

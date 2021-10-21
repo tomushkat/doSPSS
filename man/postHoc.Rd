@@ -34,6 +34,6 @@ This function conduct pairwise t-test comparisons.
 Based on stats::pairwise.t.test()
 }
 \examples{
-postHoc(DV = theData$Score, IDV = theData$Condition)
+postHoc(DV = simulateData$gameTime, IDV = simulateData$measureTime)
 
 }

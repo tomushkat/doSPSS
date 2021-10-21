@@ -22,5 +22,5 @@ A vector with outliers as NA values
 This function takes a vector, and replace observations that are smaller or bigger than the lower/upper bounds with NA.
 }
 \examples{
-iqrOutliers(data = theData$Age)
+iqrOutliers(data = simulateData$Age)
 }

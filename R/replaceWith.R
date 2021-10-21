@@ -10,7 +10,7 @@
 #' @return New vector with no missing values
 #' @export
 #'
-#' @examples replaceWith(data = theData$Age)
+#' @examples replaceWith(data = simulateData$gameTime)
 #'
 replaceWith <- function(data, type = 'Mean', Ratio = 0.8){
 

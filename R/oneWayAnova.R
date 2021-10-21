@@ -18,7 +18,7 @@
 #' @return Figure
 #' @export
 #'
-#' @examples oneWayAnova(DV = theData$Score, IDV = theData$Condition)
+#' @examples oneWayAnova(DV = simulateData$Score, IDV = simulateData$Condition)
 #'
 oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 

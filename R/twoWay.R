@@ -19,7 +19,7 @@
 #' @return Figure
 #' @export
 #'
-#' @examples twoWay(DV = theData$Score, IDV1 = theData$Condition, IDV2 = theData$Gender)
+#' @examples twoWay(DV = simulateData$Score, IDV1 = simulateData$Condition, IDV2 = simulateData$Gender)
 twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
   Data <- data.frame(DV, IDV1, IDV2)

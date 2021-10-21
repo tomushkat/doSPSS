@@ -12,7 +12,7 @@
 #' @return Figure
 #' @export
 #'
-#' @examples CT(rowFactor = theData$Gender, colFactor = theData$Condition)
+#' @examples CT(rowFactor = simulateData$Gender, colFactor = simulateData$Condition)
 #'
 CT <- function(rowFactor, colFactor, freqCorrect = 5){
 

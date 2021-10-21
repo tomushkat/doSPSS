@@ -11,7 +11,7 @@
 #' @return A vector with outliers as NA values
 #' @export
 #'
-#' @examples iqrOutliers(data = theData$Age)
+#' @examples iqrOutliers(data = simulateData$Age)
 iqrOutliers <- function(data, lowerBound = 2.5, upperBound = 2.5, replace = FALSE){
 
   Q      <- stats::quantile(data, probs = c(.25, .75), na.rm = TRUE)

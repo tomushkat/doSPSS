@@ -15,7 +15,7 @@
 #' @return Figure
 #' @export
 #'
-#' @examples pairedT(DV = theData$Score, IDV = theData$Gender, Within = theData$ID)
+#' @examples pairedT(DV = simulateData$Score, IDV = simulateData$Gender, Within = simulateData$ID)
 #'
 pairedT <- function(DV, IDV, Within, Parametric = TRUE){
 

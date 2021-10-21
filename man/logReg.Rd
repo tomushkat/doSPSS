@@ -25,6 +25,5 @@ The function conducts logistic regression together with the preliminary tests: N
 Based on stats::glm(), rcompanion::nagelkerke(), ResourceSelection::hoslem.test
 }
 \examples{
-multiReg(DV = Data$Score, Predictors = Data[, c('newAge', 'Gender', 'gameTime')])
 
 }

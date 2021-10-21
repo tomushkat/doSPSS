@@ -17,7 +17,7 @@
 #' @return Figure
 #' @export
 #'
-#' @examples indttest(DV = theData$Score, IDV = theData$Gender)
+#' @examples indttest(DV = simulateData$Score, IDV = simulateData$Gender)
 #'
 #'
 indttest <- function(DV, IDV, Parametric = TRUE){

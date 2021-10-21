@@ -12,7 +12,7 @@
 #' @return Odds_Ratio: Odds ratios and 95% confidence intervals
 #' @export
 #'
-#' @examples multiReg(DV = Data$Score, Predictors = Data[, c('newAge', 'Gender', 'gameTime')])
+#' @examples
 #'
 logReg <- function(DV, Predictors, Classification = 0.5){
 
@@ -22,6 +22,7 @@ logReg <- function(DV, Predictors, Classification = 0.5){
   }
 
   Data <- data.frame(DV = DV, Predictors)
+  Data <- Data[stats::complete.cases(Data), ]
 
   regLog1 <- stats::glm(DV ~ ., family = binomial('logit'), data = Data)   # Performing a logistic regression
   ORCI    <- round(exp(cbind(Odds_Ratios = stats::coef(regLog1), stats::confint(regLog1))), 2)  # Calculation odds ratios and confidance intervales for the odds ratios
@@ -34,14 +35,14 @@ logReg <- function(DV, Predictors, Classification = 0.5){
 
   Hoslem          <- ResourceSelection::hoslem.test(x = regLog1$y, y = fitted(regLog1), g = 10)  # Calculating the significance of the accuracy
   binaryCorrect   <- ifelse(regLog1$fitted.values > Classification, 1, 0)                        # Creating a vector of 1 and 0 (by the probabilities of each ID to be 1, and the Classification value)
-  Prediction      <- table(DV, binaryCorrect)                                                    # Creating a table with the predicted values and the actual DV values
+  Prediction      <- table(Data$DV, binaryCorrect)                                                    # Creating a table with the predicted values and the actual DV values
   Accuracy        <- paste0(round((Prediction[1, 1] + Prediction[2, 2]) / sum(Prediction) * 100, 2), "%")   # Calculating the Accuracy
   Sensitivity     <- paste0(round(Prediction[2, 2] / (Prediction[2, 2] + Prediction[1, 1]) * 100, 2), "%")  # Calculating the sensitivity
   Specificity     <- paste0(round(Prediction[1, 1] / (Prediction[1, 1] + Prediction[1, 2]) * 100, 2), "%")  # Calculating the specificity
 
   L <- list(Model_Summary = summary(regLog1), Odds_Ratio = ORCI)
 
-  print(paste0("The model's significance by the Nagelkerke is (X2(", dfdiff, ') = ', round(cdiff, 2), ', p = ', round(p, 2), '), while explaining ', NagelkerkePrint, ' of the total variance in the dependent variable. The model fit to the data by the Hosmer-Lemeshow Goodness of Fit test is (X2(8) = ',  round(Hoslem$statistic, 2), ', p = ', round(Hoslem$p.value, 2),
+  print(paste0("The model's significance by the Nagelkerke is (X**2(", dfdiff, ') = ', round(cdiff, 2), ', p = ', round(p, 2), '), while explaining ', NagelkerkePrint, ' of the total variance in the dependent variable. The model fit to the data by the Hosmer-Lemeshow Goodness of Fit test is (X**2(8) = ',  round(Hoslem$statistic, 2), ', p = ', round(Hoslem$p.value, 2),
          '), while classifying about ', Accuracy, ", of total observations. The model sensitivity and specificity are ",  Sensitivity, ' and ', Specificity, ' respectively.'))
 
   return(L)

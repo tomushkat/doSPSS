@@ -14,14 +14,19 @@
 #' @return Clusters: Each observation group
 #' @return Means: The groups' means
 #' @return Ns: The groups' Ns
-#' @return expVar: The explained variance
+#' @return Vrainace_Explained: The explained variance
 #' @export
 #'
-#' @examples kMeans(data = theData$Age)
-#' @examples kMeans(data = cbind(theData$Age, theData$Score))
+#' @examples kMeans(data = simulateData$Age)
+#' @examples kMeans(data = cbind(simulateData$Age, simulateData$Score))
 #'
 kMeans <- function(data, nStart = 2, nLimit = 15, varExp = 0.05, Seed = 123){
 
+  if(sum(as.numeric(is.na(data) == TRUE)) > 0){
+
+    print('Warning: There are missing values in the data set, please remove it.')
+
+  }
 
   set.seed(Seed)
   Model1 <- stats::kmeans(x = data, centers = nStart)
@@ -45,8 +50,9 @@ kMeans <- function(data, nStart = 2, nLimit = 15, varExp = 0.05, Seed = 123){
     Round  <- Round + 1
   }
 
+
   Answer <- list(Clusters = Model1$cluster, Means = round(Model1$centers, 2),
-                 Ns = Model1$size, expVar = round(Model1$betweenss / Model1$totss, 2))
+                 Ns = Model1$size, Vrainace_Explained = round(Model1$betweenss / Model1$totss, 2))
 
   return(Answer)
 }

@@ -3,18 +3,17 @@
 \name{packageData}
 \alias{packageData}
 \title{Package's data calculation
-Calculating  observations' ID, Age, Gender, Condition in A/B/c testing AND score.}
+Calculating  observations' ID, Age, Gender, measuring time, Condition in A/B testing, score at the game and time at the game.}
 \usage{
-packageData()
+packageData(data = simulateData)
 }
 \value{
 A data frame
 }
 \description{
 Package's data calculation
-Calculating  observations' ID, Age, Gender, Condition in A/B/c testing AND score.
+Calculating  observations' ID, Age, Gender, measuring time, Condition in A/B testing, score at the game and time at the game.
 }
 \examples{
 Data <- packageData()
-
 }

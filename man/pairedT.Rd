@@ -31,6 +31,6 @@ The function conducts paired sample t-test. The data set should be with exact n 
 Based on stats::t.test()
 }
 \examples{
-pairedT(DV = theData$Score, IDV = theData$Gender, Within = theData$ID)
+pairedT(DV = simulateData$Score, IDV = simulateData$Gender, Within = simulateData$ID)
 
 }

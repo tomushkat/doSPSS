@@ -26,14 +26,14 @@ Means: The groups' means
 
 Ns: The groups' Ns
 
-expVar: The explained variance
+Vrainace_Explained: The explained variance
 }
 \description{
 The function computes the optimal k-means.
 Based on stats::kmeans()
 }
 \examples{
-kMeans(data = theData$Age)
-kMeans(data = cbind(theData$Age, theData$Score))
+kMeans(data = simulateData$Age)
+kMeans(data = cbind(simulateData$Age, simulateData$Score))
 
 }

@@ -22,6 +22,6 @@ A vector with outliers as NA values
 This function takes a vector, and replace observations that are smaller or bigger than the Mean + the lower/upper bounds * standard deviation with NA.
 }
 \examples{
-sdOutliers(data = theData$Score)
+sdOutliers(data = simulateData$gameTime)
 
 }

@@ -18,7 +18,7 @@
 #' @return Figure
 #' @export
 #'
-#' @examples rmAnova(DV = theData$Score, IDV = theData$Condition, Within = theData$ID)
+#' @examples rmAnova(DV = simulateData$gameTime, IDV = simulateData$measureTime, Within = simulateData$ID)
 #'
 rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
 

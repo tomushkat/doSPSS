@@ -39,5 +39,5 @@ This function conducts a type 3 two way ANOVA or with hc2 correction type (if th
 Based on stats::aov(), car::Anova()
 }
 \examples{
-twoWay(DV = theData$Score, IDV1 = theData$Condition, IDV2 = theData$Gender)
+twoWay(DV = simulateData$Score, IDV1 = simulateData$Condition, IDV2 = simulateData$Gender)
 }

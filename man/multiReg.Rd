@@ -31,5 +31,6 @@ If multicolliniarity is exists, the model will run, but the VIF values will be p
 Based on stats::lm(), estimatr::lm_robust(), faraway::vif(), lmtest::bptest()
 }
 \examples{
+multiReg(DV = simulateData$Score, Predictors = simulateData[, c('Age', 'Condition', 'gameTime')])
 
 }

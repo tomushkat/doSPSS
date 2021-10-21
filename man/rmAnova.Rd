@@ -35,6 +35,6 @@ This function conducts repeated measures ANOVA. If the model is significant, an 
 Based on stats::aov()
 }
 \examples{
-rmAnova(DV = theData$Score, IDV = theData$Condition, Within = theData$ID)
+rmAnova(DV = simulateData$gameTime, IDV = simulateData$measureTime, Within = simulateData$ID)
 
 }
