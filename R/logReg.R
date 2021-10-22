@@ -12,8 +12,9 @@
 #' @return Odds_Ratio: Odds ratios and 95% confidence intervals
 #' @export
 #'
-#' @examples
+#' @examples logReg(DV = simulateData$Gender, Predictors = simulateData[, c('Age', 'Score')])
 #'
+
 logReg <- function(DV, Predictors, Classification = 0.5){
 
   if(typeof(DV) == "character"){      # If the DV is of string type, convert it to 1 and 0 (0 is the first by Alphbetic order)
