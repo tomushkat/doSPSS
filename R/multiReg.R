@@ -2,7 +2,7 @@
 #'
 #' The function conduct multiple linear regression.
 #' The type of correction for heteroscedasticity (no correction v.s HC2 or other is done automatically)
-#' If multicolliniarity is exists, the model will run, but the VIF values will be printed with a recommendation to remove variables.
+#' If multicollinearity is exists, the model will run, but the VIF values will be printed with a recommendation to remove variables.
 #' Based on stats::lm(), estimatr::lm_robust(), faraway::vif(), lmtest::bptest()
 #'
 #' @param DV The dependent variables
@@ -69,7 +69,7 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
   if(Continue == 0){    # If at list one of the VIF values is greater than 10 than printing the warning together with the VIF values
 
-    print("Warning: There is a multicolliniarity in the model. One of the predictors' VIF is greater than 10. Consider to exlude predictors")
+    print("Warning: There is a multicollinearity in the model. One of the predictors' VIF is greater than 10. Consider to exlude predictors")
     print('The VIF values are:')
     print(vifValues)
 

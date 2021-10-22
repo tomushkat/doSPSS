@@ -27,7 +27,7 @@ se_type: Type of correction for heteroscedasticity if was used
 \description{
 The function conduct multiple linear regression.
 The type of correction for heteroscedasticity (no correction v.s HC2 or other is done automatically)
-If multicolliniarity is exists, the model will run, but the VIF values will be printed with a recommendation to remove variables.
+If multicollinearity is exists, the model will run, but the VIF values will be printed with a recommendation to remove variables.
 Based on stats::lm(), estimatr::lm_robust(), faraway::vif(), lmtest::bptest()
 }
 \examples{
