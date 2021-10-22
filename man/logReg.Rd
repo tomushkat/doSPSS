@@ -19,6 +19,8 @@ A list with the following components:
 Model_Summary: The model's summary
 
 Odds_Ratio: Odds ratios and 95\% confidence intervals
+
+Paragraph_Summary: Paragraph which summaries the model's significance, goodness of fit and accuracy, sensitivity and specificity
 }
 \description{
 The function conducts logistic regression together with the preliminary tests: NagelKerke and Hosmer-Lemeshow Goodness of Fit tests.
