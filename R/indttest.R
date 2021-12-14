@@ -36,7 +36,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
 
   if(Parametric == TRUE){
     varTest     <- stats::var.test(formula = DV ~ IDV, data = Data)
-    trueVarTest <- ifelse(varTest$p.value > 0.05, TRUE, FALSE)
+    trueVarTest <- ifelse(varTest$p.value < 0.05, FALSE, TRUE)
     Model       <- stats::t.test(formula = DV ~ IDV, data = Data,
                                  var.equal = trueVarTest, alternative = "two.sided", mu = 0, paired = FALSE, conf.level = 0.95)
 
@@ -69,7 +69,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Variance_Correction = !trueVarTest, Figure = Figure)
+  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Variance_Correction = trueVarTest, Figure = Figure)
 
   return(L)
 
