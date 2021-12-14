@@ -53,6 +53,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
                                 paired = FALSE, alternative = "two.sided", exact = NULL, mu = 0, correct = FALSE,
                                 conf.int = FALSE, conf.level = 0.95)
     EF <- NULL
+    trueVarTest <- NULL
 
   }
 

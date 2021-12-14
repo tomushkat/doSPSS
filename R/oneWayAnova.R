@@ -60,6 +60,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = FALSE, Correction = Correct)  # Perform post hoc
       EF <- NULL
+      varLeven <- NULL
 
     }
   }
