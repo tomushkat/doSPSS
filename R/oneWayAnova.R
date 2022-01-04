@@ -57,6 +57,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
     Model <- stats::kruskal.test(formula = DV ~ IDV, data = Data)    # if not parametric, perform kruskal wallis
     EF <- NULL
     varLeven <- NULL
+    PH <- NULL
 
     if(Model$p.value < 0.05){  # If the model is significant
 
