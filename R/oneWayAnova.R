@@ -55,12 +55,12 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
   }else{
 
     Model <- stats::kruskal.test(formula = DV ~ IDV, data = Data)    # if not parametric, perform kruskal wallis
+    EF <- NULL
+    varLeven <- NULL
 
     if(Model$p.value < 0.05){  # If the model is significant
 
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = FALSE, Correction = Correct)  # Perform post hoc
-      EF <- NULL
-      varLeven <- NULL
 
     }
   }
