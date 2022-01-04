@@ -45,6 +45,7 @@ postHoc <- function(DV, IDV, ID = NULL, Correction = 'BH', Paired = FALSE, Param
     if(Paired == FALSE){
       Model <- stats::pairwise.wilcox.test(x = DV, g = IDV,
                                       p.adjust.method = Correction,
+                                      correct = FALSE,
                                       paired = Paired)
 
     }else{
@@ -54,6 +55,7 @@ postHoc <- function(DV, IDV, ID = NULL, Correction = 'BH', Paired = FALSE, Param
         dplyr::arrange(ID, IDV)
       Model <- stats::pairwise.wilcox.test(x = DV, g = IDV,
                                       p.adjust.method = Correction,
+                                      correct = FALSE,
                                       paired = Paired)
 
     }
