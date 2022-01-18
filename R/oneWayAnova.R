@@ -45,7 +45,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
     if(Model$`Pr(>F)`[2] < 0.05){    # If the model is significant
 
-      PH <- postHoc(DV = Data$DV, ID = Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
+      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::effectsize(model = modelOneWay,
                                    type = 'eta', ci = .95, alternative = "two.sided")   # Perform effect size
 
