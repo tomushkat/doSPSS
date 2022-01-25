@@ -21,8 +21,8 @@
 multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
   #Parameters for test
-  # DV = simulateData$Score
-  # Predictors = simulateData[, c('Age', 'Condition', 'gameTime')]
+  DV = simulateData$Score
+  Predictors = simulateData[, c('Age', 'Condition', 'gameTime')]
 
 
   Data <- data.frame(DV = DV, Predictors)
@@ -51,12 +51,21 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
   varTest <- lmtest::bptest(formula = Model)    # Testing for heteroscedasticity
   regType <- ifelse(varTest$p.value < 0.05, Correct, 'classical')  # If there is a heteroscedasticity than the type of correction will be assigned
 
-  Model <- estimatr::lm_robust(formula = DV ~ ., se_type = regType, data = Data)   # Performing the model againg with correction (if neaded)
+  Model_1 <- estimatr::lm_robust(formula = DV ~ ., se_type = regType, data = Data)   # Performing the model againg with correction (if neaded)
 
-  betaCoeff <- effectsize::standardize_parameters(Model)
+  if(regType == 'classical'){
+
+    betaCoeff <- effectsize::standardize_parameters(Model, robust = FALSE, method = 'refit')
+
+  }else{
+
+    betaCoeff <- effectsize::standardize_parameters(Model, robust = TRUE, method = 'refit')
+  }
 
 
-  L <- list(Model_Summary = Model, Standardized_beta_Coeff = betaCoeff, VIF_Values = vifValues, se_type = regType)
+
+
+  L <- list(Model_Summary = Model_1, Standardized_beta_Coeff = betaCoeff, VIF_Values = vifValues, se_type = regType)
 
   if(Continue == 0){    # If at list one of the VIF values is greater than 10 than printing the warning together with the VIF values
 
