@@ -20,6 +20,11 @@
 #'
 multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
+  #Parameters for test
+  DV = simulateData$Score
+  Predictors = simulateData[, c('Age', 'Condition', 'gameTime')]
+
+
   Data <- data.frame(DV = DV, Predictors)
 
   Model <- stats::lm(formula = DV ~ ., data = Data)  # Predicting a linear model without correction
@@ -48,22 +53,8 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
   Model <- estimatr::lm_robust(formula = DV ~ ., se_type = regType, data = Data)   # Performing the model againg with correction (if neaded)
 
+  betaCoeff <- effectsize::standardize_parameters(Model)
 
-  # Scaking the DV and every continuous variable
-  DV <- scale(DV)
-  for (columnIndex in 1:ncol(Predictors)){
-
-    if(typeof(Predictors[, columnIndex]) == 'double' | typeof(Predictors[, columnIndex]) == 'numeric' | typeof(Predictors[, columnIndex]) == 'integer'){
-
-      Predictors[, columnIndex] <- scale(Predictors[, columnIndex])
-
-    }
-  }
-
-  Data <- data.frame(DV = DV, Predictors)
-
-  scaledModel <- estimatr::lm_robust(formula = DV ~ ., se_type = regType, data = Data)  # Performing the model witht the scaled values
-  betaCoeff   <- round(scaledModel$coefficients, 2)  # Extracting the standardized beta coefficients
 
   L <- list(Model_Summary = Model, Standardized_beta_Coeff = betaCoeff, VIF_Values = vifValues, se_type = regType)
 
