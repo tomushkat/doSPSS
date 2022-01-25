@@ -16,6 +16,11 @@
 #'
 CT <- function(rowFactor, colFactor, freqCorrect = 5){
 
+  # Parameters for validation
+  # rowFactor = simulateData$Gender
+  # colFactor = simulateData$Condition
+  # freqCorrect = 5
+
   Data <- data.frame(rowFactor, colFactor)
   Data <- Data[stats::complete.cases(Data), ]
 
@@ -58,15 +63,16 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
 
     if(L1 == 2 & L2 == 2){  # If there are 4 cells in total Phi value will be produced
 
+      typeEF <- c('phi')
+    }else{
+      typeEF <- c('cramers_v')
+    }
+
       EF <- effectsize::effectsize(model = EFmodel,
-                                   type = 'phi', ci = .95, alternative = "two.sided")
-
-    }else{EF <- effectsize::effectsize(model = EFmodel,
-                                   type = 'cramers_v', ci = .95, alternative = "two.sided")}  # If there are more than 4 cells in total, Cramer's V will be produced
-
+                                   type = typeEF, ci = .95, alternative = "two.sided")
   }else{
 
-    EF <- NULL
+      EF <- NULL
 
   }
 
