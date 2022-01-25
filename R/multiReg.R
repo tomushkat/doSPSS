@@ -21,8 +21,8 @@
 multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
   #Parameters for test
-  DV = simulateData$Score
-  Predictors = simulateData[, c('Age', 'Condition', 'gameTime')]
+  # DV = simulateData$Score
+  # Predictors = simulateData[, c('Age', 'Condition', 'gameTime')]
 
 
   Data <- data.frame(DV = DV, Predictors)
