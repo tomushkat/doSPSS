@@ -22,6 +22,11 @@
 #' @examples twoWay(DV = simulateData$Score, IDV1 = simulateData$Condition, IDV2 = simulateData$Gender)
 twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
+  # Parameters for validation
+  # DV = simulateData$Score
+  # IDV1 = simulateData$Condition
+  # IDV2 = simulateData$Gender
+
   Data <- data.frame(DV, IDV1, IDV2)
   Data <- Data[stats::complete.cases(Data), ]
   Data <- Data %>%
@@ -43,11 +48,12 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
     varLeven     <- ifelse(Leven1$`Pr(>F)`[1] < .05 | Leven2$`Pr(>F)`[1] < .05 | Leven3$`Pr(>F)`[1] < .05, TRUE, FALSE)  # if at list onw of the variances are not equals than TRUE for performing correction
     modelTwoWay  <- stats::aov(formula = DV ~ IDV1 * IDV2, data = Data)    # Performing the two way ANOVA with stats package
     Model        <- car::Anova(mod = modelTwoWay, type = 'III', white.adjust = varLeven)  # Performing the model with correction (optional) and as type 3 ANOVA using the car package
+    ModelEF      <- car::Anova(mod = modelTwoWay, type = 'III')
 
     if(Model$`Pr(>F)`[2] < 0.05 | Model$`Pr(>F)`[3] < 0.05 | Model$`Pr(>F)`[4] < 0.05){  # If at list one of the effect is significant
 
-      EF <- effectsize::effectsize(model = modelTwoWay,                                    # Perform as effect size
-                                   type = 'eta', ci = .95, alternative = "two.sided")
+      EF <- effectsize::eta_squared(model = ModelEF,                                    # Perform as effect size
+                                    ci = .95, alternative = "two.sided")
 
       if(Model$`Pr(>F)`[2] < 0.05 & length(unique(Data$IDV1)) > 2){   # Test weather there are more than two levels for IDV 1 and it is significant
 
