@@ -22,6 +22,10 @@
 #'
 oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
+  # Parameters for test
+  # DV = simulateData$Score
+  # IDV = simulateData$Condition
+
   Data <- data.frame(DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
   Data <- Data %>%
@@ -42,12 +46,12 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
     varLeven    <- ifelse(Leven$`Pr(>F)`[1] < .05, TRUE, FALSE)  # If the variances are not equale than TRUE
     modelOneWay <- stats::aov(formula = DV ~ IDV, data = Data)   # Preforming the ANOVA with stats package, without correction
     Model       <- car::Anova(mod = modelOneWay, type = 'III', white.adjust = varLeven)  # Preforming the model with car package with correction (optional) and as type 3
+    ModelForEF  <- car::Anova(mod = modelOneWay, type = 'III')
 
     if(Model$`Pr(>F)`[2] < 0.05){    # If the model is significant
 
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
-      EF <- effectsize::effectsize(model = modelOneWay,
-                                   type = 'eta', ci = .95, alternative = "two.sided")   # Perform effect size
+      EF <- effectsize::eta_squared(ModelForEF, ci = .95, alternative = "two.sided")   # Perform effect size
 
     }else{PH <- NULL
           EF <- NULL}
