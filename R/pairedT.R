@@ -81,7 +81,7 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
     Res <- Data$DV[1:(nrow(Data) / 2)] - Data$DV[((nrow(Data) / 2) + 1):nrow(Data)]
     shapiroTest <- stats::shapiro.test(Res)
     if(shapiroTest$p.value < .05){
-      Warning <- c('Warning: There are fewer than 30 observations, and the differences distribution is not normal. Considre to use an Wilcoxon test (Parametric = FALSE)')
+      Warning <- c("Warning: There are fewer than 30 observations, and the differences' distribution is not normal. Considre to use an Wilcoxon test (Parametric = FALSE)")
       Warning
     }
   }
