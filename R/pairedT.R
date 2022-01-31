@@ -19,10 +19,15 @@
 #'
 pairedT <- function(DV, IDV, Within, Parametric = TRUE){
 
+  # Parameters for test
+  # DV = simulateData$Score
+  # IDV = simulateData$Gender
+  # Within = simulateData$ID
+  # Parametric = TRUE
+
   Data <- data.frame(DV, IDV, Within)
   Data <- Data[stats::complete.cases(Data), ]
-  Data <- Data %>%
-    dplyr::arrange(Within, IDV)   # Arranging the data by the ID and the IDV
+
 
   Statistics <- Data %>%
     dplyr::group_by(IDV) %>%
@@ -36,7 +41,7 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
 
   if(Parametric == TRUE){   # If the model is parametric
 
-    Model <- Model       <- stats::t.test(formula = DV ~ IDV, data = Data,
+    Model <- stats::t.test(formula = DV ~ IDV, data = Data,
                                           alternative = "two.sided", mu = 0, paired = TRUE, conf.level = 0.95)  # Performing a paired t-test
 
     if(Model$p.value < 0.05){   # If the model is significant
@@ -68,6 +73,18 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
   L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Figure = Figure)
+
+
+  if(Parametric == TRUE & nrow(Data) < 60){
+    Data <- Data %>%
+      dplyr::arrange(IDV, Within)   # Arranging the data by the ID and the IDV
+    Res <- Data$DV[1:(nrow(Data) / 2)] - Data$DV[((nrow(Data) / 2) + 1):nrow(Data)]
+    shapiroTest <- stats::shapiro.test(Res)
+    if(shapiroTest$p.value < .05){
+      Warning <- c('Warning: There are fewer than 30 observations, and the differences distribution is not normal. Considre to use an Wilcoxon test (Parametric = FALSE)')
+      Warning
+    }
+  }
 
   return(L)
 
