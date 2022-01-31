@@ -88,7 +88,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     }
     shapiroTest <- stats::shapiro.test(Res)
     if(shapiroTest$p.value < .05){
-      Warning <- c('Warning: At list one of the groups has fewer than 30 observations, and the residuals distribution is not normal. Considre to use an Mann-Whitney test')
+      Warning <- c('Warning: At list one of the groups has fewer than 30 observations, and the residuals distribution is not normal. Considre to use an Mann-Whitney test (Parametric = FALSE)')
       Warning
     }
   }
