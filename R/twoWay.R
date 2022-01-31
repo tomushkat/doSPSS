@@ -23,9 +23,9 @@
 twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
   # Parameters for validation
-  # DV = simulateData$Score
-  # IDV1 = simulateData$Condition
-  # IDV2 = simulateData$Gender
+  DV = simulateData$Score
+  IDV1 = simulateData$Condition
+  IDV2 = simulateData$Gender
 
   Data <- data.frame(DV, IDV1, IDV2)
   Data <- Data[stats::complete.cases(Data), ]
@@ -94,6 +94,22 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
   L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc_IDV1 = phIDV1, Post_hoc_IDV2 = phIDV2, Post_hoc_Interaction = phInteraction, Variance_Correction = varLeven, Figure = Figure)
+
+  freq <- table(IDV1, IDV2)
+  if(Parametric == TRUE & (sum(as.numeric(freq < 30)) > 0)){
+    if(trueVarTest == FALSE){
+      lmModel <- stats::lm(formula = DV ~ IDV1 * IDV2, data = Data)
+      Res <- lmModel$residuals
+    }else{
+      lmModel <- estimatr::lm_robust(formula = DV ~ IDV1 * IDV2, se_type = 'HC2', data = Data)
+      Res <- Data$DV - lmModel$fitted.values
+    }
+    shapiroTest <- stats::shapiro.test(Res)
+    if(shapiroTest$p.value < .05){
+      Warning <- c("Warning: At list one of the groups has fewer than 30 observations, and the residuals' distribution is not normal.")
+      Warning
+    }
+  }
 
   return(L)
 
