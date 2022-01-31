@@ -23,8 +23,8 @@
 oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
   # Parameters for test
-  # DV = simulateData$Score
-  # IDV = simulateData$Condition
+  DV = simulateData$Score
+  IDV = simulateData$Condition
 
   Data <- data.frame(DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
@@ -80,6 +80,22 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
   L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH, Variance_Correction = varLeven, Figure = Figure)
+
+  freq <- table(IDV)
+  if(Parametric == TRUE & (sum(as.numeric(freq < 30)) > 0)){
+    if(trueVarTest == FALSE){
+      lmModel <- stats::lm(formula = DV ~ IDV, data = Data)
+      Res <- lmModel$residuals
+    }else{
+      lmModel <- estimatr::lm_robust(formula = DV ~ IDV, se_type = 'HC2', data = Data)
+      Res <- Data$DV - lmModel$fitted.values
+    }
+    shapiroTest <- stats::shapiro.test(Res)
+    if(shapiroTest$p.value < .05){
+      Warning <- c('Warning: At list one of the groups has fewer than 30 observations, and the residuals distribution is not normal. Considre to use an kruskal-wallis test (Parametric = FALSE)')
+      Warning
+    }
+  }
 
   return(L)
 
