@@ -22,8 +22,14 @@
 #'
 indttest <- function(DV, IDV, Parametric = TRUE){
 
+  # Parae=nmeters for test
+  # DV = simulateData$Score
+  # IDV = simulateData$Gender
+
+
   Data <- data.frame(DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
+
 
   Statistics <- Data %>%
     dplyr::group_by(IDV) %>%
@@ -69,7 +75,23 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Variance_Correction = trueVarTest, Figure = Figure)
+  L <- list(Warning, Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Variance_Correction = trueVarTest, Figure = Figure)
+
+  freq <- table(IDV)
+  if(Parametric == TRUE & ((freq[1] | freq[2]) < 30)){
+    if(trueVarTest == FALSE){
+      lmModel <- stats::lm(formula = DV ~ IDV, data = Data)
+      Res <- lmModel$residuals
+    }else{
+      lmModel <- estimatr::lm_robust(formula = DV ~ IDV, se_type = 'HC2', data = Data)
+      Res <- Data$DV - lmModel$fitted.values
+    }
+    shapiroTest <- stats::shapiro.test(Res)
+    if(shapiroTest$p.value < .05){
+      Warning <- c('Warning: At list one of the groups has fewer than 30 observations, and the residuals distribution is not normal. Considre to use an Mann-Whitney test')
+      Warning
+    }
+  }
 
   return(L)
 
