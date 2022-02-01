@@ -23,9 +23,9 @@
 twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
   # Parameters for validation
-  DV = simulateData$Score
-  IDV1 = simulateData$Condition
-  IDV2 = simulateData$Gender
+  # DV = simulateData$Score
+  # IDV1 = simulateData$Condition
+  # IDV2 = simulateData$Gender
 
   Data <- data.frame(DV, IDV1, IDV2)
   Data <- Data[stats::complete.cases(Data), ]
