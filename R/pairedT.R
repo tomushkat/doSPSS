@@ -39,6 +39,7 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
     )
 
 
+  EF <- NULL
   if(Parametric == TRUE){   # If the model is parametric
 
     Model <- stats::t.test(formula = DV ~ IDV, data = Data,
@@ -49,14 +50,13 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
       EF <- effectsize::effectsize(model = Model,
                                    type = 'cohens_d', ci = .95, alternative = "two.sided")  # Performing effect size
 
-    }else{EF <- NULL}
+    }
 
   }else{  # If the model is A-parametric
 
     Model <- stats::wilcox.test(formula = DV ~ IDV, data = Data,                        # Performing Wilcoxon
                                 paired = TRUE, alternative = "two.sided", exact = NULL, mu = 0, correct = FALSE,
                                 conf.int = FALSE, conf.level = 0.95)
-    EF <- NULL
 
   }
 
