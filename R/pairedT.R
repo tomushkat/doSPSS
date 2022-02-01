@@ -60,6 +60,7 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
 
   }
 
+  Data$IDV <- as.factor(Data$IDV)
   Figure <-
     ggplot2::ggplot(Data, ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
     ggplot2::geom_boxplot(color = 'purple', alpha = 2) +
