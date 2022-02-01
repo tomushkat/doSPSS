@@ -23,9 +23,9 @@
 twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
   # Parameters for validation
-  # DV = simulateData$Score
-  # IDV1 = simulateData$Condition
-  # IDV2 = simulateData$Gender
+  DV = simulateData$Score
+  IDV1 = simulateData$Condition
+  IDV2 = simulateData$Gender
 
   Data <- data.frame(DV, IDV1, IDV2)
   Data <- Data[stats::complete.cases(Data), ]
@@ -50,6 +50,14 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
     Model        <- car::Anova(mod = modelTwoWay, type = 'III', white.adjust = varLeven)  # Performing the model with correction (optional) and as type 3 ANOVA using the car package
     ModelEF      <- car::Anova(mod = modelTwoWay, type = 'III')
 
+
+    phIDV1        <- NULL
+    phIDV2        <- NULL
+    phInteraction <- NULL
+    EF            <- NULL
+
+
+
     if(Model$`Pr(>F)`[2] < 0.05 | Model$`Pr(>F)`[3] < 0.05 | Model$`Pr(>F)`[4] < 0.05){  # If at list one of the effect is significant
 
       EF <- effectsize::eta_squared(model = ModelEF,                                    # Perform as effect size
@@ -59,13 +67,13 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
         phIDV1 <- postHoc(DV = Data$DV, IDV = Data$IDV1, Paired = FALSE, Correction = Correct)   # Performing a post hoc for IDV 1
 
-      }else{phIDV1 <- NULL}
+      }
 
       if(Model$`Pr(>F)`[3] < 0.05 & length(unique(Data$IDV2)) > 2){   # Test weather there are more than two levels for IDV 2 and it is significant
 
         phIDV2 <- postHoc(DV = Data$DV, IDV = Data$IDV2, Paired = FALSE, Correction = Correct)  # Performing a post hoc for IDV 2
 
-      }else{phIDV2 <- NULL}
+      }
 
       if(Model$`Pr(>F)`[4] < 0.05){   # Test weather the interaction is significant
 
@@ -73,14 +81,7 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
           dplyr::mutate(phIDV = paste0(IDV1, IDV2))   # Creating a new IDV variable for the interaction
         phInteraction <- postHoc(DV = Data$DV, IDV = Data$phIDV, Paired = FALSE, Correction = Correct)  # Performing a post hoc for the interaction
 
-      }else{phInteraction <- NULL}
-
-    }else{   # If there is no effect than every thins is NULL
-
-      phIDV1        <- NULL
-      phIDV2        <- NULL
-      phInteraction <- NULL
-      EF            <- NULL
+      }
 
     }
 
@@ -96,7 +97,7 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
   L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc_IDV1 = phIDV1, Post_hoc_IDV2 = phIDV2, Post_hoc_Interaction = phInteraction, Variance_Correction = varLeven, Figure = Figure)
 
   freq <- table(IDV1, IDV2)
-  if(Parametric == TRUE & (sum(as.numeric(freq < 30)) > 0)){
+  if(sum(as.numeric(freq < 30)) > 0){
     if(trueVarTest == FALSE){
       lmModel <- stats::lm(formula = DV ~ IDV1 * IDV2, data = Data)
       Res <- lmModel$residuals
