@@ -23,8 +23,10 @@
 oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
   # Parameters for test
-  DV = simulateData$Score
-  IDV = simulateData$Condition
+  # DV = simulateData$Score
+  # IDV = simulateData$Condition
+  # Parametric = TRUE
+  # Correct = 'BH'
 
   Data <- data.frame(DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
@@ -40,6 +42,12 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
       N      = length(DV)
     )
 
+
+
+  EF <- NULL
+  PH <- NULL
+
+
   if(Parametric == TRUE){                     # if the model is  parametric
 
     Leven       <- car::leveneTest(Data$DV ~ Data$IDV)           # Variance test
@@ -53,15 +61,12 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::eta_squared(ModelForEF, ci = .95, alternative = "two.sided")   # Perform effect size
 
-    }else{PH <- NULL
-          EF <- NULL}
+    }
 
   }else{
 
     Model <- stats::kruskal.test(formula = DV ~ IDV, data = Data)    # if not parametric, perform kruskal wallis
-    EF <- NULL
     varLeven <- NULL
-    PH <- NULL
 
     if(Model$p.value < 0.05){  # If the model is significant
 
@@ -69,6 +74,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
     }
   }
+
 
   Figure <- ggplot2::ggplot(Data, mapping = ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
     ggplot2::geom_boxplot(color = 'purple', alpha = 2) +
