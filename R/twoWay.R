@@ -85,6 +85,8 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
     }
 
+    Data$IDV1 <- as.factor(Data$IDV1)
+    Data$IDV2 <- as.factor(Data$IDV2)
   Figure <- ggplot2::ggplot(Data, mapping = ggplot2::aes(x = IDV1, y = DV, fill = IDV2)) +
     ggplot2::geom_boxplot(color = 'purple', alpha = 2, position = ggplot2::position_dodge(0.8)) +
     ggplot2::geom_violin(alpha = 0.1, position = ggplot2::position_dodge(0.8)) +
