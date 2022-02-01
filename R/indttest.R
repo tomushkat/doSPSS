@@ -74,7 +74,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Warning, Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Variance_Correction = trueVarTest, Figure = Figure)
+  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Variance_Correction = trueVarTest, Figure = Figure)
 
   freq <- table(IDV)
   if(Parametric == TRUE & ((freq[1] | freq[2]) < 30)){
@@ -88,7 +88,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     shapiroTest <- stats::shapiro.test(Res)
     if(shapiroTest$p.value < .05){
       Warning <- c("Warning: At list one of the groups has fewer than 30 observations, and the residuals' distribution is not normal. Considre to use an Mann-Whitney test (Parametric = FALSE)")
-      Warning
+      print(Warning)
     }
   }
 
