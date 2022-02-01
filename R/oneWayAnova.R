@@ -75,7 +75,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
     }
   }
 
-
+  Data$IDV <- as.factor(Data$IDV)
   Figure <- ggplot2::ggplot(Data, mapping = ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
     ggplot2::geom_boxplot(color = 'purple', alpha = 2) +
     ggplot2::geom_violin(alpha = 0.1) +
