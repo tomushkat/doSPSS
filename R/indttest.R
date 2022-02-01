@@ -22,10 +22,10 @@
 #'
 indttest <- function(DV, IDV, Parametric = TRUE){
 
-  # Parae=nmeters for test
+  # Parameters for test
   # DV = simulateData$Score
   # IDV = simulateData$Gender
-
+  # Parametric = TRUE
 
   Data <- data.frame(DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
@@ -40,6 +40,8 @@ indttest <- function(DV, IDV, Parametric = TRUE){
       N      = length(DV)
     )
 
+  EF <- NULL
+
   if(Parametric == TRUE){
     varTest     <- stats::var.test(formula = DV ~ IDV, data = Data)
     trueVarTest <- ifelse(varTest$p.value < 0.05, FALSE, TRUE)
@@ -50,17 +52,14 @@ indttest <- function(DV, IDV, Parametric = TRUE){
 
       EF <- effectsize::effectsize(model = Model,
                                    type = 'cohens_d', ci = .95, alternative = "two.sided")
-
-    }else{EF <- NULL}
+    }
 
   }else{
 
     Model <- stats::wilcox.test(formula = DV ~ IDV, data = Data,
                                 paired = FALSE, alternative = "two.sided", exact = NULL, mu = 0, correct = FALSE,
                                 conf.int = FALSE, conf.level = 0.95)
-    EF <- NULL
     trueVarTest <- NULL
-
   }
 
   Figure <-
