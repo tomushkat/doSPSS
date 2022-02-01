@@ -22,6 +22,12 @@
 #'
 rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
 
+  # Parameters for test
+  # DV = simulateData$gameTime
+  # IDV = simulateData$measureTime
+  # Within = simulateData$ID
+  # Correct = 'BH'
+
   Data <- data.frame(Within, DV, IDV)
   Data <- Data[stats::complete.cases(Data), ]
   Data <- Data %>%                            # Arranging the data by ID and IDV
@@ -37,6 +43,10 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
       N      = length(DV)
     )
 
+
+  PH <- NULL
+  EF <- NULL
+
   if(Parametric == TRUE){  # if the model is  parametric
 
     Model <- stats::aov(formula = DV ~ IDV + Error(Within / IDV), data = Data) # Preforming the ANOVA with stats package
@@ -47,19 +57,15 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Within = Data$Within, Paired = TRUE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::effectsize(model = Model,
                                    type = 'eta', ci = .95, alternative = "two.sided")  # Perform effect size
-
-    }else{PH <- NULL
-          EF <- NULL}
+    }
 
   }else{
 
     sumModel <- stats::friedman.test(formula = DV ~ Within | IDV, data = Data)  # if not parametric, perform friedman
-    EF       <- NULL
 
     if(sumModel$p.value < 0.05){ # If the model is significant
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Within = Data$Within, Paired = TRUE, Parametric = FALSE, Correction = Correct) # Perform post hoc
-
-    }else{PH <- NULL}
+    }
   }
 
   Figure <-
