@@ -67,6 +67,18 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
   L <- list(Model_Summary = Model_1, Standardized_beta_Coeff = betaCoeff, VIF_Values = vifValues, se_type = regType)
 
+  if(nrow(Data < 30)){
+    Res <- Data$DV - Model_1$fitted.values
+    shapiroTest <- stats::shapiro.test(Res)
+    if(shapiroTest$p.value < .05){
+      Warning <- c("Warning: The residuals' distribution is not normal.")
+      Warning
+
+    }
+
+  }
+
+
   if(Continue == 0){    # If at list one of the VIF values is greater than 10 than printing the warning together with the VIF values
 
     print("Warning: There is a multicollinearity in the model. One of the predictors' VIF is greater than 10. Consider to exlude predictors")
