@@ -12,6 +12,7 @@
 #' @return A list with the following components:
 #' @return Model_Summary: The model's summary with unstandardized beta coefficients,
 #' @return Standardized_beta_Coeff: Standardized beta coefficients
+#' @return Model_Statistics: The model's F value as a sentance
 #' @return VIF_Values: VIF values
 #' @return se_type: Type of correction for heteroscedasticity if was used
 #' @export
