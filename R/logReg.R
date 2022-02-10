@@ -18,6 +18,11 @@
 
 logReg <- function(DV, Predictors, Classification = 0.5){
 
+  # Parameters for test
+  # DV = simulateData$Gender
+  # Predictors = simulateData[, c('Age', 'Score')]
+  # Classification = 0.5
+
   if(typeof(DV) == "character"){      # If the DV is of string type, convert it to 1 and 0 (0 is the first by Alphbetic order)
     DV <- as.numeric(as.factor(DV))
     DV <- DV - 1
@@ -36,18 +41,23 @@ logReg <- function(DV, Predictors, Classification = 0.5){
   NagelkerkePrint <- paste0(100 * round(Nagelkerke$Pseudo.R.squared.for.model.vs.null[3], 4), "%") # Extracting the explained variance
 
   Hoslem          <- ResourceSelection::hoslem.test(x = regLog1$y, y = fitted(regLog1), g = 10)  # Calculating the significance of the accuracy
+  hoslemStatistic <- round(Hoslem$statistic, 2)
+  hoslemP         <- round(Hoslem$p.value, 2)
   binaryCorrect   <- ifelse(regLog1$fitted.values > Classification, 1, 0)                        # Creating a vector of 1 and 0 (by the probabilities of each ID to be 1, and the Classification value)
   Prediction      <- table(Data$DV, binaryCorrect)                                                    # Creating a table with the predicted values and the actual DV values
   Accuracy        <- paste0(round((Prediction[1, 1] + Prediction[2, 2]) / sum(Prediction) * 100, 2), "%")   # Calculating the Accuracy
   Sensitivity     <- paste0(round(Prediction[2, 2] / (Prediction[2, 2] + Prediction[1, 1]) * 100, 2), "%")  # Calculating the sensitivity
   Specificity     <- paste0(round(Prediction[1, 1] / (Prediction[1, 1] + Prediction[1, 2]) * 100, 2), "%")  # Calculating the specificity
 
-  paragraphSummary <- paste0("The model's significance by the Nagelkerke is (X**2(", dfdiff, ') = ', round(cdiff, 2), ', p = ', round(p, 2), '), while explaining ', NagelkerkePrint, ' of the total variance in the dependent variable. The model fit to the data by the Hosmer-Lemeshow Goodness of Fit test is (X**2(8) = ',  round(Hoslem$statistic, 2), ', p = ', round(Hoslem$p.value, 2),
-               '), while classifying about ', Accuracy, ", of total observations. The model sensitivity and specificity are ",  Sensitivity, ' and ', Specificity, ' respectively.')
 
+  paragraphSummary <- paste0("The model's significance by the Nagelkerke is (X**2(", dfdiff, ') = ', round(cdiff, 2),
+                             ', p = ', round(p, 2), '), while explaining ', NagelkerkePrint,
+                             ' of the total variance in the dependent variable. The model fit to the data by the Hosmer-Lemeshow Goodness of Fit test is (X**2(8) = ',
+                             hoslemStatistic, ', p = ', hoslemP, '), while classifying about ', Accuracy,
+                             ", of total observations. The model sensitivity and specificity are ",
+                             Sensitivity, ' and ', Specificity, ' respectively.')
 
   L <- list(Paragraph_Summary = paragraphSummary, Model_Summary = summary(regLog1), Odds_Ratio = ORCI)
-
 
   return(L)
 
