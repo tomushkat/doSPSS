@@ -27,53 +27,38 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
   sumation1 <- Data %>%
     dplyr::group_by(rowFactor) %>%
     dplyr::summarise(S = length(colFactor))  # Calculation the total observations for each row
-
   L1 <- nrow(sumation1)  # Calculation of how many rows
 
   sumation2 <- Data %>%
     dplyr::group_by(colFactor) %>%
     dplyr::summarise(S = length(rowFactor))   # Calculation the total observations for each column
-
   L2 <- nrow(sumation2)   # Calculation of how many columns
 
   doFisher <- ifelse(sum(as.numeric(sumation1$S < L2 * freqCorrect)) | sum(as.numeric(sumation2$S < L1 * freqCorrect))  > 0,
                      TRUE, FALSE)   # If in one of the cells there are less observations than the limit (freqCorrect) than TRUE (a Fisher Exact Test will be conducted)
   Figure <-
-    ggplot2::ggplot(Data, mapping = ggplot2::aes(x = rowFactor,  group = colFactor)) +
+    ggplot2::ggplot(Data, mapping = ggplot2::aes(x = rowFactor, group = colFactor)) +
     ggplot2::geom_bar(ggplot2::aes(y = ..prop.., fill = factor(..x..)), stat = "count") +
     ggplot2::geom_text(ggplot2::aes(label = scales::percent(..prop..),
                                     y = ..prop..), stat = "count", vjust = -0.5) +
     ggplot2::labs(y = "Percent") +
     ggplot2::facet_grid(~colFactor) +
-    ggplot2::scale_y_continuous(labels = scales::percent) + ggplot2::theme_bw() +
+    ggplot2::scale_y_continuous(labels = scales::percent) +
+    ggplot2::theme_bw() +
     ggplot2::xlab('')
 
   EFmodel <- stats::chisq.test(x = rowFactor, y = colFactor,
                                correct = FALSE)  # Performing a Chi square for the effect size calculation
 
-  #  if(doFisher == TRUE){
-  #   if(Model$chisq[3] < 0.05){
-  #     EF <- effectsize::effectsize(EFmodel)
-  # }else if(Model$fisher.ts[1] < 0.05)
-  #   EF <- effectsize::effectsize(EFmodel)
-  # }else{
-  #   EF <- NULL
-
+  EF <- NULL
   if(EFmodel$p.value < 0.05){   # If the model is significant
-
     if(L1 == 2 & L2 == 2){  # If there are 4 cells in total Phi value will be produced
-
-      typeEF <- c('phi')
+        typeEF <- c('phi')
     }else{
-      typeEF <- c('cramers_v')
-    }
-
-      EF <- effectsize::effectsize(model = EFmodel,
+        typeEF <- c('cramers_v')
+     }
+    EF <- effectsize::effectsize(model = EFmodel,
                                    type = typeEF, ci = .95, alternative = "two.sided")
-  }else{
-
-      EF <- NULL
-
   }
 
   L <- list(Effect_size = EF, Figure = Figure)
