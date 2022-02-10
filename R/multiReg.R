@@ -21,8 +21,8 @@
 multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
   #Parameters for test
-  DV = simulateData$Score
-  Predictors = simulateData[, c('Age', 'Condition', 'gameTime')]
+  # DV = simulateData$Score
+  # Predictors = simulateData[, c('Age', 'Condition', 'gameTime')]
 
 
   Data <- data.frame(DV = DV, Predictors)
@@ -63,9 +63,24 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
   }
 
 
+  Fv   <- Model_1$fstatistic[1]
+  df1  <- Model_1$fstatistic[2]
+  df2  <- Model_1$fstatistic[3]
+  Radj <- round(100 * Model_1$adj.r.squared, 2)
+  p    <- stats::pf(Fv, df1, df1, lower.tail = FALSE)
+  if(p < 0.05){
+    summaySentence <- paste0('The model was significant (F(', df1, ', ', df2, ') = ',
+                             Fv, ', p = ', p, '), explaning ',  Radj, '% of the variance in the depandant variable')
+  }else{
+
+    summaySentence <- paste0('The model was not significant (F(', df1, ', ', df2, ') = ',
+                             Fv, ', p = ', p, '), explaning ',  Radj, '% of the variance in the depandant variable')
+
+  }
 
 
-  L <- list(Model_Summary = Model_1, Standardized_beta_Coeff = betaCoeff, VIF_Values = vifValues, se_type = regType)
+
+  L <- list(Model_Summary = Model_1, Standardized_beta_Coeff = betaCoeff, Model_Statistics = summaySentence, VIF_Values = vifValues, se_type = regType)
 
   if(nrow(Data < 30)){
     Res <- Data$DV - Model_1$fitted.values
