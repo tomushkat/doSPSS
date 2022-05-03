@@ -28,8 +28,9 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
   # IDV2 = simulateData$Gender
 
   Data <- data.frame(DV, IDV1, IDV2)
-  Data <- Data[stats::complete.cases(Data), ]
+  # Data <- Data[stats::complete.cases(Data), ]
   Data <- Data %>%
+    tidyr::drop_na() %>%
     dplyr::mutate(IDV1 = as.factor(IDV1),
                   IDV2 = as.factor(IDV2))
 
