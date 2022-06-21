@@ -41,7 +41,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
       N      = length(DV)
     )
 
-  EF <- NULL
+  EF <- "No size effect for anparametric test"
 
   if(Parametric == TRUE){
     varTest     <- stats::var.test(formula = DV ~ IDV, data = Data)
@@ -60,7 +60,6 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     Model <- stats::wilcox.test(formula = DV ~ IDV, data = Data,
                                 paired = FALSE, alternative = "two.sided", exact = NULL, mu = 0, correct = FALSE,
                                 conf.int = FALSE, conf.level = 0.95)
-    trueVarTest <- "No size effect for anparametric test"
   }
 
   Data$IDV <- as.factor(Data$IDV)
@@ -76,7 +75,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Variance_Correction = !trueVarTest, Figure = Figure)
+  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Variance_Equality = trueVarTest, Figure = Figure)
 
   freq <- table(IDV)
   if(Parametric == TRUE & ((freq[1] | freq[2]) < 30)){
