@@ -27,8 +27,9 @@ indttest <- function(DV, IDV, Parametric = TRUE){
   # IDV = simulateData$Gender
   # Parametric = TRUE
 
-  Data <- data.frame(DV, IDV)
-  Data <- Data[stats::complete.cases(Data), ]
+  Data <- data.frame(DV, IDV) %>%
+    tidyr::drop_na()
+  # Data <- Data[stats::complete.cases(Data), ]
 
 
   Statistics <- Data %>%
@@ -59,7 +60,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     Model <- stats::wilcox.test(formula = DV ~ IDV, data = Data,
                                 paired = FALSE, alternative = "two.sided", exact = NULL, mu = 0, correct = FALSE,
                                 conf.int = FALSE, conf.level = 0.95)
-    trueVarTest <- NULL
+    trueVarTest <- "No size effect for anparametric test"
   }
 
   Data$IDV <- as.factor(Data$IDV)
