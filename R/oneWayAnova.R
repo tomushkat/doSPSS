@@ -28,8 +28,9 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
   # Parametric = TRUE
   # Correct = 'BH'
 
-  Data <- data.frame(DV, IDV)
-  Data <- Data[stats::complete.cases(Data), ]
+  Data <- data.frame(DV, IDV) %>%
+    tidyr::drop_na()
+  # Data <- Data[stats::complete.cases(Data), ]
   Data <- Data %>%
     dplyr::mutate(IDV = as.factor(IDV))
 
@@ -43,9 +44,9 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
     )
 
 
-
-  EF <- NULL
-  PH <- NULL
+  EF       <- "No effect size for aparametric test"
+  varLeven <- 'No variation equality neaded of aparametric test'
+  PH       <- 'No post hoc analysis for insignificant results'
 
 
   if(Parametric == TRUE){                     # if the model is  parametric
@@ -66,7 +67,6 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
   }else{
 
     Model <- stats::kruskal.test(formula = DV ~ IDV, data = Data)    # if not parametric, perform kruskal wallis
-    varLeven <- NULL
 
     if(Model$p.value < 0.05){  # If the model is significant
 

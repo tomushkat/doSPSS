@@ -28,8 +28,9 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
   # Within = simulateData$ID
   # Correct = 'BH'
 
-  Data <- data.frame(Within, DV, IDV)
-  Data <- Data[stats::complete.cases(Data), ]
+  Data <- data.frame(Within, DV, IDV) %>%
+    tidyr::drop_na()
+  # Data <- Data[stats::complete.cases(Data), ]
   Data <- Data %>%                            # Arranging the data by ID and IDV
     dplyr::mutate(Within = as.factor(Within)) %>%
     dplyr::arrange(Within, IDV)
@@ -44,8 +45,8 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
     )
 
 
-  PH <- NULL
-  EF <- NULL
+  PH <- 'No post hoc analysis for insignificant results'
+  EF <- "No effect size for aparametric test or insignificant results"
 
   if(Parametric == TRUE){  # if the model is  parametric
 

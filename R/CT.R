@@ -21,8 +21,8 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
   # colFactor = simulateData$Condition
   # freqCorrect = 5
 
-  Data <- data.frame(rowFactor, colFactor)
-  Data <- Data[stats::complete.cases(Data), ]
+  Data <- data.frame(rowFactor, colFactor) %>%
+    tidyr::drop_na()
 
   sumation1 <- Data %>%
     dplyr::group_by(rowFactor) %>%

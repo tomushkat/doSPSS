@@ -25,8 +25,9 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
   # Within = simulateData$ID
   # Parametric = TRUE
 
-  Data <- data.frame(DV, IDV, Within)
-  Data <- Data[stats::complete.cases(Data), ]
+  Data <- data.frame(DV, IDV, Within) %>%
+    tidyr::drop_na()
+  # Data <- Data[stats::complete.cases(Data), ]
 
 
   Statistics <- Data %>%
@@ -39,7 +40,8 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
     )
 
 
-  EF <- NULL
+  EF <- "No effect size for aparametric test or insignificant results"
+
   if(Parametric == TRUE){   # If the model is parametric
 
     Model <- stats::t.test(formula = DV ~ IDV, data = Data,

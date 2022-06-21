@@ -41,7 +41,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
       N      = length(DV)
     )
 
-  EF <- "No size effect for aparametric test"
+  EF <- "No effect size for aparametric test or insignificant results"
   trueVarTest <- 'No variation equality neaded of aparametric test'
 
   if(Parametric == TRUE){

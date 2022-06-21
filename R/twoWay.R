@@ -52,10 +52,10 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
     ModelEF      <- car::Anova(mod = modelTwoWay, type = 'III')
 
 
-    phIDV1        <- NULL
-    phIDV2        <- NULL
-    phInteraction <- NULL
-    EF            <- NULL
+    phIDV1        <- 'No post hoc analysis for insignificant results'
+    phIDV2        <- 'No post hoc analysis for insignificant results'
+    phInteraction <- 'No post hoc analysis for insignificant results'
+    EF            <- "No effect size for aparametric test or insignificant results"
 
 
 
