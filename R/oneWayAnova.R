@@ -44,7 +44,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
     )
 
 
-  EF       <- "No effect size for aparametric test"
+  EF       <- "No effect size for insignificant results"
   varLeven <- 'No variation equality neaded of aparametric test'
   PH       <- 'No post hoc analysis for insignificant results'
 
@@ -71,6 +71,12 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
     if(Model$p.value < 0.05){  # If the model is significant
 
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = FALSE, Correction = Correct)  # Perform post hoc
+
+      EF <- effectsize::rank_epsilon_squared(DV ~ IDV, data = Data,
+                                       mu = 0,
+                                       ci = 0.95,
+                                       alternative = "two.sided",
+                                       verbose = TRUE)
 
     }
   }
