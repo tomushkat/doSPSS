@@ -48,25 +48,32 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
   PH <- 'No post hoc analysis for insignificant results'
   EF <- "No effect size for aparametric test or insignificant results"
 
-  if(Parametric == TRUE){  # if the model is  parametric
+  if (Parametric == TRUE) {  # if the model is  parametric
 
     Model <- stats::aov(formula = DV ~ IDV + Error(Within / IDV), data = Data) # Preforming the ANOVA with stats package
     sumModel <- summary(Model)
 
-    if(sumModel$`Error: Within:IDV`[[1]][[5]][1] < 0.05){   # If the model is significant
+    if (sumModel$`Error: Within:IDV`[[1]][[5]][1] < 0.05) {   # If the model is significant
 
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Within = Data$Within, Paired = TRUE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::effectsize(model = Model,
                                    type = 'eta', ci = .95, alternative = "two.sided")  # Perform effect size
     }
 
-  }else{
+  } else {
 
     sumModel <- stats::friedman.test(formula = DV ~ Within | IDV, data = Data)  # if not parametric, perform friedman
 
-    if(sumModel$p.value < 0.05){ # If the model is significant
-      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Within = Data$Within, Paired = TRUE, Parametric = FALSE, Correction = Correct) # Perform post hoc
-    }
+    if (sumModel$p.value < 0.05) { # If the model is significant
+
+      PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Within = Data$Within,
+                    Paired = TRUE, Parametric = FALSE, Correction = Correct) # Perform post hoc
+      EF <- effectsize::kendalls_w(x = DV, groups = IDV, blocks = Within, data = Data,
+                                   ci = 0.95,
+                                   alternative = "two.sided",
+                                   iterations = 200,
+                                   verbose = TRUE)
+      }
   }
 
   Data$IDV <- as.factor(Data$IDV)
