@@ -68,7 +68,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
 
     if (Model$p.value < 0.05) {
 
-      EF <- effectsize::rank_epsilon_squared(DV ~ IDV, data = Data,
+      EF <- effectsize::rank_biserial(DV ~ IDV, data = Data,
                                              mu = 0,
                                              ci = 0.95,
                                              alternative = "two.sided",
