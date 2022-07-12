@@ -41,7 +41,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
       N      = length(DV)
     )
 
-  EF <- "No effect size for aparametric test or insignificant results"
+  EF <- "No effect size for insignificant results"
   trueVarTest <- 'No variation equality neaded of aparametric test'
 
   if(Parametric == TRUE){
@@ -61,7 +61,19 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     Model <- stats::wilcox.test(formula = DV ~ IDV, data = Data,
                                 paired = FALSE, alternative = "two.sided", exact = NULL, mu = 0, correct = FALSE,
                                 conf.int = FALSE, conf.level = 0.95)
+
+    if(Model$p.value < 0.05){
+
+      EF <- effectsize::rank_epsilon_squared(DV ~ IDV, data = Data,
+                                             mu = 0,
+                                             ci = 0.95,
+                                             alternative = "two.sided",
+                                             verbose = TRUE)
+    }
+
   }
+
+
 
   Data$IDV <- as.factor(Data$IDV)
   Figure <-
