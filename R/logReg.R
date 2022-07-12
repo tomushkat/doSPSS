@@ -28,8 +28,9 @@ logReg <- function(DV, Predictors, Classification = 0.5){
     DV <- DV - 1
   }
 
-  Data <- data.frame(DV = DV, Predictors)
-  Data <- Data[stats::complete.cases(Data), ]
+  Data <- data.frame(DV = DV, Predictors) %>%
+    tidyr::drop_na()
+  # Data <- Data[stats::complete.cases(Data), ]
 
   regLog1 <- stats::glm(DV ~ ., family = binomial('logit'), data = Data)   # Performing a logistic regression
   ORCI    <- round(exp(cbind(Odds_Ratios = stats::coef(regLog1), stats::confint(regLog1))), 2)  # Calculation odds ratios and confidance intervales for the odds ratios

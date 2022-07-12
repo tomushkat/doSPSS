@@ -26,7 +26,8 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
   # Predictors = simulateData[, c('Age', 'Condition', 'gameTime')]
 
 
-  Data <- data.frame(DV = DV, Predictors)
+  Data <- data.frame(DV = DV, Predictors) %>%
+    tidyr::drop_na()
 
   Model <- stats::lm(formula = DV ~ ., data = Data)  # Predicting a linear model without correction
 
