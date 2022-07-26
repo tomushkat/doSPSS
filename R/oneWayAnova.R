@@ -94,7 +94,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
   L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH, Variance_Correction = varLeven, Figure = Figure)
 
   freq <- table(IDV)
-  if(Parametric == TRUE & sum(as.numeric(freq < 30)) == 0){
+  if(Parametric == TRUE & sum(as.numeric(freq < 30)) != 0){
     if(varLeven == FALSE){
       lmModel <- stats::lm(formula = DV ~ IDV, data = Data)
       Res <- lmModel$residuals

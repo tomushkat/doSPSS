@@ -93,7 +93,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
   L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Variance_Equality = trueVarTest, Figure = Figure)
 
   freq <- table(IDV)
-  if (Parametric == TRUE & sum(as.numeric(freq < 30)) == 0) {
+  if (Parametric == TRUE & sum(as.numeric(freq < 30)) != 0) {
 
     if (trueVarTest == FALSE) {
 
