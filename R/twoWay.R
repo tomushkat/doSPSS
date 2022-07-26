@@ -100,7 +100,7 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
   L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc_IDV1 = phIDV1, Post_hoc_IDV2 = phIDV2, Post_hoc_Interaction = phInteraction, Variance_Correction = varLeven, Figure = Figure)
 
   freq <- table(IDV1, IDV2)
-  if(sum(as.numeric(freq < 30)) > 0){
+  if(sum(as.numeric(freq < 30)) == 0){
     if(trueVarTest == FALSE){
       lmModel <- stats::lm(formula = DV ~ IDV1 * IDV2, data = Data)
       Res <- lmModel$residuals
@@ -110,8 +110,8 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
     }
     shapiroTest <- stats::shapiro.test(Res)
     if(shapiroTest$p.value < .05){
-      Warning <- c("Warning: At list one of the groups has fewer than 30 observations, and the residuals' distribution is not normal.")
-      Warning
+      Warning <- c("Warning: At list one of the groups has fewer than 30 observations, and the residuals' distribution is not normal.") %>%
+        print()
     }
   }
 
