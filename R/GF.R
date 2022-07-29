@@ -14,7 +14,7 @@
 #' @examples CT(rowFactor = simulateData$Gender, colFactor = simulateData$Condition)
 #'
 
-gF <- function (DV, Probs) {
+GF <- function (DV, Probs) {
 
 
   gmodles::CrossTable(DV, format = 'SPSS')
