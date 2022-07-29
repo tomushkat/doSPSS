@@ -22,7 +22,7 @@ oneSampleTest <- function (DV, MU = 0, Parametric = TRUE) {
 
   Statistics <- Data %>%
     dplyr::summarise(
-      Mean   = round(mean(DV), 2),
+      Mean   = round(stats::mean(DV), 2),
       SD     = round(stats::sd(DV), 2),
       #Median = round(stats::median(DV), 2),
       N      = length(DV)
@@ -31,7 +31,7 @@ oneSampleTest <- function (DV, MU = 0, Parametric = TRUE) {
   EF <- "No effect size for insignificant results"
   if (Parametric == TRUE) {
 
-    Model <- stats::t.test( DV, mu = MU, alternative = "two.sided")
+    Model <- stats::t.test(DV, mu = MU, alternative = "two.sided")
 
     if (Model$p.value < .05) {
 
