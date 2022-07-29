@@ -12,7 +12,7 @@
 #' @return A list with the following components:
 #' @return Descriptive_statistics: Descriptive statistics with the Mean, standard deviation, Median and N
 #' @return Model_summary: Model's summary (with or without correction for variance)
-#' @return Effect_size: Cohen's d effect size (if the model is significant and parametric)
+#' @return Effect_size: Cohen's d/rank_biserial effect size (if the model is significant and parametric)
 #' @return Variance_Correction: If TRUE a correction for the variance was conducted (the test type is 'Welch's t.test')
 #' @return Figure
 #' @export
