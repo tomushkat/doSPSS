@@ -39,7 +39,7 @@ oneSampleTest <- function(DV, MU = 0, Parametric = TRUE) {
                                    type = 'cohens_d', ci = .95,
                                    alternative = "two.sided")
     }
-    if (nrow(Data < 30)) {
+    if (nrow(Data) < 30) {
 
       Shapiro <- stats::shapiro.test(DV)
 
