@@ -14,7 +14,7 @@
 #' @export
 #'
 #' @examples oneSampleTest(DV = simulateData$Score, MU = 5)
-oneSampleTest <- function (DV, MU = 0, Parametric = TRUE) {
+oneSampleTest <- function(DV, MU = 0, Parametric = TRUE) {
 
 
   Data <- data.frame(DV) %>%
@@ -24,7 +24,7 @@ oneSampleTest <- function (DV, MU = 0, Parametric = TRUE) {
     dplyr::summarise(
       Mean   = round(mean(DV), 2),
       SD     = round(stats::sd(DV), 2),
-      Median = round(stats::median(DV), 2),
+      Median = stats::median(DV),
       N      = length(DV)
     )
 
