@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-GoF <- function (DV, Probs) {
+GoF <- function(DV, Probs) {
 
 
   EF <- NULL
@@ -26,7 +26,7 @@ GoF <- function (DV, Probs) {
 
 Figure <-
   DV %>%
-    table() %>%
+    base::table() %>%
     as.data.frame() %>%
     ggplot2::ggplot(mapping = ggplot2::aes(x=., y = Freq)) +
     ggplot2::geom_bar(stat="identity", position = "dodge") +
