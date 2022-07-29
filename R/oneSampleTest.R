@@ -22,10 +22,10 @@ oneSampleTest <- function (DV, MU = 0, Parametric = TRUE) {
 
   Statistics <- Data %>%
     dplyr::summarise(
-      Mean   = round(stats::mean(DV), 2),
-      SD     = round(stats::sd(DV), 2),
-      #Median = round(stats::median(DV), 2),
-      N      = length(DV)
+      Mean   = round(base::mean(DV), 2),
+      SD     = round(base::sd(DV), 2),
+      Median = round(stats::median(DV), 2),
+      N      = base::length(DV)
     )
 
   EF <- "No effect size for insignificant results"
