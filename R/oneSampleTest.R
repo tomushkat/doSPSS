@@ -23,7 +23,7 @@ oneSampleTest <- function (DV, MU = 0, Parametric = TRUE) {
   Statistics <- Data %>%
     dplyr::summarise(
       Mean   = round(base::mean(DV), 2),
-      SD     = round(base::sd(DV), 2),
+      SD     = round(stats::sd(DV), 2),
       Median = round(stats::median(DV), 2),
       N      = base::length(DV)
     )
