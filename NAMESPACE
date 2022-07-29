@@ -2,7 +2,7 @@
 
 export("%>%")
 export(CT)
-export(GF)
+export(GoF)
 export(convertSacle)
 export(indttest)
 export(iqrOutliers)
