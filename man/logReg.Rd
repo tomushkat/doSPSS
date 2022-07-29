@@ -28,5 +28,4 @@ Based on stats::glm(), rcompanion::nagelkerke(), ResourceSelection::hoslem.test
 }
 \examples{
 logReg(DV = simulateData$Gender, Predictors = simulateData[, c('Age', 'Score')])
-
 }

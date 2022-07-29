@@ -2,7 +2,7 @@
 % Please edit documentation in R/CT.R
 \name{CT}
 \alias{CT}
-\title{Cross table / Chi-square test}
+\title{Cross table / Chi-square for Independence test}
 \usage{
 CT(rowFactor, colFactor, freqCorrect = 5)
 }

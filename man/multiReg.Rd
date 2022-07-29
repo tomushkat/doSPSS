@@ -20,6 +20,8 @@ Model_Summary: The model's summary with unstandardized beta coefficients,
 
 Standardized_beta_Coeff: Standardized beta coefficients
 
+Model_Statistics: The model's F value as a sentance
+
 VIF_Values: VIF values
 
 se_type: Type of correction for heteroscedasticity if was used
