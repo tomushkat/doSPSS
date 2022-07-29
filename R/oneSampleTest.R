@@ -22,10 +22,10 @@ oneSampleTest <- function (DV, MU = 0, Parametric = TRUE) {
 
   Statistics <- Data %>%
     dplyr::summarise(
-      Mean   = round(base::mean(DV), 2),
+      Mean   = round(mean(DV), 2),
       SD     = round(stats::sd(DV), 2),
       Median = round(stats::median(DV), 2),
-      N      = base::length(DV)
+      N      = length(DV)
     )
 
   EF <- "No effect size for insignificant results"
@@ -41,7 +41,7 @@ oneSampleTest <- function (DV, MU = 0, Parametric = TRUE) {
     }
     if (nrow(Data < 30)) {
 
-      Shapiro <- shapiro.test(DV)
+      Shapiro <- stats::shapiro.test(DV)
 
       if(Shapiro$p.value < .05){
 
