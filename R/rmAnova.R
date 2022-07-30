@@ -48,7 +48,7 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
   PH <- 'No post hoc analysis for insignificant results'
   EF <- "No effect size for aparametric test or insignificant results"
 
-  if (Parametric == TRUE) {  # if the model is  parametric
+  if (Parametric) {  # if the model is  parametric
 
     Model <- stats::aov(formula = DV ~ IDV + Error(Within / IDV), data = Data) # Preforming the ANOVA with stats package
     sumModel <- summary(Model)

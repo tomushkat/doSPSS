@@ -44,7 +44,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
   EF <- "No effect size for insignificant results"
   trueVarTest <- 'No variation equality neaded of aparametric test'
 
-  if (Parametric == TRUE) {
+  if (Parametric) {
 
     varTest     <- stats::var.test(formula = DV ~ IDV, data = Data)
     trueVarTest <- ifelse(varTest$p.value < 0.05, FALSE, TRUE)

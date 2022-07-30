@@ -49,7 +49,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
   PH       <- 'No post hoc analysis for insignificant results'
 
 
-  if(Parametric == TRUE){                     # if the model is  parametric
+  if(Parametric){                     # if the model is  parametric
 
     Leven       <- car::leveneTest(Data$DV ~ Data$IDV)           # Variance test
     varLeven    <- ifelse(Leven$`Pr(>F)`[1] < .05, TRUE, FALSE)  # If the variances are not equale than TRUE

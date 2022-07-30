@@ -29,7 +29,7 @@ oneSampleTest <- function(DV, MU = 0, Parametric = TRUE) {
     )
 
   EF <- "No effect size for insignificant results"
-  if (Parametric == TRUE) {
+  if (Parametric) {
 
     Model <- stats::t.test(DV, mu = MU, alternative = "two.sided")
 

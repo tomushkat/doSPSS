@@ -42,7 +42,7 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
 
   EF <- "No effect size for aparametric test or insignificant results"
 
-  if (Parametric == TRUE) {   # If the model is parametric
+  if (Parametric) {   # If the model is parametric
 
     Model <- stats::t.test(formula = DV ~ IDV, data = Data,
                            alternative = "two.sided", mu = 0,
