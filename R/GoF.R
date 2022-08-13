@@ -31,7 +31,7 @@ Figure <-
     ggplot2::ggplot(mapping = ggplot2::aes(x=., y = Freq)) +
     ggplot2::geom_bar(stat="identity", position = "dodge") +
     ggplot2::geom_text(aes(label = Freq), vjust = -0.2, size = 5,
-              position = position_dodge(0.9)) +
+              position = ggplt2::position_dodge(0.9)) +
     ggplot2::ylab('Frequency')  +
     ggplot2::theme_bw()
 
