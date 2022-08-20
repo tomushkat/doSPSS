@@ -101,7 +101,7 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
   freq <- table(IDV1, IDV2)
   if(sum(as.numeric(freq < 30)) != 0){
-    if(trueVarTest == FALSE){
+    if(varLeven == FALSE){
       lmModel <- stats::lm(formula = DV ~ IDV1 * IDV2, data = Data)
       Res <- lmModel$residuals
     }else{
