@@ -29,6 +29,7 @@ oneSampleTest <- function(DV, MU = 0, Parametric = TRUE) {
     )
 
   EF <- "No effect size for insignificant results"
+  EF_exp <- NULL
   if (Parametric) {
 
     Model <- stats::t.test(DV, mu = MU, alternative = "two.sided")
@@ -36,6 +37,12 @@ oneSampleTest <- function(DV, MU = 0, Parametric = TRUE) {
     if (Model$p.value < .05) {
 
       EF <- effectsize::cohens_d(DV, mu = MU, alternative = 'two.sided', ci = 0.95)
+      EF_1 <- abs(unlist(EF$Cohens_d))
+      EF_value <- ifelse(EF_1 < 0.3, 'less than small effect size.',
+                         ifelse(EF_1 >= 0.3 & EF_1 < 0.5, 'smaall effect size.',
+                                ifelse(EF_1 >= 0.5 & EF_1 < 0.8, 'medium effect size.',
+                                       ifelse(EF_1 >= 0.8, 'large effect size.', NA))))
+      EF_exp <- paste0("The Cohen's d value is ", round(EF$Cohens_d, 2), ', which is interpreted as a ', EF_value)
 
     }
     if (nrow(Data) < 30) {
@@ -59,6 +66,11 @@ oneSampleTest <- function(DV, MU = 0, Parametric = TRUE) {
                                       ci = 0.95,
                                       alternative = "two.sided",
                                       verbose = TRUE)
+      EF_value <- ifelse(abs(EF$r_rank_biserial) < 0.1, 'less than small effect size.',
+                         ifelse(abs(EF$r_rank_biserial) >= 0.1 & abs(EF$r_rank_biserial) < 0.3, 'small effect size.',
+                                ifelse(abs(EF$r_rank_biserial) >= 0.3 & abs(EF$r_rank_biserial) < 0.5, 'medium effect size.',
+                                       ifelse(abs(EF$r_rank_biserial) >= 0.5, 'large effect size.', NA))))
+      EF_exp <- paste0('The effect size value is ', round(EF$r_rank_biserial, 2), ' which is interpreted as a', EF_value)
     }
 
   }
@@ -79,7 +91,7 @@ oneSampleTest <- function(DV, MU = 0, Parametric = TRUE) {
     ggplot2::theme_bw()
 
 
-  return(list(Statistics, Model, EF, Figure))
+  return(list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Effect_interpretation = EF_exp, Figure = Figure))
 
 
 }

@@ -26,7 +26,7 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
   # Parametric = TRUE
 
   Data <- data.frame(DV, IDV, Within) %>%
-    tidyr::drop_na()
+    arrange(Within)
   # Data <- Data[stats::complete.cases(Data), ]
 
 
@@ -51,14 +51,15 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
 
     if (Model$p.value < 0.05) {   # If the model is significant
 
-      EF <- effectsize::effectsize(model = Model,
-                                   type = 'cohens_d', ci = .95,
-                                   alternative = "two.sided")  # Performing effect size
-      EF_value <- ifelse(abs(EF$Cohens_d) < 0.3, 'less than small effect size.',
-                          ifelse(abs(EF$Cohens_d) >= 0.3 & abs(EF$Cohens_d) < 0.5, 'small effect size.',
-                                  ifelse(abs(EF$Cohens_d) >= 0.5 & abs(EF$Cohens_d) < 0.8, 'medium effect size.',
-                                          ifelse(abs(EF$Cohens_d) >= 0.8, 'large effect size.', NA))))
-      EF_exp <- paste0("The Cohen's d value is ", EF$Cohens_d, ', which is interpreted as ', EF_value)
+      EF <- effectsize::cohens_d(x = DV ~ IDV, data = Data,
+                                 paired = TRUE,  ci = .95,
+                                 alternative = "two.sided")
+      EF_1 <- abs(unlist(EF$Cohens_d))
+      EF_value <- ifelse(EF_1 < 0.3, 'less than small effect size.',
+                         ifelse(EF_1 >= 0.3 & EF_1 < 0.5, 'smaall effect size.',
+                                ifelse(EF_1 >= 0.5 & EF_1 < 0.8, 'medium effect size.',
+                                       ifelse(EF_1 >= 0.8, 'large effect size.', NA))))
+      EF_exp <- paste0("The Cohen's d value is ", round(EF$Cohens_d, 2), ', which is interpreted as a', EF_value)
 
     }
 
@@ -82,7 +83,7 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
                           ifelse(abs(EF$r_rank_biserial) >= 0.1 & abs(EF$r_rank_biserial) < 0.3, 'small effect size.',
                                   ifelse(abs(EF$r_rank_biserial) >= 0.3 & abs(EF$r_rank_biserial) < 0.5, 'medium effect size.',
                                           ifelse(abs(EF$r_rank_biserial) >= 0.5, 'large effect size.', NA))))
-      EF_exp <- paste0('The effect size value is ', EF$r_rank_biserial, ' which is interpreted as ', EF_value)
+      EF_exp <- paste0('The effect size value is ', round(EF$r_rank_biserial, 2), ' which is interpreted as a', EF_value)
     }
   }
 
