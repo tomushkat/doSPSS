@@ -21,7 +21,8 @@ GoF <- function(DV, Probs) {
   Model <- stats::chisq.test(base::table(DV), p = Probs, correct = FALSE)
   if(Model$p.value < .05){
 
-    EF <- effectsize::effectsize(Model, 'cohens_w')
+    EF <- effectsize::cohens_w(X = DV,
+                               ci = .95, alternative = "two.sided")
     EF_value <- ifelse(abs(EF$cohens_w) >= 0.1 & abs(EF$cohens_w) > 0.3, 'small effect size.',
                         ifelse(abs(EF$cohens_w) >= 0.3 & abs(EF$cohens_w) > 0.5, 'medium effect size.',
                                 ifelse(abs(EF$cohens_w) >= 0.5, 'large effect size.', NA)))
