@@ -22,9 +22,9 @@ GoF <- function(DV, Probs) {
   if(Model$p.value < .05){
 
     EF <- effectsize::effectsize(Model, 'cohens_w')
-    EF_value <- if.else(abs(EF$cohens_w) >= 0.1 & abs(EF$cohens_w) > 0.3, 'small effect size.',
-                        if.else(abs(EF$cohens_w) >= 0.3 & abs(EF$cohens_w) > 0.5, 'medium effect size.',
-                                if.else(abs(EF$cohens_w) >= 0.5, 'large effect size.', NA)))
+    EF_value <- ifelse(abs(EF$cohens_w) >= 0.1 & abs(EF$cohens_w) > 0.3, 'small effect size.',
+                        ifelse(abs(EF$cohens_w) >= 0.3 & abs(EF$cohens_w) > 0.5, 'medium effect size.',
+                                ifelse(abs(EF$cohens_w) >= 0.5, 'large effect size.', NA)))
     EF_exp <- paste0("The Cohen's W value is ,", EF$cohens_w, ' which is interpreted as ', EF_value)
 
   }
