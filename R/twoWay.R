@@ -56,13 +56,17 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
     phIDV2        <- 'No post hoc analysis for insignificant results'
     phInteraction <- 'No post hoc analysis for insignificant results'
     EF            <- "No effect size for aparametric test or insignificant results"
-
+    EF_exp        <- NULL
 
 
     if(Model$`Pr(>F)`[2] < 0.05 | Model$`Pr(>F)`[3] < 0.05 | Model$`Pr(>F)`[4] < 0.05){  # If at list one of the effect is significant
 
       EF <- effectsize::eta_squared(model = ModelEF,                                    # Perform as effect size
                                     ci = .95, alternative = "two.sided")
+
+      EF_exp <- c('Eta squre between 0.01 and 0.06 is a small effect size,
+                  Eta squre between 0.06 and 0.14 is a medium effect size,
+                  Eta squre larger than 0.14 is a large effect size')
 
       if(Model$`Pr(>F)`[2] < 0.05 & length(unique(Data$IDV1)) > 2){   # Test weather there are more than two levels for IDV 1 and it is significant
 
@@ -88,7 +92,7 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
     Data$IDV1 <- as.factor(Data$IDV1)
     Data$IDV2 <- as.factor(Data$IDV2)
-  Figure <- ggplot2::ggplot(Data, mapping = ggplot2::aes(x = IDV1, y = DV, fill = IDV2)) +
+    Figure <- ggplot2::ggplot(Data, mapping = ggplot2::aes(x = IDV1, y = DV, fill = IDV2)) +
     ggplot2::geom_boxplot(color = 'purple', alpha = 2, position = ggplot2::position_dodge(0.8)) +
     ggplot2::geom_violin(alpha = 0.1, position = ggplot2::position_dodge(0.8)) +
     # ggplot2::geom_jitter(ggplot2::aes(x = IDV1, y = DV, fill = IDV2), position = ggplot2::position_dodge(0.8)) +
@@ -97,7 +101,7 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
     ggplot2::ylab('DV') + ggplot2::xlab('IDV1') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc_IDV1 = phIDV1, Post_hoc_IDV2 = phIDV2, Post_hoc_Interaction = phInteraction, Variance_Correction = varLeven, Figure = Figure)
+  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Effect_interpretation = EF_exp, Post_hoc_IDV1 = phIDV1, Post_hoc_IDV2 = phIDV2, Post_hoc_Interaction = phInteraction, Variance_Correction = varLeven, Figure = Figure)
 
   freq <- table(IDV1, IDV2)
   if(sum(as.numeric(freq < 30)) != 0){

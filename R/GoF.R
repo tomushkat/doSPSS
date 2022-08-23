@@ -16,11 +16,16 @@ GoF <- function(DV, Probs) {
 
 
   EF <- NULL
+  EF_exp <- NULL
   gmodels::CrossTable(DV, format = 'SPSS')
   Model <- stats::chisq.test(base::table(DV), p = Probs, correct = FALSE)
   if(Model$p.value < .05){
 
     EF <- effectsize::effectsize(Model, 'cohens_w')
+    EF_value <- if.else(abs(EF$cohens_w) >= 0.1 & abs(EF$cohens_w) > 0.3, 'small effect size.',
+                        if.else(abs(EF$cohens_w) >= 0.3 & abs(EF$cohens_w) > 0.5, 'medium effect size.',
+                                if.else(abs(EF$cohens_w) >= 0.5, 'large effect size.', NA)))
+    EF_exp <- paste0("The Cohen's W value is ,", EF$cohens_w, ' which is interpreted as ', EF_value)
 
   }
 
@@ -37,7 +42,7 @@ Figure <-
 
 
 
-  return(list(Model, EF, Figure))
+  return(list(Model_summary = Model, Effect_size = EF, Effect_interpretation = EF_exp, Figure = Figure))
 
 
 }

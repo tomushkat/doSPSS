@@ -51,17 +51,22 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
                                correct = FALSE)  # Performing a Chi square for the effect size calculation
 
   EF <- NULL
+  EF_exp <- NULL
   if(EFmodel$p.value < 0.05){   # If the model is significant
     if(L1 == 2 & L2 == 2){  # If there are 4 cells in total Phi value will be produced
-        typeEF <- c('phi')
+        typeEF <- c('cohens_w') # phi
     }else{
-        typeEF <- c('cramers_v')
+        typeEF <- c('cohens_w') # cramers_v
      }
     EF <- effectsize::effectsize(model = EFmodel,
                                    type = typeEF, ci = .95, alternative = "two.sided")
+    EF_value <- if.else(abs(EF$cohens_w) >= 0.1 & abs(EF$cohens_w) > 0.3, 'small effect size.',
+                    if.else(abs(EF$cohens_w) >= 0.3 & abs(EF$cohens_w) > 0.5, 'medium effect size.',
+                      if.else(abs(EF$cohens_w) >= 0.5, 'large effect size.', NA)))
+    EF_exp <- paste0("The Cohen's W value is ,", EF$cohens_w, ' which is interpreted as ', EF_value)
   }
 
-  L <- list(Effect_size = EF, Figure = Figure)
+  L <- list(Effect_size = EF, Effect_interpretation = EF_exp, Figure = Figure)
 
   gmodels::CrossTable(rowFactor, colFactor, chisq = TRUE, format = 'SPSS', fisher = doFisher)  # Conducting and printing the model (with Fisher Exact Test if needed) and a cross table
 

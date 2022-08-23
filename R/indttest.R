@@ -42,6 +42,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     )
 
   EF <- "No effect size for insignificant results"
+  EF_exp <- NULL
   trueVarTest <- 'No variation equality neaded of aparametric test'
 
   if (Parametric) {
@@ -57,6 +58,11 @@ indttest <- function(DV, IDV, Parametric = TRUE){
       EF <- effectsize::effectsize(model = Model,
                                    type = 'cohens_d', ci = .95,
                                    alternative = "two.sided")
+      EF_value <- if.else(abs(EF$Cohens_d) < 0.3, 'less than small effect size.',
+                        if.else(abs(EF$Cohens_d) >= 0.3 & abs(EF$Cohens_d) < 0.5, 'small effect size.',
+                                if.else(abs(EF$Cohens_d) >= 0.5 & abs(EF$Cohens_d) < 0.8, 'medium effect size.',
+                                        if.else(abs(EF$Cohens_d) >= 0.8, 'large effect size.', NA))))
+      EF_exp <- paste0("The Cohen's d value is ", EF$Cohens_d, ', which is interpreted as ', EF_value)
     }
 
   } else {
@@ -73,6 +79,13 @@ indttest <- function(DV, IDV, Parametric = TRUE){
                                              ci = 0.95,
                                              alternative = "two.sided",
                                              verbose = TRUE)
+
+      EF_value <- if.else(abs(EF$r_rank_biserial) < 0.1, 'less than small effect size.',
+                          if.else(abs(EF$r_rank_biserial) >= 0.1 & abs(EF$r_rank_biserial) < 0.3, 'small effect size.',
+                                  if.else(abs(EF$r_rank_biserial) >= 0.3 & abs(EF$r_rank_biserial) < 0.5, 'medium effect size.',
+                                          if.else(abs(EF$r_rank_biserial) >= 0.5, 'large effect size.', NA))))
+      EF_exp <- paste0('The effect size value is ', EF$r_rank_biserial, ' which is interpreted as ', EF_value)
+      # https://stats.stackexchange.com/questions/216283/how-to-interpret-rank-biserial-correlation-coefficients-for-wilcoxon-test
     }
 
   }
@@ -90,7 +103,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Variance_Equality = trueVarTest, Figure = Figure)
+  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Effect_interpretation = EF_exp, Variance_Equality = trueVarTest, Figure = Figure)
 
   freq <- table(IDV)
   if (Parametric == TRUE & sum(as.numeric(freq < 30)) != 0) {

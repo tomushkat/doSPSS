@@ -47,6 +47,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
   EF       <- "No effect size for insignificant results"
   varLeven <- 'No variation equality neaded of aparametric test'
   PH       <- 'No post hoc analysis for insignificant results'
+  EF_exp        <- NULL
 
 
   if(Parametric){                     # if the model is  parametric
@@ -56,12 +57,15 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
     modelOneWay <- stats::aov(formula = DV ~ IDV, data = Data)   # Preforming the ANOVA with stats package, without correction
     Model       <- car::Anova(mod = modelOneWay, type = 'III', white.adjust = varLeven)  # Preforming the model with car package with correction (optional) and as type 3
     ModelForEF  <- car::Anova(mod = modelOneWay, type = 'III')
+    EF_exp      <- NULL
 
     if(Model$`Pr(>F)`[2] < 0.05){    # If the model is significant
 
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::eta_squared(ModelForEF, ci = .95, alternative = "two.sided")   # Perform effect size
-
+      EF_exp <- c('Eta squre between 0.01 and 0.06 is a small effect size,
+                  Eta squre between 0.06 and 0.14 is a medium effect size,
+                  Eta squre larger than 0.14 is a large effect size')
     }
 
   }else{
@@ -78,6 +82,11 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
                                        alternative = "two.sided",
                                        verbose = TRUE)
 
+      EF_exp <- c('Rank epsilon squared between 0.01 and 0.04 is a small effect size,
+                  Eta squre between 0.04 and 0.16 is a medium effect size,
+                  Eta squre larger than 0.16 is a large effect size')
+
+
     }
   }
 
@@ -91,7 +100,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Post_hoc = PH, Variance_Correction = varLeven, Figure = Figure)
+  L <- list(Descriptive_Statistics = Statistics, Model_summary = Model, Effect_zise = EF, Effect_interpretation = EF_exp, Post_hoc = PH, Variance_Correction = varLeven, Figure = Figure)
 
   freq <- table(IDV)
   if(Parametric == TRUE & sum(as.numeric(freq < 30)) != 0){

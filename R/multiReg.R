@@ -32,6 +32,7 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
   Model <- stats::lm(formula = DV ~ ., data = Data)  # Predicting a linear model without correction
 
   vifValues <- NULL
+  EF_exp <- NULL
   if(ncol(Data) >= 3){                         # If there are more than 1 predictor that calculating the VIF values. If one of the values is greater than 10 a warning will be printed.
 
     vifValues <- faraway::vif(object = Model)
@@ -65,6 +66,11 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
   df2  <- Model_1$fstatistic[3]
   Radj <- round(100 * Model_1$adj.r.squared, 2)
   p    <- stats::pf(Fv, df1, df1, lower.tail = FALSE)
+  EF_value <- if.else(Radj < 0.3, 'less than small effect size.',
+                     if.else(Radj >= 0.3 & Radj > 0.5, 'small effect size.',
+                             if.else(Radj >= 0.5 & Radj > 0.7, 'medium effect size.',
+                                     if.else(Radj >= 0.7, 'large effect size.', NA))))
+  EF_exp <- paste0('Ajusted A squered value is ', Radj, ' which is interpreted as ', EF_value)
 
   if(p < 0.05){
     summaySentence <- paste0('The model was significant (F(', df1, ', ', df2, ') = ',
@@ -75,7 +81,7 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
                              Fv, ', p = ', p, '), explaning ',  Radj, '% of the variance in the depandant variable')
   }
 
-  L <- list(Model_Summary = Model_1, Standardized_beta_Coeff = betaCoeff, Model_Statistics = summaySentence, VIF_Values = vifValues, se_type = regType)
+  L <- list(Model_Summary = Model_1, Standardized_beta_Coeff = betaCoeff, Model_Statistics = summaySentence, Effect_interpretation = EF_exp, VIF_Values = vifValues, se_type = regType)
 
   if(nrow(Data < 30)){
     Res <- Model$residuals

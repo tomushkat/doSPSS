@@ -36,6 +36,7 @@ oneSampleTest <- function(DV, MU = 0, Parametric = TRUE) {
     if (Model$p.value < .05) {
 
       EF <- effectsize::cohens_d(DV, mu = MU, alternative = 'two.sided', ci = 0.95)
+
     }
     if (nrow(Data) < 30) {
 

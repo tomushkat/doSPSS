@@ -41,6 +41,7 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
 
 
   EF <- "No effect size for aparametric test or insignificant results"
+  EF_exp <- NULL
 
   if (Parametric) {   # If the model is parametric
 
@@ -53,6 +54,11 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
       EF <- effectsize::effectsize(model = Model,
                                    type = 'cohens_d', ci = .95,
                                    alternative = "two.sided")  # Performing effect size
+      EF_value <- if.else(abs(EF$Cohens_d) < 0.3, 'less than small effect size.',
+                          if.else(abs(EF$Cohens_d) >= 0.3 & abs(EF$Cohens_d) < 0.5, 'small effect size.',
+                                  if.else(abs(EF$Cohens_d) >= 0.5 & abs(EF$Cohens_d) < 0.8, 'medium effect size.',
+                                          if.else(abs(EF$Cohens_d) >= 0.8, 'large effect size.', NA))))
+      EF_exp <- paste0("The Cohen's d value is ", EF$Cohens_d, ', which is interpreted as ', EF_value)
 
     }
 
@@ -72,6 +78,11 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
                                       ci = 0.95,
                                       alternative = "two.sided",
                                       verbose = TRUE)
+      EF_value <- if.else(abs(EF$r_rank_biserial) < 0.1, 'less than small effect size.',
+                          if.else(abs(EF$r_rank_biserial) >= 0.1 & abs(EF$r_rank_biserial) < 0.3, 'small effect size.',
+                                  if.else(abs(EF$r_rank_biserial) >= 0.3 & abs(EF$r_rank_biserial) < 0.5, 'medium effect size.',
+                                          if.else(abs(EF$r_rank_biserial) >= 0.5, 'large effect size.', NA))))
+      EF_exp <- paste0('The effect size value is ', EF$r_rank_biserial, ' which is interpreted as ', EF_value)
     }
   }
 
@@ -88,7 +99,7 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Figure = Figure)
+  L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Effect_interpretation = EF_exp, Figure = Figure)
 
 
   if (Parametric == TRUE & nrow(Data) < 60) {

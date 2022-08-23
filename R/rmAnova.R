@@ -47,6 +47,7 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
 
   PH <- 'No post hoc analysis for insignificant results'
   EF <- "No effect size for aparametric test or insignificant results"
+  EF_exp <- NULL
 
   if (Parametric) {  # if the model is  parametric
 
@@ -58,7 +59,10 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Within = Data$Within, Paired = TRUE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::effectsize(model = Model,
                                    type = 'eta', ci = .95, alternative = "two.sided")  # Perform effect size
-    }
+      EF_exp <- c('Eta squre between 0.01 and 0.06 is a small effect size,
+                  Eta squre between 0.06 and 0.14 is a medium effect size,
+                  Eta squre larger than 0.14 is a large effect size')
+      }
 
   } else {
 
@@ -73,6 +77,10 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
                                    alternative = "two.sided",
                                    iterations = 200,
                                    verbose = TRUE)
+      EF_exp <- c("Kendall's W between 0.02 and 0.04 is a small effect size (agreement),
+                  Kendall's W between 0.04 and 0.06 is a medium effect size (agreement),
+                  Kendall's W larger than 0.6 is a large effect size (agreement)")
+
       }
   }
 
@@ -88,7 +96,7 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
     ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
 
-  L <- list(Descriptive_Statistics = Statistics, Model_summary = sumModel, Effect_zise = EF, Post_hoc = PH, Figure = Figure)
+  L <- list(Descriptive_Statistics = Statistics, Model_summary = sumModel, Effect_zise = EF, Effect_interpretation = EF_exp, Post_hoc = PH, Figure = Figure)
 
   return(L)
 
