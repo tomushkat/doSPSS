@@ -55,7 +55,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
 
     if (Model$p.value < 0.05) {
 
-      EF <- effectsize::cohens_d(model = Model,
+      EF <- effectsize::cohens_d(model = DV ~ IDV,
                                  pooled_sd = !trueVarTest,  ci = .95,
                                    alternative = "two.sided")
       EF_1 <- abs(unlist(EF$Cohens_d))
