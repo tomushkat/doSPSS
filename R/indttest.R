@@ -55,8 +55,8 @@ indttest <- function(DV, IDV, Parametric = TRUE){
 
     if (Model$p.value < 0.05) {
 
-      EF <- effectsize::effectsize(model = Model,
-                                   type = 'cohens_d', ci = .95,
+      EF <- effectsize::cohens_d(model = Model,
+                                 pooled_sd = !trueVarTest,  ci = .95,
                                    alternative = "two.sided")
       EF_1 <- abs(unlist(EF$Cohens_d))
       EF_value <- ifelse(EF_1 < 0.3, 'less than small effect size.',
