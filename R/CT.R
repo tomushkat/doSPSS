@@ -47,7 +47,7 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
     ggplot2::theme_bw() +
     ggplot2::xlab('')
 
-  EFmodel <- stats::chisq.test(x = rowFactor, y = colFactor,
+  EFmodel <- stats::chisq.test(x = Data$rowFactor, y = Data$colFactor,
                                correct = FALSE)  # Performing a Chi square for the effect size calculation
 
   EF <- NULL
@@ -58,7 +58,7 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
     }else{
         typeEF <- c('cohens_w') # cramers_v
      }
-    EF <- effectsize::cohens_w(X = Model,
+    EF <- effectsize::cohens_w(X = table(Data$rowFactor, Data$colFactor),
                                    ci = .95, alternative = "two.sided")
     EF_value <- ifelse(abs(EF$cohens_w) >= 0.1 & abs(EF$cohens_w) > 0.3, 'small effect size.',
                     ifelse(abs(EF$cohens_w) >= 0.3 & abs(EF$cohens_w) > 0.5, 'medium effect size.',
