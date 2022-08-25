@@ -38,11 +38,11 @@ oneSampleTest <- function(DV, MU = 0, Parametric = TRUE) {
 
       EF <- effectsize::cohens_d(DV, mu = MU, alternative = 'two.sided', ci = 0.95)
       EF_1 <- abs(unlist(EF$Cohens_d))
-      EF_value <- ifelse(EF_1 < 0.3, 'less than small effect size.',
-                         ifelse(EF_1 >= 0.3 & EF_1 < 0.5, 'smaall effect size.',
-                                ifelse(EF_1 >= 0.5 & EF_1 < 0.8, 'medium effect size.',
-                                       ifelse(EF_1 >= 0.8, 'large effect size.', NA))))
-      EF_exp <- paste0("The Cohen's d value is ", round(EF$Cohens_d, 2), ', which is interpreted as a ', EF_value)
+      EF_value <- ifelse(EF_1 < 0.3, 'less than a small effect size.',
+                         ifelse(EF_1 >= 0.3 & EF_1 < 0.5, 'a small effect size.',
+                                ifelse(EF_1 >= 0.5 & EF_1 < 0.8, 'a medium effect size.',
+                                       ifelse(EF_1 >= 0.8, 'a large effect size.', NA))))
+      EF_exp <- paste0("The Cohen's d value is ", round(EF$Cohens_d, 2), ', which is interpreted as ', EF_value)
 
     }
     if (nrow(Data) < 30) {

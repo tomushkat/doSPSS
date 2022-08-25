@@ -66,7 +66,7 @@ twoWay <- function(DV, IDV1, IDV2, Correct = 'BH'){
 
       EF_exp <- c('Eta squre between 0.01 and 0.06 is a small effect size,
                   Eta squre between 0.06 and 0.14 is a medium effect size,
-                  Eta squre larger than 0.14 is a large effect size')
+                  Eta squre larger than 0.14 is a large effect size.')
 
       if(Model$`Pr(>F)`[2] < 0.05 & length(unique(Data$IDV1)) > 2){   # Test weather there are more than two levels for IDV 1 and it is significant
 

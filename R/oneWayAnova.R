@@ -65,7 +65,7 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
       EF <- effectsize::eta_squared(ModelForEF, ci = .95, alternative = "two.sided")   # Perform effect size
       EF_exp <- c('Eta squre between 0.01 and 0.06 is a small effect size,
                   Eta squre between 0.06 and 0.14 is a medium effect size,
-                  Eta squre larger than 0.14 is a large effect size')
+                  Eta squre larger than 0.14 is a large effect size.')
     }
 
   }else{
