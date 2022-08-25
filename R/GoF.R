@@ -26,7 +26,7 @@ GoF <- function(DV, Probs) {
     EF_value <- ifelse(abs(EF$Cohens_w) >= 0.1 & abs(EF$Cohens_w) > 0.3, 'small effect size.',
                         ifelse(abs(EF$Cohens_w) >= 0.3 & abs(EF$Cohens_w) > 0.5, 'medium effect size.',
                                 ifelse(abs(EF$Cohens_w) >= 0.5, 'large effect size.', NA)))
-    EF_exp <- paste0("The Cohen's W value is ,", round(EF$Cohens_w, 2), ' which is interpreted as a', EF_value)
+    EF_exp <- paste0("The Cohen's W value is ,", round(EF$Cohens_w, 2), ', which is interpreted as a ', EF_value)
 
   }
 

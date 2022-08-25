@@ -53,17 +53,17 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
   EF <- NULL
   EF_exp <- NULL
   if(EFmodel$p.value < 0.05){   # If the model is significant
-    if(L1 == 2 & L2 == 2){  # If there are 4 cells in total Phi value will be produced
-        typeEF <- c('cohens_w') # phi
-    }else{
-        typeEF <- c('cohens_w') # cramers_v
-     }
+    # if(L1 == 2 & L2 == 2){  # If there are 4 cells in total Phi value will be produced
+    #     typeEF <- c('cohens_w') # phi
+    # }else{
+    #     typeEF <- c('cohens_w') # cramers_v
+    #  }
     EF <- effectsize::cohens_w(x = table(Data$rowFactor, Data$colFactor),
                                    ci = .95, alternative = "two.sided")
     EF_value <- ifelse(abs(EF$Cohens_w) >= 0.1 & abs(EF$Cohens_w) > 0.3, 'small effect size.',
                     ifelse(abs(EF$Cohens_w) >= 0.3 & abs(EF$Cohens_w) > 0.5, 'medium effect size.',
                       ifelse(abs(EF$Cohens_w) >= 0.5, 'large effect size.', NA)))
-    EF_exp <- paste0("The Cohen's W value is ,", round(EF$Cohens_w, 2), ' which is interpreted as a', EF_value)
+    EF_exp <- paste0("The Cohen's W value is ", round(EF$Cohens_w, 2), ', which is interpreted as a ', EF_value)
   }
 
   L <- list(Effect_size = EF, Effect_interpretation = EF_exp, Figure = Figure)
