@@ -70,18 +70,18 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
                      ifelse(Radj >= 0.3 & Radj > 0.5, 'a small effect size.',
                              ifelse(Radj >= 0.5 & Radj > 0.7, 'a medium effect size.',
                                      ifelse(Radj >= 0.7, 'a large effect size.', NA))))
-  EF_exp <- paste0('Ajusted A squered value is ', Radj, ' which is interpreted as ', EF_value)
+  EF_exp <- paste0('The adjusted R squered value is ', Radj, ' which is interpreted as ', EF_value)
 
   if(p < 0.05){
     summaySentence <- paste0('The model was significant (F(', df1, ', ', df2, ') = ',
-                             Fv, ', p = ', p, '), explaning ',  Radj, '% of the variance in the depandant variable')
+                             round(Fv, 2), ', p = ', round(p, 2), '), explaning ',  Radj, '% of the variance in the depandant variable')
   }else{
 
     summaySentence <- paste0('The model was not significant (F(', df1, ', ', df2, ') = ',
-                             Fv, ', p = ', p, '), explaning ',  Radj, '% of the variance in the depandant variable')
+                             round(Fv, 2), ', p = ', round(p, 2), '), explaning ',  Radj, '% of the variance in the depandant variable')
   }
 
-  L <- list(Model_Summary = Model_1, Standardized_beta_Coeff = betaCoeff, Model_Statistics = summaySentence, Effect_interpretation = EF_exp, VIF_Values = vifValues, se_type = regType)
+  L <- list(Model_Summary = Model_1, Standardized_beta_Coeff = betaCoeff, Model_Statistics = summaySentence, Effect_interpretation = EF_exp, VIF_Values = round(vifValues, 2), se_type = regType)
 
   if(nrow(Data < 30)){
     Res <- Model$residuals
@@ -96,7 +96,7 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
 
     print("Warning: There is a multicollinearity in the model. One of the predictors' VIF is greater than 10. Consider to exlude predictors.")
     print('The VIF values are:')
-    print(vifValues)
+    print(round(vifValues, 2))
   }
 
   return(L)
