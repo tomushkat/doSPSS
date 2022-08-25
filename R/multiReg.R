@@ -67,8 +67,8 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
   Radj <- round(100 * Model_1$adj.r.squared, 2)
   p    <- stats::pf(Fv, df1, df1, lower.tail = FALSE)
   EF_value <- ifelse(Radj < 0.3, 'less than a small effect size.',
-                     ifelse(Radj >= 0.3 & Radj > 0.5, 'a small effect size.',
-                             ifelse(Radj >= 0.5 & Radj > 0.7, 'a medium effect size.',
+                     ifelse(Radj >= 0.3 & Radj < 0.5, 'a small effect size.',
+                             ifelse(Radj >= 0.5 & Radj < 0.7, 'a medium effect size.',
                                      ifelse(Radj >= 0.7, 'a large effect size.', NA))))
   EF_exp <- paste0('The adjusted R squered value is ', Radj, ' which is interpreted as ', EF_value)
 
