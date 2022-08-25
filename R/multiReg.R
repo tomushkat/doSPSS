@@ -70,7 +70,7 @@ multiReg <- function(DV, Predictors, Correct = 'HC2'){
                      ifelse(Model_1$adj.r.squared >= 0.3 & Model_1$adj.r.squared < 0.5, 'a small effect size.',
                              ifelse(Model_1$adj.r.squared >= 0.5 & Model_1$adj.r.squared < 0.7, 'a medium effect size.',
                                      ifelse(Model_1$adj.r.squared >= 0.7, 'a large effect size.', NA))))
-  EF_exp <- paste0('The adjusted R squered value is ', Radj, '% which is interpreted as ', EF_value)
+  EF_exp <- paste0('The adjusted R squered value is ', Radj, '%, which is interpreted as ', EF_value)
 
   if(p < 0.05){
     summaySentence <- paste0('The model was significant (F(', df1, ', ', df2, ') = ',
