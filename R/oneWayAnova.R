@@ -63,9 +63,12 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::eta_squared(ModelForEF, ci = .95, alternative = "two.sided")   # Perform effect size
-      EF_exp <- c('Eta squre between 0.01 and 0.06 is a small effect size,
-                  Eta squre between 0.06 and 0.14 is a medium effect size,
-                  Eta squre larger than 0.14 is a large effect size.')
+      EF_value <- ifelse(abs(EF$eta_squared) < 0.01, 'less than a small effect size.',
+                         ifelse(abs(EF$eta_squared) < 0.06, 'a small effect size.',
+                         ifelse(abs(EF$eta_squared) < 0.14, 'a medium effect size.',
+                                ifelse(abs(EF$eta_squared) >= 0.14, 'a large effect size.', NA))))
+      EF_exp <- paste0('The eta squared value is ', round(EF$eta_squared, 2), ' which is interpreted as a', EF_value)
+
     }
 
   }else{
@@ -81,9 +84,11 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
                                        ci = 0.95,
                                        alternative = "two.sided",
                                        verbose = TRUE)
-
-      EF_exp <- c('Rank epsilon squared between 0.01 and 0.04 is a small effect size, Eta squre between 0.04 and 0.16 is a medium effect size, Eta squre larger than 0.16 is a large effect size')
-
+      EF_value <- ifelse(abs(EF$rank_epsilon_squared) < 0.01, 'less than a small effect size.',
+                         ifelse(abs(EF$rank_epsilon_squared) < 0.04, 'a small effect size.',
+                                ifelse(abs(EF$rank_epsilon_squared) < 0.16, 'a medium effect size.',
+                                       ifelse(abs(EF$rank_epsilon_squared) >= 0.16, 'a large effect size.', NA))))
+      EF_exp <- paste0('The rank epsilon squared value is ', round(EF$rank_epsilon_squared, 2), ' which is interpreted as a', EF_value)
 
 
 
