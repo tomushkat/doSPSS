@@ -82,9 +82,9 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
                                        alternative = "two.sided",
                                        verbose = TRUE)
 
-      EF_exp <- c('Rank epsilon squared between 0.01 and 0.04 is a small effect size,
-                  Eta squre between 0.04 and 0.16 is a medium effect size,
-                  Eta squre larger than 0.16 is a large effect size')
+      EF_exp <- c('Rank epsilon squared between 0.01 and 0.04 is a small effect size, Eta squre between 0.04 and 0.16 is a medium effect size, Eta squre larger than 0.16 is a large effect size')
+
+
 
 
     }

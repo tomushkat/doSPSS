@@ -83,7 +83,7 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
                           ifelse(abs(EF$r_rank_biserial) >= 0.1 & abs(EF$r_rank_biserial) < 0.3, 'small effect size.',
                                   ifelse(abs(EF$r_rank_biserial) >= 0.3 & abs(EF$r_rank_biserial) < 0.5, 'medium effect size.',
                                           ifelse(abs(EF$r_rank_biserial) >= 0.5, 'large effect size.', NA))))
-      EF_exp <- paste0('The effect size value is ', round(EF$r_rank_biserial, 2), ' which is interpreted as a', EF_value)
+      EF_exp <- paste0('The rank biserial value is ', round(EF$r_rank_biserial, 2), ' which is interpreted as a', EF_value)
     }
   }
 

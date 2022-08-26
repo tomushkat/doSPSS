@@ -85,7 +85,7 @@ indttest <- function(DV, IDV, Parametric = TRUE){
                           ifelse(abs(EF$r_rank_biserial) >= 0.1 & abs(EF$r_rank_biserial) < 0.3, 'a small effect size.',
                                   ifelse(abs(EF$r_rank_biserial) >= 0.3 & abs(EF$r_rank_biserial) < 0.5, 'a medium effect size.',
                                           ifelse(abs(EF$r_rank_biserial) >= 0.5, 'a large effect size.', NA))))
-      EF_exp <- paste0('The effect size value is ', round(EF$r_rank_biserial, 2), ' which is interpreted as ', EF_value)
+      EF_exp <- paste0('The rank biserial value is ', round(EF$r_rank_biserial, 2), ' which is interpreted as ', EF_value)
       # https://stats.stackexchange.com/questions/216283/how-to-interpret-rank-biserial-correlation-coefficients-for-wilcoxon-test
     }
 
