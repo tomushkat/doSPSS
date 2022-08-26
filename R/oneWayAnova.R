@@ -63,11 +63,11 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::eta_squared(ModelForEF, ci = .95, alternative = "two.sided")   # Perform effect size
-      EF_value <- ifelse(abs(EF$eta_squared) < 0.01, 'less than a small effect size.',
-                         ifelse(abs(EF$eta_squared) < 0.06, 'a small effect size.',
-                         ifelse(abs(EF$eta_squared) < 0.14, 'a medium effect size.',
-                                ifelse(abs(EF$eta_squared) >= 0.14, 'a large effect size.', NA))))
-      EF_exp <- paste0('The eta squared value is ', round(EF$eta_squared, 2), ' which is interpreted as a', EF_value)
+      EF_value <- ifelse(abs(EF$Eta2) < 0.01, 'less than a small effect size.',
+                         ifelse(abs(EF$Eta2) < 0.06, 'a small effect size.',
+                         ifelse(abs(EF$Eta2) < 0.14, 'a medium effect size.',
+                                ifelse(abs(EF$Eta2) >= 0.14, 'a large effect size.', NA))))
+      EF_exp <- paste0('The eta squared value is ', round(EF$Eta2, 2), ' which is interpreted as a', EF_value)
 
     }
 

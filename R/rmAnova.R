@@ -59,11 +59,11 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Within = Data$Within, Paired = TRUE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::effectsize(model = Model,
                                    type = 'eta', ci = .95, alternative = "two.sided")  # Perform effect size
-      EF_value <- ifelse(abs(EF$eta_squared) < 0.01, 'less than a small effect size.',
-                         ifelse(abs(EF$eta_squared) < 0.06, 'a small effect size.',
-                                ifelse(abs(EF$eta_squared) < 0.14, 'a medium effect size.',
-                                       ifelse(abs(EF$eta_squared) >= 0.14, 'a large effect size.', NA))))
-      EF_exp <- paste0('The eta squared value is ', round(EF$eta_squared, 2), ' which is interpreted as a', EF_value)
+      EF_value <- ifelse(abs(EF$Eta2) < 0.01, 'less than a small effect size.',
+                         ifelse(abs(EF$Eta2) < 0.06, 'a small effect size.',
+                                ifelse(abs(EF$Eta2) < 0.14, 'a medium effect size.',
+                                       ifelse(abs(EF$Eta2) >= 0.14, 'a large effect size.', NA))))
+      EF_exp <- paste0('The eta squared value is ', round(EF$Eta2, 2), ' which is interpreted as a', EF_value)
       }
 
   } else {
@@ -80,7 +80,7 @@ rmAnova <- function(DV, IDV, Within, Parametric = TRUE, Correct = 'BH'){
                                    iterations = 200,
                                    verbose = TRUE)
       EF_value <- ifelse(abs(EF$kendalls_w) < 0.02, 'less than a small effect size (agreement).',
-                         ifelse(abs(EF$kendalls_w) < 0.04, 'a small effect size (agreement).',
+                         ifelse(abs(EF$Kendalls_W) < 0.04, 'a small effect size (agreement).',
                                 ifelse(abs(EF$kendalls_w) < 0.06, 'a medium effect size (agreement).',
                                        ifelse(abs(EF$kendalls_w) >= 0.06, 'a large effect size (agreement).', NA))))
       EF_exp <- paste0("The kendall's w value is ", round(EF$kendalls_w, 2), ' which is interpreted as ', EF_value)
