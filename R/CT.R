@@ -61,10 +61,10 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
     X <- table(Data$rowFactor, Data$colFactor)
     EF <- effectsize::cramers_v(x = X,
                                    ci = .95, alternative = "two.sided")
-    EF_value <- ifelse(abs(EF$cramers_v) >= 0.04 & abs(EF$cramers_v) < 0.3, 'small effect size.',
-                    ifelse(abs(EF$cramers_v) >= 0.3 & abs(EF$cramers_v) < 0.5, 'medium effect size.',
-                      ifelse(abs(EF$cramers_v) >= 0.5, 'large effect size.', 'less than a small effect size.')))
-    EF_exp <- paste0("The Cramer's v value is ", round(EF$cramers_v, 2), ', which is interpreted as a ', EF_value)
+    EF_value <- ifelse(abs(EF$Cramers_v_adjusted) >= 0.04 & abs(EF$Cramers_v_adjusted) < 0.3, 'small effect size.',
+                    ifelse(abs(EF$Cramers_v_adjusted) >= 0.3 & abs(EF$Cramers_v_adjusted) < 0.5, 'medium effect size.',
+                      ifelse(abs(EF$Cramers_v_adjusted) >= 0.5, 'large effect size.', 'less than a small effect size.')))
+    EF_exp <- paste0("The Cramer's v value is ", round(EF$Cramers_v_adjusted, 2), ', which is interpreted as a ', EF_value)
   }
 
   L <- list(Effect_size = EF, Effect_interpretation = EF_exp, Figure = Figure)
