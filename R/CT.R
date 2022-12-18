@@ -58,7 +58,8 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
     # }else{
     #     typeEF <- c('cohens_w') # cramers_v
     #  }
-    EF <- effectsize::cohens_w(x = table(Data$rowFactor, Data$colFactor),
+    X <- table(Data$rowFactor, Data$colFactor)
+    EF <- effectsize::cohens_w(x = X,
                                    ci = .95, alternative = "two.sided")
     EF_value <- ifelse(abs(EF$Cohens_w) >= 0.1 & abs(EF$Cohens_w) < 0.3, 'small effect size.',
                     ifelse(abs(EF$Cohens_w) >= 0.3 & abs(EF$Cohens_w) < 0.5, 'medium effect size.',
