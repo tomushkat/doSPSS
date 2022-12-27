@@ -64,6 +64,7 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
     EF <- effectsize::cramers_v(x = X,
                                    ci = .95, alternative = "two.sided")
     ef_inter <- dplyr::case_when(
+      # https://www.statology.org/interpret-cramers-v/
 
         dfN == 1 & c(EF$Cramers_v_adjusted >= 0.1 & EF$Cramers_v_adjusted < 0.3) |
          dfN == 2 & c(EF$Cramers_v_adjusted >= 0.07 & EF$Cramers_v_adjusted < 0.21) |
@@ -82,6 +83,8 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
            dfN == 3 & EF$Cramers_v_adjusted >= 0.29 |
            dfN == 4 & EF$Cramers_v_adjusted >= 0.25 |
            dfN > 4 & EF$Cramers_v_adjusted >= 0.22  ~  'large'
+
+        T ~ 'less than small'
 
     )
 
