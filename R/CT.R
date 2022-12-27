@@ -52,6 +52,8 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
 
   EF <- NULL
   EF_exp <- NULL
+
+  dfN <- L1 + L2 - 2
   if(EFmodel$p.value < 0.05){   # If the model is significant
     # if(L1 == 2 & L2 == 2){  # If there are 4 cells in total Phi value will be produced
     #     typeEF <- c('cohens_w') # phi
@@ -61,11 +63,34 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
     X <- table(Data$rowFactor, Data$colFactor)
     EF <- effectsize::cramers_v(x = X,
                                    ci = .95, alternative = "two.sided")
-    EF_value <- ifelse(abs(EF$Cramers_v_adjusted) >= 0.04 & abs(EF$Cramers_v_adjusted) < 0.3, 'small effect size.',
-                    ifelse(abs(EF$Cramers_v_adjusted) >= 0.3 & abs(EF$Cramers_v_adjusted) < 0.5, 'medium effect size.',
-                      ifelse(abs(EF$Cramers_v_adjusted) >= 0.5, 'large effect size.', 'less than a small effect size.')))
+    ef_inter <- dplyr::case_when(
+
+        dfN == 1 & c(EF$Cramers_v_adjusted >= 0.1 & EF$Cramers_v_adjusted < 0.3) |
+         dfN == 2 & c(EF$Cramers_v_adjusted >= 0.07 & EF$Cramers_v_adjusted < 0.21) |
+         dfN == 3 & c(EF$Cramers_v_adjusted >= 0.06 & EF$Cramers_v_adjusted < 0.17) |
+         dfN == 4 & c(EF$Cramers_v_adjusted >= 0.05 & EF$Cramers_v_adjusted < 0.15) |
+         dfN > 4 & c(EF$Cramers_v_adjusted >= 0.4 & EF$Cramers_v_adjusted < 0.13)  ~  'small'
+
+        dfN == 1 & c(EF$Cramers_v_adjusted >= 0.3 & EF$Cramers_v_adjusted < 0.5) |
+           dfN == 2 & c(EF$Cramers_v_adjusted >= 0.21 & EF$Cramers_v_adjusted < 0.35) |
+           dfN == 3 & c(EF$Cramers_v_adjusted >= 0.17 & EF$Cramers_v_adjusted < 0.29) |
+           dfN == 4 & c(EF$Cramers_v_adjusted >= 0.15 & EF$Cramers_v_adjusted < 0.25) |
+           dfN > 4 & c(EF$Cramers_v_adjusted >= 0.13 & EF$Cramers_v_adjusted < 0.22)  ~  'medium'
+
+        dfN == 1 & EF$Cramers_v_adjusted >= 0.5 |
+           dfN == 2 & EF$Cramers_v_adjusted >= 0.35 |
+           dfN == 3 & EF$Cramers_v_adjusted >= 0.29 |
+           dfN == 4 & EF$Cramers_v_adjusted >= 0.25 |
+           dfN > 4 & EF$Cramers_v_adjusted >= 0.22  ~  'large'
+
+    )
+
+    EF_value <- paste0(ef_inter, ' effect size.')
+
     EF_exp <- paste0("The Cramer's v value is ", round(EF$Cramers_v_adjusted, 2), ', which is interpreted as a ', EF_value)
   }
+
+
 
   L <- list(Effect_size = EF, Effect_interpretation = EF_exp, Figure = Figure)
 
