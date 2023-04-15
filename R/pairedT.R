@@ -71,7 +71,7 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
                                 conf.int = FALSE, conf.level = 0.95)
 
 
-    if (Model$p.value < 0.05 == TRUE) {   # If the model is significant
+    if (Model$p.value < 0.05) {   # If the model is significant
 
       EF <- effectsize::rank_biserial(DV ~ IDV, data = Data,
                                       paired = TRUE,
