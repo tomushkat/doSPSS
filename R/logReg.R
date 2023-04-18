@@ -28,7 +28,8 @@ logReg <- function(DV, Predictors, Classification = 0.5){
     DV <- DV - 1
   }
 
-  Data <- data.frame(DV = DV, Predictors) %>%
+  Data <- cbind(DV = DV, Predictors) %>%
+    as.data.frame() %>%
     tidyr::drop_na()
   # Data <- Data[stats::complete.cases(Data), ]
 

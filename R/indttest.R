@@ -37,6 +37,8 @@ indttest <- function(DV, IDV, Parametric = TRUE){
     dplyr::summarise(
       Mean   = round(mean(DV), 2),
       SD     = round(stats::sd(DV), 2),
+      low_CI = mean_CI(DV)$L,
+      high_CI = mean_CI(DV)$H,
       Median = round(stats::median(DV), 2),
       N      = length(DV)
     )
@@ -94,15 +96,27 @@ indttest <- function(DV, IDV, Parametric = TRUE){
   Data$IDV <- as.factor(Data$IDV)
   Figure <-
     ggplot2::ggplot(Data, ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
-    ggplot2::geom_boxplot(color = 'purple', alpha = 2) +
+    # ggplot2::stat_summary(fun.data = "mean_cl_boot", colour = "red", linewidth = 2, size = 2) +
+    ggplot2::geom_boxplot(color = 'purple') +
     ggplot2::geom_violin(alpha = 0.1) +
     ggplot2::scale_fill_manual(values = c('lightgrey', 'lightgreen')) +
     # ggplot2::geom_jitter(ggplot2::aes(x = IDV, y = DV, fill = IDV)) +
     ggplot2::stat_summary(fun.data = ggplot2::mean_sdl, fun.args = list(mult = 1),
                           geom = "errorbar", color = "red", width = 0.2) +
-    ggplot2::stat_summary(fun = mean, geom = "point", color = "red") +
+    ggplot2::stat_summary(fun = mean, geom = "point", color = "darkred", size = 5) +
+
+
     ggplot2::ylab('DV') + ggplot2::xlab('IDV') +
-    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) + ggplot2::theme_bw()
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
+    ggplot2::theme(
+          axis.text.x = ggplot2::element_text(size = 30),
+          axis.text.y  = ggplot2::element_text(size = 30),
+          axis.title.x = ggplot2::element_text(size = 30),
+          axis.title.y = ggplot2::element_text(size = 30),
+          legend.text  = ggplot2::element_text(size = 30),
+          legend.title = ggplot2::element_text(size = 30)
+    ) +
+    ggplot2::theme_bw()
 
   L <- list(Descriptive_statistics = Statistics, Model_summary = Model, Effect_size = EF, Effect_interpretation = EF_exp, Variance_Equality = trueVarTest, Figure = Figure)
 

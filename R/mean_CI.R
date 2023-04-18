@@ -9,10 +9,10 @@
 #' @examples
 mean_CI <- function(data, alpha_threshold = 0.05){
 
-  sample_mean <- mean({{data}}, na.rm = T)
+  sample_mean <- mean(data, na.rm = T)
 
-  sample_n <- length(na.omit({{data}}))
-  sample_sd <- sd({{data}}, na.rm = T)
+  sample_n <- length(na.omit(data))
+  sample_sd <- sd(data, na.rm = T)
   sample_se <- sample_sd / sqrt(sample_n)
 
   alpha <- alpha_threshold
