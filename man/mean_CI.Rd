@@ -4,10 +4,12 @@
 \alias{mean_CI}
 \title{Calculating Mean CI using Student t distribution}
 \usage{
-mean_CI(data, alpha_threshold = 0.05)
+mean_CI(data, conidance_interval = 0.95)
 }
 \arguments{
-\item{alpha_threshold}{}
+\item{data}{input numeric vector}
+
+\item{conidance_interval}{default is 95\%}
 }
 \value{
 Return a list with the mean and high and low CI

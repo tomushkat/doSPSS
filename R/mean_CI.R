@@ -1,13 +1,15 @@
 #' Calculating Mean CI using Student t distribution
 #'
-#' @param data
-#' @param alpha_threshold
+#' @param data input numeric vector
+#' @param conidance_interval default is 95%
 #'
 #' @return Return a list with the mean and high and low CI
 #' @export
 #'
 #' @examples
-mean_CI <- function(data, alpha_threshold = 0.05){
+mean_CI <- function(data, conidance_interval = 0.95){
+
+  alpha_threshold <- 1 - conidance_interval
 
   sample_mean <- mean(data, na.rm = T)
 
