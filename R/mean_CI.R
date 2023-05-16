@@ -6,7 +6,7 @@
 #' @return Return a list with the mean and high and low CI
 #' @export
 #'
-#' @examples
+#' @examples mean_CI(simulateData$gameTime)
 mean_CI <- function(data, conidance_interval = 0.95){
 
   alpha_threshold <- 1 - conidance_interval
@@ -14,12 +14,12 @@ mean_CI <- function(data, conidance_interval = 0.95){
   sample_mean <- mean(data, na.rm = T)
 
   sample_n <- length(na.omit(data))
-  sample_sd <- sd(data, na.rm = T)
+  sample_sd <- stats::sd(data, na.rm = T)
   sample_se <- sample_sd / sqrt(sample_n)
 
   alpha <- alpha_threshold
   degrees_freedom <- sample_n - 1
-  t_score <- qt(p = alpha / 2
+  t_score <- stats::qt(p = alpha / 2
                 , df = degrees_freedom
                 , lower.tail = FALSE)
 
