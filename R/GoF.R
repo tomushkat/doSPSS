@@ -23,9 +23,16 @@ GoF <- function(DV, Probs) {
 
     EF <- effectsize::cohens_w(x = base::table(DV), p = Probs,
                                ci = .95, alternative = "two.sided")
-    EF_value <- ifelse(abs(EF$Cohens_w) >= 0.1 & abs(EF$Cohens_w) < 0.3, 'small effect size.',
-                        ifelse(abs(EF$Cohens_w) >= 0.3 & abs(EF$Cohens_w) < 0.5, 'medium effect size.',
-                                ifelse(abs(EF$Cohens_w) >= 0.5, 'large effect size.', 'less than a small effect size.')))
+
+    EF_value <- dplyr::case_when(
+
+      abs(EF$Cohens_w) < 0.1 ~ 'less than a small effect size.'
+      , abs(EF$Cohens_w) < 0.3 ~ 'small effect size.'
+      , abs(EF$Cohens_w) < 0.5 ~ 'medium effect size.'
+      , T ~ 'large effect size.'
+
+    )
+
     EF_exp <- paste0("The Cohen's W value is ,", round(EF$Cohens_w, 2), ', which is interpreted as a ', EF_value)
 
   }

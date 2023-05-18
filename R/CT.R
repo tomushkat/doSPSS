@@ -66,25 +66,25 @@ CT <- function(rowFactor, colFactor, freqCorrect = 5){
     ef_inter <- dplyr::case_when(
       # https://www.statology.org/interpret-cramers-v/
 
-        dfN == 1 & c(EF$Cramers_v_adjusted >= 0.1 & EF$Cramers_v_adjusted < 0.3) |
-         dfN == 2 & c(EF$Cramers_v_adjusted >= 0.07 & EF$Cramers_v_adjusted < 0.21) |
-         dfN == 3 & c(EF$Cramers_v_adjusted >= 0.06 & EF$Cramers_v_adjusted < 0.17) |
-         dfN == 4 & c(EF$Cramers_v_adjusted >= 0.05 & EF$Cramers_v_adjusted < 0.15) |
-         dfN > 4 & c(EF$Cramers_v_adjusted >= 0.4 & EF$Cramers_v_adjusted < 0.13)  ~  'small',
+         dfN == 1 & EF$Cramers_v_adjusted < 0.3  |
+         dfN == 2 & EF$Cramers_v_adjusted < 0.21 |
+         dfN == 3 & EF$Cramers_v_adjusted < 0.17 |
+         dfN == 4 & EF$Cramers_v_adjusted < 0.15 |
+         dfN > 4  & EF$Cramers_v_adjusted < 0.13  ~  'small'
 
-        dfN == 1 & c(EF$Cramers_v_adjusted >= 0.3 & EF$Cramers_v_adjusted < 0.5) |
-           dfN == 2 & c(EF$Cramers_v_adjusted >= 0.21 & EF$Cramers_v_adjusted < 0.35) |
-           dfN == 3 & c(EF$Cramers_v_adjusted >= 0.17 & EF$Cramers_v_adjusted < 0.29) |
-           dfN == 4 & c(EF$Cramers_v_adjusted >= 0.15 & EF$Cramers_v_adjusted < 0.25) |
-           dfN > 4 & c(EF$Cramers_v_adjusted >= 0.13 & EF$Cramers_v_adjusted < 0.22)  ~  'medium',
+         , dfN == 1 & EF$Cramers_v_adjusted < 0.5  |
+           dfN == 2 & EF$Cramers_v_adjusted < 0.35 |
+           dfN == 3 & EF$Cramers_v_adjusted < 0.29 |
+           dfN == 4 & EF$Cramers_v_adjusted < 0.25 |
+           dfN > 4  & EF$Cramers_v_adjusted < 0.22  ~  'medium'
 
-        dfN == 1 & EF$Cramers_v_adjusted >= 0.5 |
+        ,  dfN == 1 & EF$Cramers_v_adjusted >= 0.5  |
            dfN == 2 & EF$Cramers_v_adjusted >= 0.35 |
            dfN == 3 & EF$Cramers_v_adjusted >= 0.29 |
            dfN == 4 & EF$Cramers_v_adjusted >= 0.25 |
-           dfN > 4 & EF$Cramers_v_adjusted >= 0.22  ~  'large',
+           dfN > 4  & EF$Cramers_v_adjusted >= 0.22  ~  'large'
 
-        T ~ 'less than small'
+        , T ~ 'less than small'
 
     )
 

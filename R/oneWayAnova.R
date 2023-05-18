@@ -65,10 +65,15 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
 
       PH <- postHoc(DV = Data$DV, IDV = Data$IDV, Paired = FALSE, Parametric = TRUE, Correction = Correct)  # Preform post hoc
       EF <- effectsize::eta_squared(ModelForEF, ci = .95, alternative = "two.sided")   # Perform effect size
-      EF_value <- ifelse(abs(EF$Eta2) < 0.01, 'less than a small effect size.',
-                         ifelse(abs(EF$Eta2) < 0.06, 'a small effect size.',
-                         ifelse(abs(EF$Eta2) < 0.14, 'a medium effect size.',
-                                ifelse(abs(EF$Eta2) >= 0.14, 'a large effect size.', NA))))
+
+      EF_value <- dplyr::case_when(
+
+        abs(EF$Eta2) < 0.01 ~ 'less than a small effect size (agreement).'
+        ,  abs(EF$Eta2) < 0.06 ~ 'a small effect size (agreement).'
+        ,  abs(EF$Eta2) < 0.14 ~ 'a medium effect size (agreement).'
+        , T ~ 'a large effect size (agreement).'
+
+      )
       EF_exp <- paste0('The eta squared value is ', round(EF$Eta2, 2), ' which is interpreted as a', EF_value)
 
     }
@@ -86,10 +91,15 @@ oneWayAnova <- function(DV, IDV, Parametric = TRUE, Correct = 'BH'){
                                        ci = 0.95,
                                        alternative = "two.sided",
                                        verbose = TRUE)
-      EF_value <- ifelse(abs(EF$rank_epsilon_squared) < 0.01, 'less than a small effect size.',
-                         ifelse(abs(EF$rank_epsilon_squared) < 0.04, 'a small effect size.',
-                                ifelse(abs(EF$rank_epsilon_squared) < 0.16, 'a medium effect size.',
-                                       ifelse(abs(EF$rank_epsilon_squared) >= 0.16, 'a large effect size.', NA))))
+      EF_value <- dplyr::case_when(
+
+        abs(EF$rank_epsilon_squared) < 0.01 ~ 'less than a small effect size (agreement).'
+        ,  abs(EF$rank_epsilon_squared) < 0.04 ~ 'a small effect size (agreement).'
+        ,  abs(EF$rank_epsilon_squared) < 0.16 ~ 'a medium effect size (agreement).'
+        , T ~ 'a large effect size (agreement).'
+
+      )
+
       EF_exp <- paste0('The rank epsilon squared value is ', round(EF$rank_epsilon_squared, 2), ' which is interpreted as a', EF_value)
 
 

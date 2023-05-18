@@ -35,12 +35,12 @@ indttest <- function(DV, IDV, Parametric = TRUE){
   Statistics <- Data %>%
     dplyr::group_by(IDV) %>%
     dplyr::summarise(
-      Mean   = round(mean(DV), 2),
-      SD     = round(stats::sd(DV), 2),
-      low_CI = mean_CI(DV)$L,
+      Mean    = round(mean(DV), 2),
+      SD      = round(stats::sd(DV), 2),
+      low_CI  = mean_CI(DV)$L,
       high_CI = mean_CI(DV)$H,
-      Median = round(stats::median(DV), 2),
-      N      = length(DV)
+      Median  = round(stats::median(DV), 2),
+      N       = length(DV)
     )
 
   EF <- "No effect size for insignificant results"
@@ -61,10 +61,15 @@ indttest <- function(DV, IDV, Parametric = TRUE){
                                  pooled_sd = !trueVarTest,  ci = .95,
                                    alternative = "two.sided")
       EF_1 <- abs(unlist(EF$Cohens_d))
-      EF_value <- ifelse(EF_1 < 0.3, 'less than small effect size.',
-                        ifelse(EF_1 >= 0.3 & EF_1 < 0.5, 'smaall effect size.',
-                                ifelse(EF_1 >= 0.5 & EF_1 < 0.8, 'medium effect size.',
-                                        ifelse(EF_1 >= 0.8, 'large effect size.', NA))))
+      EF_value <- dplyr::case_when(
+
+        EF_1 < 0.3 ~ 'less than a small effect size.'
+        , EF_1 < 0.5 ~ 'small effect size.'
+        , EF_1 < 0.8 ~ 'medium effect size.'
+        , T ~ 'large effect size.'
+
+        )
+
       EF_exp <- paste0("The Cohen's d value is ", round(EF$Cohens_d, 2), ', which is interpreted as a ', EF_value)
     }
 
@@ -82,11 +87,16 @@ indttest <- function(DV, IDV, Parametric = TRUE){
                                              ci = 0.95,
                                              alternative = "two.sided",
                                              verbose = TRUE)
+      EF_value <- dplyr::case_when(
 
-      EF_value <- ifelse(abs(EF$r_rank_biserial) < 0.1, 'less than a small effect size.',
-                          ifelse(abs(EF$r_rank_biserial) >= 0.1 & abs(EF$r_rank_biserial) < 0.3, 'a small effect size.',
-                                  ifelse(abs(EF$r_rank_biserial) >= 0.3 & abs(EF$r_rank_biserial) < 0.5, 'a medium effect size.',
-                                          ifelse(abs(EF$r_rank_biserial) >= 0.5, 'a large effect size.', NA))))
+        abs(EF$r_rank_biserial) < 0.1 ~ 'less than a small effect size.'
+        , abs(EF$r_rank_biserial) < 0.3 ~ 'small effect size.'
+        , abs(EF$r_rank_biserial) < 0.5 ~ 'medium effect size.'
+        , T ~ 'large effect size.'
+
+      )
+
+
       EF_exp <- paste0('The rank biserial value is ', round(EF$r_rank_biserial, 2), ' which is interpreted as ', EF_value)
       # https://stats.stackexchange.com/questions/216283/how-to-interpret-rank-biserial-correlation-coefficients-for-wilcoxon-test
     }
