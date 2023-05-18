@@ -33,10 +33,12 @@ pairedT <- function(DV, IDV, Within, Parametric = TRUE){
   Statistics <- Data %>%
     dplyr::group_by(IDV) %>%
     dplyr::summarise(
-      Mean   = round(mean(DV), 2),
-      SD     = round(stats::sd(DV), 2),
-      Median = round(stats::median(DV), 2),
-      N      = length(DV)
+      Mean      = round(mean(DV), 2)
+      , SD      = round(stats::sd(DV), 2)
+      , low_CI  = mean_CI(DV)$L
+      , high_CI = mean_CI(DV)$H
+      , Median  = round(stats::median(DV), 2)
+      , N       = length(DV)
     )
 
 
