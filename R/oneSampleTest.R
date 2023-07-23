@@ -96,9 +96,9 @@ oneSampleTest <- function(DV, MU = 0, Parametric = TRUE) {
                         color = "red", size=1.5) +
     # ggplot2::geom_vline(xintercept = Statistics$Med, linetype="dashed",
                         # color = "red", size=1.5) +
-    ggplot2::geom_vline(xintercept = c(low_CI), linetype="dotted",
+    ggplot2::geom_vline(xintercept = c(Statistics$low_CI), linetype="dotted",
                         color = "blue", size=1.5) +
-    ggplot2::geom_vline(xintercept = c(high_CI), linetype="dotted",
+    ggplot2::geom_vline(xintercept = c(Statistics$high_CI), linetype="dotted",
                         color = "blue", size=1.5) +
     ggplot2::theme_bw()
 
